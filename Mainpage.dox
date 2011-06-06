@@ -1,0 +1,63 @@
+/*!
+ * @mainpage KSmtp - a job-based API for interacting with SMTP servers
+ *
+ * @section purpose Purpose
+ *
+ * This library provides a job-based API for interacting with an SMTP server.
+ * Its design follows the design KIMAP.
+ *
+ * @section desc Description
+ * Sample usage:
+ * @code
+ * void MyClass::login()
+ * {
+ *   m_session = new KSmtp::Session("smtp.gmail.com", 587, KSmtp::Session::StartAndWait, this);
+ * 
+ *   // Start authentication
+ *   KSmtp::LoginJob* login = new KSmtp::LoginJob(m_session);
+ *   login->setUseTls(true);
+ * 	 login->setUserName("example@gmail.com");
+ * 	 login->setPassword("password");
+ * 	 connect(login, SIGNAL(result(KJob*)), this, SLOT(loginResult(KJob*)));
+ * 	 login->start();
+ * }
+ *
+ * void MyClass::loginResult(KJob* job)
+ * {
+ *   if (m_session->state() != KSmtp::Session::Authenticated) {
+ *     ... // handle error
+ *     return;
+ *   }
+ * 
+ *   // Create a new KMime::Message
+ *   KMime::Message::Ptr msg(new KMime::Message());
+ *   msg->from()->fromUnicodeString("sender@gmail.com", "utf-8");
+ * 	 msg->to()->fromUnicodeString("recipient@example.com", "utf-8");
+ * 	 msg->subject()->fromUnicodeString("Hi there!", "utf-8");
+ * 	 msg->contentType()->setMimeType("text/plain");
+ * 	 msg->contentTransferEncoding()->setEncoding(KMime::Headers::CEquPr);
+ * 
+ * 	 // Assembles and encodes the message
+ * 	 msg->assemble();
+ * 
+ * 	 // Start sending the message
+ * 	 KSmtp::SendJob* send = new KSmtp::SendJob(m_session);
+ * 	 send->setMessage(msg);
+ * 	 connect(send, SIGNAL(result(KJob*)), SLOT(sendResult(KJob*)));
+ * 	 send->start();
+ * }
+ * @endcode
+ *
+ * @authors
+ * The major authors of this library are:\n
+ * Christophe Laveault \<christophe@betterinbox.com\>
+ *
+ * @maintainers
+ * Gregory Schlomoff \<greg@betterinbox.com\>,
+ *
+ * @licenses
+ * @lgpl
+ */
+
+
+// DOXYGEN_PROJECTNAME=KSmtp Library
