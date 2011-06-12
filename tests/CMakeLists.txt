@@ -21,6 +21,4 @@ QT4_WRAP_CPP(source_headers_moc ${source_headers})
 kde4_add_executable( ksmtp-test NOGUI TEST ${source_files} )
 
 target_link_libraries(ksmtp-test ksmtp ${KDE4_KDECORE_LIBS} ${QT_QTNETWORK_LIBRARY} ${QT_QTTEST_LIBRARY} kmime ${SASL2_LIBRARIES})
-
-install(TARGETS ksmtp-test ${INSTALL_TARGETS_DEFAULT_ARGS})
 endif(KDE4_BUILD_TESTS)
