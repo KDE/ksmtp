@@ -21,6 +21,7 @@
 #include "session_p.h"
 
 #include <KDE/KDebug>
+#include <QHostAddress>
 #include <QMetaType>
 #include <QUrl>
 #include <QEventLoop>
@@ -53,7 +54,13 @@ Session::Session(const QString &hostName, quint16 port, QObject *parent)
 {
   qRegisterMetaType<ServerResponse>("ServerResponse");
 
-  d->m_thread = new SessionThread(hostName, port, this);
+  QHostAddress ip;
+  QString saneHostName = hostName;
+  if (ip.setAddress(hostName)) {
+    saneHostName = '[' + hostName + ']';
+  }
+
+  d->m_thread = new SessionThread(saneHostName, port, this);
   d->m_thread->start();
 }
 
