@@ -38,8 +38,8 @@ SessionPrivate::SessionPrivate(Session *session)
     m_thread(0),
     m_socketTimerInterval(10000),
     m_startLoop(0),
-    m_currentJob(0),
     m_jobRunning(false),
+    m_currentJob(0),
     m_ehloRejected(false),
     m_size(0),
     m_allowsTls(false)

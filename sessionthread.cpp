@@ -31,10 +31,10 @@ using namespace KSmtp;
 
 SessionThread::SessionThread(const QString &hostName, quint16 port, Session *session)
   : QThread(),
+    m_socket(0),
     m_parentSession(session),
     m_hostName(hostName),
-    m_port(port),
-    m_socket(0)
+    m_port(port)
 {
   moveToThread(this);
 }
