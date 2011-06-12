@@ -46,13 +46,13 @@ SessionPrivate::SessionPrivate(Session *session)
 {
 }
 
-Session::Session(QString hostName, quint16 port, QObject *parent)
+Session::Session(const QString &hostName, quint16 port, QObject *parent)
   : QObject(parent),
     d(new SessionPrivate(this))
 
 {
   qRegisterMetaType<ServerResponse>("ServerResponse");
-  
+
   d->m_thread = new SessionThread(hostName, port, this);
   d->m_thread->start();
 }

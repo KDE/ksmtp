@@ -49,7 +49,7 @@ public:
     After creating the session, you should call either open() or openAndWait() to open the connection.
     @sa open(), openAndWait()
   */
-  explicit Session(QString hostName, quint16 port, QObject *parent = 0);
+  explicit Session(const QString &hostName, quint16 port, QObject *parent = 0);
   ~Session();
 
   /**
