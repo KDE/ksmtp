@@ -164,7 +164,7 @@ void SessionPrivate::sendData(const QByteArray &data)
 
 void SessionPrivate::responseReceived(const ServerResponse &r)
 {
-  kDebug() << "S:: [" << r.code() << "] " << r.text();
+  //kDebug() << "S:: [" << r.code() << "] " << r.text();
 
   if (m_state == Session::Handshake) {
     if (r.isCode(500) || r.isCode(502)) {

@@ -56,7 +56,7 @@ quint16 SessionThread::port() const
 void SessionThread::sendData(const QByteArray &payload)
 {
   QMutexLocker locker(&m_mutex);
-  kDebug() << "C:: " << payload;
+  //kDebug() << "C:: " << payload;
 
   m_dataQueue.enqueue(payload + "\r\n");
   QTimer::singleShot(0, this, SLOT(writeDataQueue()));
