@@ -43,7 +43,7 @@ public:
     //TODO: Support other authentication modes
   };
 
-  LoginJob(Session *session);
+  explicit LoginJob(Session *session);
   virtual ~LoginJob();
 
   void setUserName(const QString &userName);

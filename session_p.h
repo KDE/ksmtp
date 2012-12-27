@@ -39,7 +39,7 @@ class KSMTP_EXPORT SessionPrivate : public QObject
   friend class Session;
 
 public:
-  SessionPrivate( Session *session );
+  explicit SessionPrivate( Session *session );
   virtual ~SessionPrivate();
   
   void addJob(Job *job);

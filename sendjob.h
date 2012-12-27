@@ -36,7 +36,7 @@ class KSMTP_EXPORT SendJob : public Job
   Q_DECLARE_PRIVATE(SendJob)
   
 public:
-  SendJob(Session *session);
+  explicit SendJob(Session *session);
 
   void setMessage(KMime::Message::Ptr message);
   int size() const;
