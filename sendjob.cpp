@@ -88,7 +88,7 @@ void SendJob::doStart()
   int sizeLimit = session()->sizeLimit();
   if (sizeLimit > 0 && size() > sizeLimit) {
     setError(KJob::UserDefinedError);
-    setErrorText(QString(i18n("Could not send the message because it exceeds the maximum allowed size of %1 bytes. (Message size: %2 bytes.)")).arg(sizeLimit, size()));
+    setErrorText(i18n("Could not send the message because it exceeds the maximum allowed size of %1 bytes. (Message size: %2 bytes.)", sizeLimit, size()));
     emitResult();
     return;
   }
