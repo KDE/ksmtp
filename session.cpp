@@ -196,13 +196,13 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
   }
 
   if (m_state == Session::NotAuthenticated && r.isCode(25)) {
-    if (r.text().startsWith("SIZE ")) {
+    if (r.text().startsWith("SIZE ")) { //krazy:exclude=strings
       m_size = r.text().remove(0, QByteArray("SIZE ").count()).toInt();
     }
     else if (r.text() == "STARTTLS") {
       m_allowsTls = true;
     }
-    else if (r.text().startsWith("AUTH ")) {
+    else if (r.text().startsWith("AUTH ")) { //krazy:exclude=strings
       QList<QByteArray> modes = r.text().remove(0, QByteArray("AUTH ").count()).split(' ');
       foreach (const QByteArray &mode, modes) {
         QString m(mode);

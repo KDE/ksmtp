@@ -133,7 +133,7 @@ void LoginJob::handleResponse(const ServerResponse &r)
   }
 
   // Available authentication mechanisms
-  if (r.isCode(25) && r.text().startsWith("AUTH")) {
+  if (r.isCode(25) && r.text().startsWith("AUTH")) { //krazy:exclude=strings
     d->authenticate();
   }
 
@@ -141,10 +141,10 @@ void LoginJob::handleResponse(const ServerResponse &r)
   if (r.isCode(334) && d->m_usedAuthMode == Login) {
     QByteArray request = QByteArray::fromBase64(r.text());
 
-    if (request.startsWith("Username")) { //TODO: Compare with case insensitive
+    if (request.startsWith("Username")) {//krazy:exclude=strings //TODO: Compare with case insensitive
       sendCommand(QByteArray(d->m_userName.toUtf8()).toBase64());
     }
-    else if (request.startsWith("Password")) {
+    else if (request.startsWith("Password")) { //krazy:exclude=strings
       sendCommand(QByteArray(d->m_password.toUtf8()).toBase64());
     }
   }
