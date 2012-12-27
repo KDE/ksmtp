@@ -96,7 +96,7 @@ void LoginJob::setPreferedAuthMode(AuthMode mode)
   Q_D(LoginJob);
   
   if (mode == UnknownAuth) {
-    kWarning() << "LoginJob: Cannot set prefered authentification mode to Unknown";
+    kWarning() << "LoginJob: Cannot set preferred authentication mode to Unknown";
     return;
   }
   d->m_preferedAuthMode = mode;
@@ -132,7 +132,7 @@ void LoginJob::handleResponse(const ServerResponse &r)
     d->sessionInternal()->startTls();
   }
 
-  // Available authentification mechanisms
+  // Available authentication mechanisms
   if (r.isCode(25) && r.text().startsWith("AUTH")) {
     d->authenticate();
   }
