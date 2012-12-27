@@ -161,7 +161,7 @@ void FakeServer::writeServerPart(int scenarioNumber)
     }
   }
 
-  if (!scenario.isEmpty() && scenario.first().startsWith("X")) {
+  if (!scenario.isEmpty() && scenario.first().startsWith('X')) {
     scenario.takeFirst();
     clientSocket->close();
   }

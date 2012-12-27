@@ -147,7 +147,7 @@ case SendJobPrivate::SendingData:
 
 void SendJobPrivate::sendNextRecipient()
 {
-  q->sendCommand("RCPT TO:<" + m_recipientsCopy.takeFirst().toUtf8() + ">");
+  q->sendCommand("RCPT TO:<" + m_recipientsCopy.takeFirst().toUtf8() + '>');
 }
 
 
@@ -170,7 +170,7 @@ bool SendJobPrivate::prepare()
     if (m_returnPath.contains('<')) {
       m_returnPath = m_returnPath.split('<')[1].split('>')[0];
     }
-    m_returnPath = "<" + m_returnPath + ">";
+    m_returnPath = '<' + m_returnPath + '>';
   }
 
   QStringList rec = m_message->to()->asUnicodeString().split(", ") + m_message->cc()->asUnicodeString().split(", ") + m_message->bcc()->asUnicodeString().split(", ");
