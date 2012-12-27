@@ -106,6 +106,10 @@ void SendJob::handleResponse(const ServerResponse &r)
 
   switch (d->m_status) {
 
+  case SendJobPrivate::Idle:
+    //TODO: anything to do here?
+    break;
+
   case SendJobPrivate::SendingReturnPath:
 
     // Expected response: server agreement
@@ -115,7 +119,7 @@ void SendJob::handleResponse(const ServerResponse &r)
     }
     break;
 
-case SendJobPrivate::SendingRecipients:
+  case SendJobPrivate::SendingRecipients:
 
     // Expected response: server agreement
     if (r.isCode(25)) {
@@ -128,7 +132,7 @@ case SendJobPrivate::SendingRecipients:
     }
     break;
 
-case SendJobPrivate::SendingData:
+  case SendJobPrivate::SendingData:
 
     // Expected responses:
     // 354: Go ahead sending data
