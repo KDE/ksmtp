@@ -8,7 +8,7 @@ find_package(Boost REQUIRED)
 set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
 set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}" )
 
-include_directories(${CMAKE_SOURCE_DIR}/ksmtp ${KDE4_INCLUDES} ${Boost_INCLUDE_DIR} )
+include_directories(${KDE4_INCLUDES} ${Boost_INCLUDE_DIR} )
 
 SET( source_files
 	fakeserver.cpp
