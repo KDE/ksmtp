@@ -204,7 +204,7 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
     }
     else if (r.text().startsWith("AUTH ")) {
       QList<QByteArray> modes = r.text().remove(0, QByteArray("AUTH ").count()).split(' ');
-      foreach (QByteArray mode, modes) {
+      foreach (const QByteArray &mode, modes) {
         QString m(mode);
         if (!m_authModes.contains(m)) {
           m_authModes.append(m);

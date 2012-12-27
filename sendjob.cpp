@@ -175,7 +175,7 @@ bool SendJobPrivate::prepare()
 
   QStringList rec = m_message->to()->asUnicodeString().split(", ") + m_message->cc()->asUnicodeString().split(", ") + m_message->bcc()->asUnicodeString().split(", ");
   rec.removeAll("");
-  foreach (QString r, rec) {
+  foreach (const QString &r, rec) {
     if (r.contains('<')) {
       m_recipients.append(r.split('<')[1].split('>')[0]); //TODO: (CL) Replace by a regex
     } else {
