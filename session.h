@@ -114,7 +114,7 @@ public:
   */
   void close();
 
-signals:
+Q_SIGNALS:
   void stateChanged(KSmtp::Session::State state);
 
 private:
