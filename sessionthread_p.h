@@ -17,8 +17,8 @@
   License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KSMTP_SESSIONTHREAD_H
-#define KSMTP_SESSIONTHREAD_H
+#ifndef KSMTP_SESSIONTHREAD_P_H
+#define KSMTP_SESSIONTHREAD_P_H
 
 #include <QThread>
 #include <QMutex>
