@@ -26,7 +26,7 @@ namespace KSmtp {
 class ServerResponse
 {
 public:
-  ServerResponse(int code = 0, const QByteArray &text = QByteArray());
+  explicit ServerResponse(int code = 0, const QByteArray &text = QByteArray());
   int code() const;
   QByteArray text() const;
   bool isCode(int other) const;
