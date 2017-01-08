@@ -19,16 +19,15 @@
 
 #include "session.h"
 #include "session_p.h"
+#include "sessionthread_p.h"
+#include "job.h"
+#include "serverresponse_p.h"
+#include "ksmtp_debug.h"
 
-#include <KDE/KDebug>
 #include <QHostAddress>
 #include <QMetaType>
 #include <QUrl>
 #include <QEventLoop>
-
-#include "sessionthread_p.h"
-#include "job.h"
-#include "serverresponse_p.h"
 
 using namespace KSmtp;
 
@@ -57,7 +56,7 @@ Session::Session(const QString &hostName, quint16 port, QObject *parent)
   QHostAddress ip;
   QString saneHostName = hostName;
   if (ip.setAddress(hostName)) {
-    saneHostName = '[' + hostName + ']';
+    saneHostName = QStringLiteral("[%1]").arg(hostName);
   }
 
   d->m_thread = new SessionThread(saneHostName, port, this);
@@ -172,7 +171,7 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
         setState(Session::Ready);
         m_ehloRejected = true;
       } else {
-        kWarning() << "KSmtp::Session: Handshake failed with both EHLO and HELO";
+        qCWarning(KSMTP_LOG) << "KSmtp::Session: Handshake failed with both EHLO and HELO";
         m_thread->closeSocket();
       }
     }
@@ -205,7 +204,7 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
     else if (r.text().startsWith("AUTH ")) { //krazy:exclude=strings
       QList<QByteArray> modes = r.text().remove(0, QByteArray("AUTH ").count()).split(' ');
       foreach (const QByteArray &mode, modes) {
-        QString m(mode);
+        QString m = QString::fromLatin1(mode);
         if (!m_authModes.contains(m)) {
           m_authModes.append(m);
         }
@@ -225,7 +224,7 @@ void SessionPrivate::socketConnected()
 
 void SessionPrivate::socketDisconnected()
 {
-  kDebug() << "Socket disconnected";
+  qCDebug(KSMTP_LOG) << "Socket disconnected";
   setState(Session::Disconnected);
   m_thread->closeSocket();
 }

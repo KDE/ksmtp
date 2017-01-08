@@ -24,7 +24,7 @@
 
 #include "job.h"
 
-#include "kmime/kmime_message.h"
+#include <KMime/Message>
 
 namespace KSmtp {
 

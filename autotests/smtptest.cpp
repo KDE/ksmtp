@@ -2,9 +2,9 @@
 
 #include <QTest>
 #include "fakeserver.h"
-#include "../session.h"
-#include "../loginjob.h"
-#include "../sendjob.h"
+#include "session.h"
+#include "loginjob.h"
+#include "sendjob.h"
 
 
 void SmtpTest::testHello_data()
@@ -50,7 +50,7 @@ void SmtpTest::testHello()
   FakeServer fakeServer;
   fakeServer.setScenario(scenario);
   fakeServer.startAndWait();
-  KSmtp::Session session("127.0.0.1", 5989);
+  KSmtp::Session session(QStringLiteral("127.0.0.1"), 5989);
   session.openAndWait();
   
   qDebug() << "### Session state is:" << session.state();
@@ -115,22 +115,22 @@ void SmtpTest::testLoginJob()
   QFETCH( int, errorCode );
 
   KSmtp::LoginJob::AuthMode mode = KSmtp::LoginJob::UnknownAuth;
-  if (authMode == "Plain") {
+  if (authMode == QLatin1String("Plain")) {
     mode = KSmtp::LoginJob::Plain;
-  } else if (authMode == "Login") {
+  } else if (authMode == QLatin1String("Login")) {
     mode = KSmtp::LoginJob::Login;
   }
 
   FakeServer fakeServer;
   fakeServer.setScenario(scenario);
   fakeServer.startAndWait();
-  KSmtp::Session session("127.0.0.1", 5989);
+  KSmtp::Session session(QStringLiteral("127.0.0.1"), 5989);
   session.openAndWait();
   
   KSmtp::LoginJob* login = new KSmtp::LoginJob(&session);
   login->setPreferedAuthMode(mode);
-  login->setUserName("login");
-  login->setPassword("password");
+  login->setUserName(QStringLiteral("login"));
+  login->setPassword(QStringLiteral("password"));
   login->exec();
 
   // Checking job error code:
@@ -181,15 +181,15 @@ void SmtpTest::testSendJob()
   FakeServer fakeServer;
   fakeServer.setScenario(scenario);
   fakeServer.startAndWait();
-  KSmtp::Session session("127.0.0.1", 5989);
+  KSmtp::Session session(QStringLiteral("127.0.0.1"), 5989);
   session.openAndWait();
   
   KSmtp::SendJob* send = new KSmtp::SendJob(&session);
 
   KMime::Message::Ptr m (new KMime::Message());
-  m->from()->fromUnicodeString( "Foo Bar <foo@bar.com>", "utf-8" );
-  m->to()->fromUnicodeString( "Bar Foo <bar@foo.com>", "utf-8" );
-  m->subject()->fromUnicodeString( "Subject", "utf-8" );
+  m->from()->fromUnicodeString( QStringLiteral("Foo Bar <foo@bar.com>"), "utf-8" );
+  m->to()->fromUnicodeString( QStringLiteral("Bar Foo <bar@foo.com>"), "utf-8" );
+  m->subject()->fromUnicodeString( QStringLiteral("Subject"), "utf-8" );
   send->setMessage(m);
   send->exec();
 

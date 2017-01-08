@@ -2,7 +2,7 @@
 
 #include <QTest>
 #include <QFile>
-#include "kdebug.h"
+#include <QDebug>
 
 FakeServer::FakeServer(QObject *parent) :
     QThread(parent)
@@ -67,7 +67,8 @@ void FakeServer::run()
 {
   m_tcpServer = new QTcpServer();
   if (!m_tcpServer->listen(QHostAddress(QHostAddress::LocalHost), 5989)) {
-    kFatal() << "Unable to start the server";
+    qFatal("Unable to start the server");
+    return;
   }
 
   connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection()));

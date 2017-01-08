@@ -18,13 +18,12 @@
 */
 
 #include "sendjob.h"
-
-#include <KDE/KDebug>
-#include <KDE/KLocale>
-#include "kmime/kmime_util.h"
-
 #include "job_p.h"
 #include "serverresponse_p.h"
+#include "ksmtp_debug.h"
+
+#include <KLocalizedString>
+#include <KMime/Util>
 
 namespace KSmtp {
 
@@ -158,12 +157,12 @@ void SendJobPrivate::sendNextRecipient()
 bool SendJobPrivate::prepare()
 {
   if (!m_message) {
-    kWarning() << "A message has to be set before starting a SendJob";
+    qCWarning(KSMTP_LOG) << "A message has to be set before starting a SendJob";
     return false;
   }
 
   if (m_message->from()->isEmpty()) {
-    kWarning() << "Message has no sender";
+    qCWarning(KSMTP_LOG) << "Message has no sender";
     return false;
   }
 
@@ -171,17 +170,17 @@ bool SendJobPrivate::prepare()
     m_returnPath = m_message->headerByType("Return-Path")->asUnicodeString();
   } else {
     m_returnPath = m_message->from()->asUnicodeString();
-    if (m_returnPath.contains('<')) {
-      m_returnPath = m_returnPath.split('<')[1].split('>')[0];
+    if (m_returnPath.contains(QLatin1Char('<'))) {
+      m_returnPath = m_returnPath.split(QLatin1Char('<'))[1].split(QLatin1Char('>'))[0];
     }
-    m_returnPath = '<' + m_returnPath + '>';
+    m_returnPath = QStringLiteral("<%1>").arg(m_returnPath);
   }
 
-  QStringList rec = m_message->to()->asUnicodeString().split(", ") + m_message->cc()->asUnicodeString().split(", ") + m_message->bcc()->asUnicodeString().split(", ");
-  rec.removeAll("");
+  QStringList rec = m_message->to()->asUnicodeString().split(QStringLiteral(", ")) + m_message->cc()->asUnicodeString().split(QStringLiteral(", ")) + m_message->bcc()->asUnicodeString().split(QStringLiteral(", "));
+  rec.removeAll(QStringLiteral(""));
   foreach (const QString &r, rec) {
-    if (r.contains('<')) {
-      m_recipients.append(r.split('<')[1].split('>')[0]); //TODO: (CL) Replace by a regex
+    if (r.contains(QLatin1Char('<'))) {
+      m_recipients.append(r.split(QLatin1Char('<'))[1].split(QLatin1Char('>'))[0]); //TODO: (CL) Replace by a regex
     } else {
       m_recipients.append(r);
     }
@@ -189,7 +188,7 @@ bool SendJobPrivate::prepare()
   m_recipientsCopy = m_recipients;
 
   if (m_recipients.isEmpty()) {
-    kWarning() << "Message has no recipients";
+    qCWarning(KSMTP_LOG) << "Message has no recipients";
     return false;
   }
 

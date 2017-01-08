@@ -42,21 +42,21 @@ namespace KSmtp {
     QString hostName() const;
     quint16 port() const;
 
-  public slots:
+  public Q_SLOTS:
     void reconnect();
     void closeSocket();
     void startTls();
     void tlsConnected();
     void sendData(const QByteArray &payload);
 
-  signals:
+  Q_SIGNALS:
     void responseReceived(const ServerResponse &response);
     void sslError(const KSslErrorUiData&);
 
   protected:
     void run();
 
-  private slots:
+  private Q_SLOTS:
     void writeDataQueue();
     void readResponse();
     void doCloseSocket();

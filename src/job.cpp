@@ -22,7 +22,7 @@
 #include "serverresponse_p.h"
 #include "session_p.h"
 
-#include <KDE/KLocale>
+#include <KLocalizedString>
 
 using namespace KSmtp;
 

@@ -22,7 +22,7 @@
 
 #include "ksmtp_export.h"
 
-#include <KDE/KJob>
+#include <KJob>
 
 namespace KSmtp {
 

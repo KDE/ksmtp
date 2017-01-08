@@ -18,14 +18,13 @@
 */
 
 #include "sessionthread_p.h"
-
-#include <QTimer>
-#include <QUrl>
-#include <KDE/KDebug>
-
 #include "serverresponse_p.h"
 #include "session.h"
 #include "session_p.h"
+#include "ksmtp_debug.h"
+
+#include <QTimer>
+#include <QUrl>
 
 using namespace KSmtp;
 
@@ -172,7 +171,7 @@ void SessionThread::tlsConnected()
 
   if ( m_socket->sslErrors().count() > 0 || m_socket->encryptionMode() != KTcpSocket::SslClientMode
        || cipher.isNull() || cipher.usedBits() == 0) {
-    kDebug() << "Initial SSL handshake failed. cipher.isNull() is" << cipher.isNull()
+    qCDebug(KSMTP_LOG) << "Initial SSL handshake failed. cipher.isNull() is" << cipher.isNull()
         << ", cipher.usedBits() is" << cipher.usedBits()
         << ", the socket says:" <<  m_socket->errorString()
         << "and the list of SSL errors contains"
@@ -180,7 +179,7 @@ void SessionThread::tlsConnected()
     KSslErrorUiData errorData(m_socket);
     emit sslError(errorData);
   } else {
-    kDebug() << "TLS negotiation done.";
+    qCDebug(KSMTP_LOG) << "TLS negotiation done.";
 
     QMetaObject::invokeMethod(this, "sendData", Qt::QueuedConnection, Q_ARG(QByteArray, "EHLO " + QUrl::toAce(hostName())));
   }

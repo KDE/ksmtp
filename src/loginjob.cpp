@@ -18,13 +18,12 @@
 */
 
 #include "loginjob.h"
-
-#include <KDE/KDebug>
-#include <KDE/KLocale>
-
+#include "ksmtp_debug.h"
 #include "job_p.h"
 #include "serverresponse_p.h"
 #include "session_p.h"
+
+#include <KLocalizedString>
 
 namespace KSmtp {
 
@@ -96,7 +95,7 @@ void LoginJob::setPreferedAuthMode(AuthMode mode)
   Q_D(LoginJob);
   
   if (mode == UnknownAuth) {
-    kWarning() << "LoginJob: Cannot set preferred authentication mode to Unknown";
+    qCWarning(KSMTP_LOG) << "LoginJob: Cannot set preferred authentication mode to Unknown";
     return;
   }
   d->m_preferedAuthMode = mode;
@@ -160,17 +159,17 @@ void LoginJobPrivate::selectAuthentication()
 {
   QStringList availableModes = m_session->availableAuthModes();
 
-  if (availableModes.contains(authCommand(m_preferedAuthMode))) {
+  if (availableModes.contains(QString::fromLatin1(authCommand(m_preferedAuthMode)))) {
     m_usedAuthMode = m_preferedAuthMode;
   }
-  else if (availableModes.contains(authCommand(LoginJob::Login))) {
+  else if (availableModes.contains(QString::fromLatin1(authCommand(LoginJob::Login)))) {
     m_usedAuthMode = LoginJob::Login;
   }
-  else if (availableModes.contains(authCommand(LoginJob::Plain))) {
+  else if (availableModes.contains(QString::fromLatin1(authCommand(LoginJob::Plain)))) {
     m_usedAuthMode = LoginJob::Plain;
   }
   else {
-    kWarning() << "LoginJob: Couldn't choose an authentication method. Please retry with : " << availableModes;
+    qCWarning(KSMTP_LOG) << "LoginJob: Couldn't choose an authentication method. Please retry with : " << availableModes;
     q->setError(KJob::UserDefinedError);
     q->setErrorText(i18n("Could not authenticate to the SMTP server because no matching authentication method has been found"));
     q->emitResult();
@@ -190,7 +189,7 @@ void LoginJobPrivate::authenticate()
     q->sendCommand("AUTH LOGIN");
     break;
   case LoginJob::CramMD5:
-    kWarning() << "LoginJob: CramMD5: Not yet implemented";
+    qCWarning(KSMTP_LOG) << "LoginJob: CramMD5: Not yet implemented";
     break;
   case LoginJob::XOAuth:
     q->sendCommand("AUTH XOAUTH " + m_oauthChallenge);
@@ -219,13 +218,13 @@ QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode)
 
 LoginJob::AuthMode LoginJobPrivate::authModeFromCommand(const QString &cmd)
 {
-  if (cmd.compare("PLAIN", Qt::CaseInsensitive) == 0) {
+  if (cmd.compare(QLatin1String("PLAIN"), Qt::CaseInsensitive) == 0) {
     return LoginJob::Plain;
-  } else if (cmd.compare("LOGIN", Qt::CaseInsensitive) == 0) {
+  } else if (cmd.compare(QLatin1String("LOGIN"), Qt::CaseInsensitive) == 0) {
     return LoginJob::Login;
-  } else if (cmd.compare("CRAM-MD5", Qt::CaseInsensitive) == 0) {
+  } else if (cmd.compare(QLatin1String("CRAM-MD5"), Qt::CaseInsensitive) == 0) {
     return LoginJob::CramMD5;
-  } else if (cmd.compare("XOAUTH", Qt::CaseInsensitive) == 0) {
+  } else if (cmd.compare(QLatin1String("XOAUTH"), Qt::CaseInsensitive) == 0) {
     return LoginJob::XOAuth;
   } else {
     return LoginJob::UnknownAuth;

@@ -17,8 +17,11 @@ add_library(KPim::SMTP ALIAS KPimSMTP)
 target_link_libraries(KPimSMTP
 PUBLIC
     KF5::Mime
+    KF5::CoreAddons
 PRIVATE
-#    Qt5::Network
+    KF5::I18n
+    KF5::KIOCore
+    Qt5::Network
 )
 
 set_target_properties(KPimSMTP PROPERTIES

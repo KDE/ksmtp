@@ -47,7 +47,7 @@ public:
   void setState(Session::State s);
   void startTls();
   
-private slots:
+private Q_SLOTS:
   void doStartNext();
   void jobDone(KJob *job);
   void jobDestroyed(QObject *job);

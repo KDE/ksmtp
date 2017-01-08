@@ -11,7 +11,7 @@ class SmtpTest : public QObject
 public:
   SmtpTest();
 
-private slots:
+private Q_SLOTS:
   void initTestCase();
   void cleanupTestCase();
 
