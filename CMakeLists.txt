@@ -1,41 +1,69 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
+set(PIM_VERSION "5.4.40")
 
-project (ksmtp)
+project(KSMTP VERSION ${PIM_VERSION})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMAKE_KSMTP_LIB")
+# ECM setup
+set(KF5_VERSION "5.28.0")
+find_package(ECM ${KF5_VERSION} CONFIG REQUIRED)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${KSMTP_SOURCE_DIR}/cmake)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
-if(KIMAP_STANDALONE)
-    set(KDE4_DATA_DIR "${CMAKE_PREFIX_PATH}/share/apps")
-endif(KIMAP_STANDALONE)
+include(GenerateExportHeader)
+include(ECMGenerateHeaders)
+include(ECMGeneratePriFile)
+include(CMakePackageConfigHelpers)
+include(ECMSetupVersion)
+include(FeatureSummary)
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
+include(ECMQtDeclareLoggingCategory)
+include(ECMCoverageOption)
 
-find_package(KDE4 REQUIRED)
 
-add_subdirectory(tests)
-
-include_directories(${KDE4_INCLUDES})
-
-set(ksmtp_LIB_SRCS 
-	session.cpp
-	sessionthread.cpp
-	job.cpp
-	loginjob.cpp
-	sendjob.cpp
+set(KSMTP_LIB_VERSION ${PIM_VERSION})
+set(KMIME_LIB_VERSION "5.4.40")
+ecm_setup_version(PROJECT VARIABLE_PREFIX KSMTP
+    VERSION_HEADER ${KSMTP_BINARY_DIR}/ksmtp_version.h
+    PACKAGE_VERSION_FILE ${KSMTP_BINARY_DIR}/KPimSMTPConfigVersion.cmake
+    SOVERSION 5
 )
 
-set(ksmtp_LIB_HDR
-	sessionthread_p.h
-	session.h
-	session_p.h
-	job.h
-	loginjob.h
-	sendjob.h
+
+############ Find packages ############
+find_package(KF5CoreAddons ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5Mime ${KMIME_LIB_VESRION} CONFIG REQUIRED)
+
+
+########### CMake Config Files ############
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPimSMTP")
+
+configure_package_config_file(
+    "${KSMTP_SOURCE_DIR}/KPimSMTPConfig.cmake.in"
+    "${KSMTP_BINARY_DIR}/KPimSMTPConfig.cmake"
+    INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
 )
 
-QT4_WRAP_CPP(ksmtp_LIB_MOC ${ksmtp_LIB_HDR})
+########### Targets ###########
+add_subdirectory(src)
 
-add_library(ksmtp ${ksmtp_LIB_SRCS} ${ksmtp_LIB_MOC})
-target_link_libraries(ksmtp ${KDE4_KDECORE_LIBS} ${QT_QTNETWORK_LIBRARY} kmime ${SASL2_LIBRARIES})
+if (BUILD_TESTING)
+    add_subdirectory(autotests)
+endif ()
 
-install(TARGETS ksmtp ${INSTALL_TARGETS_DEFAULT_ARGS})
-install( FILES ksmtp_export.h session.h job.h loginjob.h sendjob.h DESTINATION ${INCLUDE_INSTALL_DIR}/ksmtp COMPONENT Devel)
+########### Install Files ############
+install(FILES
+    "${KSMTP_BINARY_DIR}/KPimSMTPConfig.cmake"
+    "${KSMTP_BINARY_DIR}/KPimSMTPConfigVersion.cmake"
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+    COMPONENT Devel
+)
+
+install(EXPORT KPimSMTPTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KPimSMTPTargets.cmake NAMESPACE KPim::)
+
+install(FILES
+    ${KSMTP_BINARY_DIR}/ksmtp_version.h
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim COMPONENT Devel
+)
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
