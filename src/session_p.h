@@ -41,7 +41,7 @@ class KSMTP_EXPORT SessionPrivate : public QObject
 
 public:
     explicit SessionPrivate(Session *session);
-    ~SessionPrivate() override;
+    ~SessionPrivate() Q_DECL_OVERRIDE;
 
     void addJob(Job *job);
     void sendData(const QByteArray &data);

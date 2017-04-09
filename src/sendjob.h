@@ -43,8 +43,8 @@ public:
     int size() const;
 
 protected:
-    void doStart() override;
-    void handleResponse(const ServerResponse &r) override;
+    void doStart() Q_DECL_OVERRIDE;
+    void handleResponse(const ServerResponse &r) Q_DECL_OVERRIDE;
 };
 
 }

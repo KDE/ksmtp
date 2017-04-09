@@ -51,7 +51,7 @@ public:
       @sa open(), openAndWait()
     */
     explicit Session(const QString &hostName, quint16 port, QObject *parent = nullptr);
-    ~Session() override;
+    ~Session() Q_DECL_OVERRIDE;
 
     /**
       Returns the host name that has been provided in the Session's constructor

@@ -38,7 +38,7 @@ public:
           m_useTls(false)
     {
     }
-    ~LoginJobPrivate() override { }
+    ~LoginJobPrivate() Q_DECL_OVERRIDE { }
 
     LoginJob *q;
 

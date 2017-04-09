@@ -15,10 +15,10 @@ class FakeServer : public QThread
 
 public:
     FakeServer(QObject *parent = nullptr);
-    ~FakeServer() override;
+    ~FakeServer() Q_DECL_OVERRIDE;
 
     void startAndWait();
-    void run() override;
+    void run() Q_DECL_OVERRIDE;
 
     static QByteArray greeting();
     static QList<QByteArray> greetingAndEhlo();
