@@ -14,7 +14,7 @@ class FakeServer : public QThread
   Q_OBJECT
 
 public:
-  FakeServer(QObject* parent = 0);
+  FakeServer(QObject* parent = nullptr);
   ~FakeServer() override;
 
   void startAndWait();

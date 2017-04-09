@@ -30,7 +30,7 @@ using namespace KSmtp;
 
 SessionThread::SessionThread(const QString &hostName, quint16 port, Session *session)
   : QThread(),
-    m_socket(0),
+    m_socket(nullptr),
     m_parentSession(session),
     m_hostName(hostName),
     m_port(port)

@@ -35,11 +35,11 @@ SessionPrivate::SessionPrivate(Session *session)
   : QObject(session),
     q(session),
     m_state(Session::Disconnected),
-    m_thread(0),
+    m_thread(nullptr),
     m_socketTimerInterval(10000),
-    m_startLoop(0),
+    m_startLoop(nullptr),
     m_jobRunning(false),
-    m_currentJob(0),
+    m_currentJob(nullptr),
     m_ehloRejected(false),
     m_size(0),
     m_allowsTls(false)
@@ -131,11 +131,11 @@ void Session::open()
 
 void Session::openAndWait()
 {
-  QEventLoop loop(0);
+  QEventLoop loop(nullptr);
   d->m_startLoop = &loop;
   open();
   d->m_startLoop->exec();
-  d->m_startLoop = 0;
+  d->m_startLoop = nullptr;
 }
 
 void Session::close()
@@ -280,7 +280,7 @@ void SessionPrivate::jobDone(KJob *job)
   }
 
   m_jobRunning = false;
-  m_currentJob = 0;
+  m_currentJob = nullptr;
   //emit q->jobQueueSizeChanged( q->jobQueueSize() );
   startNext();
 }
@@ -289,7 +289,7 @@ void SessionPrivate::jobDestroyed(QObject *job)
 {
   m_queue.removeAll(static_cast<Job*>(job));
   if (m_currentJob == job)
-    m_currentJob = 0;
+    m_currentJob = nullptr;
 }
 
 void SessionPrivate::startSocketTimer()
