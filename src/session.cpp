@@ -56,7 +56,7 @@ Session::Session(const QString &hostName, quint16 port, QObject *parent)
   QHostAddress ip;
   QString saneHostName = hostName;
   if (ip.setAddress(hostName)) {
-    saneHostName = QStringLiteral("[%1]").arg(hostName);
+    //saneHostName = QStringLiteral("[%1]").arg(hostName);
   }
 
   d->m_thread = new SessionThread(saneHostName, port, this);
