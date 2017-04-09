@@ -39,10 +39,10 @@ namespace KSmtp {
     friend class SessionPrivate;
 
   public:
-    virtual ~Job();
+    ~Job() override;
 
     Session *session() const;
-    virtual void start();
+    void start() override;
 
   protected:
     void sendCommand(const QByteArray &cmd);

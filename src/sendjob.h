@@ -42,8 +42,8 @@ public:
   int size() const;
 
 protected:
-  void doStart();
-  void handleResponse(const ServerResponse &r);
+  void doStart() override;
+  void handleResponse(const ServerResponse &r) override;
 };
 
 }

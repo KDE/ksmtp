@@ -44,7 +44,7 @@ public:
   };
 
   explicit LoginJob(Session *session);
-  virtual ~LoginJob();
+  ~LoginJob() override;
 
   void setUserName(const QString &userName);
   void setPassword(const QString &password);
@@ -54,8 +54,8 @@ public:
   AuthMode usedAuthMode() const;
 
 protected:
-  void doStart();
-  void handleResponse(const ServerResponse &r);
+  void doStart() override;
+  void handleResponse(const ServerResponse &r) override;
 };
 
 }

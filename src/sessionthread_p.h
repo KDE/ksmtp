@@ -37,7 +37,7 @@ namespace KSmtp {
 
   public:
     explicit SessionThread(const QString &hostName, quint16 port, Session *session);
-    ~SessionThread();
+    ~SessionThread() override;
 
     QString hostName() const;
     quint16 port() const;
@@ -54,7 +54,7 @@ namespace KSmtp {
     void sslError(const KSslErrorUiData&);
 
   protected:
-    void run();
+    void run() override;
 
   private Q_SLOTS:
     void writeDataQueue();
