@@ -27,49 +27,49 @@
 using namespace KSmtp;
 
 Job::Job(Session *session)
-  : KJob(session), 
-    d_ptr(new JobPrivate(session, i18n("Job")))
+    : KJob(session),
+      d_ptr(new JobPrivate(session, i18n("Job")))
 {
 }
 
-Job::Job( JobPrivate &dd )
-  : KJob( dd.m_session ), d_ptr(&dd)
+Job::Job(JobPrivate &dd)
+    : KJob(dd.m_session), d_ptr(&dd)
 {
 }
 
 Job::~Job()
 {
-  delete d_ptr;
+    delete d_ptr;
 }
 
 Session *Job::session() const
 {
-  Q_D(const Job);
-  return d->m_session;
+    Q_D(const Job);
+    return d->m_session;
 }
 
 void Job::start()
 {
-  Q_D(Job);
-  d->sessionInternal()->addJob(this);
+    Q_D(Job);
+    d->sessionInternal()->addJob(this);
 }
 
 void Job::sendCommand(const QByteArray &cmd)
 {
-  Q_D(Job);
-  d->sessionInternal()->sendData(cmd);
+    Q_D(Job);
+    d->sessionInternal()->sendData(cmd);
 }
 
 void Job::handleErrors(const ServerResponse &r)
 {
-  if (r.isCode(4) || r.isCode(5)) {
-    setError(KJob::UserDefinedError);
-    if (r.isCode(4)) {
-      setErrorText(i18n("Server time out"));
-    } else {
-      setErrorText(i18n("Server error"));
+    if (r.isCode(4) || r.isCode(5)) {
+        setError(KJob::UserDefinedError);
+        if (r.isCode(4)) {
+            setErrorText(i18n("Server time out"));
+        } else {
+            setErrorText(i18n("Server error"));
+        }
+        emitResult();
     }
-    emitResult();
-  }
 }
 

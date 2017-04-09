@@ -26,42 +26,43 @@
 
 #include <ktcpsocket.h>
 
-namespace KSmtp {
+namespace KSmtp
+{
 
-  class ServerResponse;
-  class Session;
+class ServerResponse;
+class Session;
 
-  class SessionThread : public QThread
-  {
+class SessionThread : public QThread
+{
     Q_OBJECT
 
-  public:
+public:
     explicit SessionThread(const QString &hostName, quint16 port, Session *session);
     ~SessionThread() override;
 
     QString hostName() const;
     quint16 port() const;
 
-  public Q_SLOTS:
+public Q_SLOTS:
     void reconnect();
     void closeSocket();
     void startTls();
     void tlsConnected();
     void sendData(const QByteArray &payload);
 
-  Q_SIGNALS:
+Q_SIGNALS:
     void responseReceived(const ServerResponse &response);
-    void sslError(const KSslErrorUiData&);
+    void sslError(const KSslErrorUiData &);
 
-  protected:
+protected:
     void run() override;
 
-  private Q_SLOTS:
+private Q_SLOTS:
     void writeDataQueue();
     void readResponse();
     void doCloseSocket();
 
-  private:
+private:
     ServerResponse parseResponse(const QByteArray &response);
 
     KTcpSocket *m_socket;
@@ -71,7 +72,7 @@ namespace KSmtp {
     Session *m_parentSession;
     QString m_hostName;
     quint16 m_port;
-  };
+};
 
 }
 

@@ -26,7 +26,8 @@
 #include <QTimer>
 #include <QStringList>
 
-namespace KSmtp {
+namespace KSmtp
+{
 
 class Job;
 class SessionThread;
@@ -34,55 +35,55 @@ class ServerResponse;
 
 class KSMTP_EXPORT SessionPrivate : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
-  friend class Session;
+    friend class Session;
 
 public:
-  explicit SessionPrivate( Session *session );
-  ~SessionPrivate() override;
-  
-  void addJob(Job *job);
-  void sendData(const QByteArray &data);
-  void setState(Session::State s);
-  void startTls();
-  
+    explicit SessionPrivate(Session *session);
+    ~SessionPrivate() override;
+
+    void addJob(Job *job);
+    void sendData(const QByteArray &data);
+    void setState(Session::State s);
+    void startTls();
+
 private Q_SLOTS:
-  void doStartNext();
-  void jobDone(KJob *job);
-  void jobDestroyed(QObject *job);
-  
-  void responseReceived(const ServerResponse &response);
-  void socketConnected();
-  void socketDisconnected();
-  void onSocketTimeout();
-  
+    void doStartNext();
+    void jobDone(KJob *job);
+    void jobDestroyed(QObject *job);
+
+    void responseReceived(const ServerResponse &response);
+    void socketConnected();
+    void socketDisconnected();
+    void onSocketTimeout();
+
 private:
 
-  void startNext();
-  void startSocketTimer();
-  void stopSocketTimer();
-  void restartSocketTimer();
-  
-  Session *const q;
-  
-  // Smtp session
-  Session::State m_state;
-  SessionThread *m_thread;
-  int m_socketTimerInterval;
-  QTimer m_socketTimer;
-  QEventLoop *m_startLoop;
+    void startNext();
+    void startSocketTimer();
+    void stopSocketTimer();
+    void restartSocketTimer();
 
-  // Jobs
-  bool m_jobRunning;
-  Job *m_currentJob;
-  QQueue<Job*> m_queue;
+    Session *const q;
 
-  // Smtp info
-  bool m_ehloRejected;
-  int m_size;
-  bool m_allowsTls;
-  QStringList m_authModes;
+    // Smtp session
+    Session::State m_state;
+    SessionThread *m_thread;
+    int m_socketTimerInterval;
+    QTimer m_socketTimer;
+    QEventLoop *m_startLoop;
+
+    // Jobs
+    bool m_jobRunning;
+    Job *m_currentJob;
+    QQueue<Job *> m_queue;
+
+    // Smtp info
+    bool m_ehloRejected;
+    int m_size;
+    bool m_allowsTls;
+    QStringList m_authModes;
 };
 
 }

@@ -24,27 +24,28 @@
 
 #include <KJob>
 
-namespace KSmtp {
+namespace KSmtp
+{
 
-  class Session;
-  class SessionPrivate;
-  class JobPrivate;
-  class ServerResponse;
-  
-  class KSMTP_EXPORT Job : public KJob
-  {
+class Session;
+class SessionPrivate;
+class JobPrivate;
+class ServerResponse;
+
+class KSMTP_EXPORT Job : public KJob
+{
     Q_OBJECT
     Q_DECLARE_PRIVATE(Job)
-    
+
     friend class SessionPrivate;
 
-  public:
+public:
     ~Job() override;
 
     Session *session() const;
     void start() override;
 
-  protected:
+protected:
     void sendCommand(const QByteArray &cmd);
     virtual void doStart() = 0;
     virtual void handleResponse(const ServerResponse &response) = 0;
@@ -52,9 +53,9 @@ namespace KSmtp {
 
     explicit Job(Session *session);
     explicit Job(JobPrivate &dd);
-    
+
     JobPrivate *const d_ptr;
-  };
+};
 
 }
 

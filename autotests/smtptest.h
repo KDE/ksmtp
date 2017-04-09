@@ -6,25 +6,25 @@
 
 class SmtpTest : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  SmtpTest();
+    SmtpTest();
 
 private Q_SLOTS:
-  void initTestCase();
-  void cleanupTestCase();
+    void initTestCase();
+    void cleanupTestCase();
 
-  void testHello();
-  void testHello_data();
+    void testHello();
+    void testHello_data();
 
-  void testLoginJob();
-  void testLoginJob_data();
+    void testLoginJob();
+    void testLoginJob_data();
 
-  void testSendJob();
-  void testSendJob_data();
+    void testSendJob();
+    void testSendJob_data();
 
-  //TODO: (CL) Check if SendJob parses properly the data it gets before sending
+    //TODO: (CL) Check if SendJob parses properly the data it gets before sending
 };
 
 #endif // KSMTP_SMTPTEST_H

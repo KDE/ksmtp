@@ -7,197 +7,197 @@
 FakeServer::FakeServer(QObject *parent) :
     QThread(parent)
 {
-  moveToThread(this);
+    moveToThread(this);
 }
 
 QByteArray FakeServer::greeting()
 {
-  return "S: 220 localhost ESMTP xx777xx";
+    return "S: 220 localhost ESMTP xx777xx";
 }
 
 QList<QByteArray> FakeServer::greetingAndEhlo()
 {
-  return QList<QByteArray>() << greeting()
-      << "C: EHLO 127.0.0.1"
-      << "S: 250 Localhost ready to roll";
+    return QList<QByteArray>() << greeting()
+           << "C: EHLO 127.0.0.1"
+           << "S: 250 Localhost ready to roll";
 }
 
 FakeServer::~FakeServer()
 {
-  quit();
-  wait();
+    quit();
+    wait();
 }
 
 void FakeServer::startAndWait()
 {
-  start();
-  // this will block until the event queue starts
-  QMetaObject::invokeMethod(this, "started", Qt::BlockingQueuedConnection);
+    start();
+    // this will block until the event queue starts
+    QMetaObject::invokeMethod(this, "started", Qt::BlockingQueuedConnection);
 }
 
 void FakeServer::dataAvailable()
 {
-  QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
 
-  QTcpSocket* socket = qobject_cast<QTcpSocket*>(sender());
-  Q_ASSERT(socket != nullptr);
+    QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
+    Q_ASSERT(socket != nullptr);
 
-  int scenarioNumber = m_clientSockets.indexOf(socket);
+    int scenarioNumber = m_clientSockets.indexOf(socket);
 
-  QVERIFY(!m_scenarios[scenarioNumber].isEmpty());
+    QVERIFY(!m_scenarios[scenarioNumber].isEmpty());
 
-  readClientPart(scenarioNumber);
-  writeServerPart(scenarioNumber);
+    readClientPart(scenarioNumber);
+    writeServerPart(scenarioNumber);
 }
 
 void FakeServer::newConnection()
 {
-  QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
 
-  m_clientSockets << m_tcpServer->nextPendingConnection();
-  connect(m_clientSockets.last(), SIGNAL(readyRead()), this, SLOT(dataAvailable()));
-  //m_clientParsers << new KIMAP::ImapStreamParser( m_clientSockets.last(), true );
+    m_clientSockets << m_tcpServer->nextPendingConnection();
+    connect(m_clientSockets.last(), SIGNAL(readyRead()), this, SLOT(dataAvailable()));
+    //m_clientParsers << new KIMAP::ImapStreamParser( m_clientSockets.last(), true );
 
-  QVERIFY(m_clientSockets.size() <= m_scenarios.size());
+    QVERIFY(m_clientSockets.size() <= m_scenarios.size());
 
-  writeServerPart(m_clientSockets.size() - 1);
+    writeServerPart(m_clientSockets.size() - 1);
 }
 
 void FakeServer::run()
 {
-  m_tcpServer = new QTcpServer();
-  if (!m_tcpServer->listen(QHostAddress(QHostAddress::LocalHost), 5989)) {
-    qFatal("Unable to start the server");
-    return;
-  }
+    m_tcpServer = new QTcpServer();
+    if (!m_tcpServer->listen(QHostAddress(QHostAddress::LocalHost), 5989)) {
+        qFatal("Unable to start the server");
+        return;
+    }
 
-  connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
+    connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
 
-  exec();
+    exec();
 
-  qDeleteAll(m_clientSockets);
+    qDeleteAll(m_clientSockets);
 
-  delete m_tcpServer;
+    delete m_tcpServer;
 }
 
 void FakeServer::started()
 {
-  // do nothing: this is a dummy slot used by startAndWait()
+    // do nothing: this is a dummy slot used by startAndWait()
 }
 
 void FakeServer::setScenario(const QList<QByteArray> &scenario)
 {
-  QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
 
-  m_scenarios.clear();
-  m_scenarios << scenario;
+    m_scenarios.clear();
+    m_scenarios << scenario;
 }
 
 void FakeServer::addScenario(const QList<QByteArray> &scenario)
 {
-  QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
 
-  m_scenarios << scenario;
+    m_scenarios << scenario;
 }
 
 void FakeServer::addScenarioFromFile(const QString &fileName)
 {
-  QFile file(fileName);
-  file.open(QFile::ReadOnly);
+    QFile file(fileName);
+    file.open(QFile::ReadOnly);
 
-  QList<QByteArray> scenario;
+    QList<QByteArray> scenario;
 
-  // When loading from files we never have the authentication phase
-  // force jumping directly to authenticated state.
-  //scenario << preauth();
+    // When loading from files we never have the authentication phase
+    // force jumping directly to authenticated state.
+    //scenario << preauth();
 
-  while (!file.atEnd()) {
-    scenario << file.readLine().trimmed();
-  }
+    while (!file.atEnd()) {
+        scenario << file.readLine().trimmed();
+    }
 
-  file.close();
+    file.close();
 
-  addScenario(scenario);
+    addScenario(scenario);
 }
 
 bool FakeServer::isScenarioDone(int scenarioNumber) const
 {
-  QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
 
-  if (scenarioNumber < m_scenarios.size()) {
-    return m_scenarios[scenarioNumber].isEmpty();
-  } else {
-    return true; // Non existent hence empty, right?
-  }
+    if (scenarioNumber < m_scenarios.size()) {
+        return m_scenarios[scenarioNumber].isEmpty();
+    } else {
+        return true; // Non existent hence empty, right?
+    }
 }
 
 bool FakeServer::isAllScenarioDone() const
 {
-  QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
 
-  foreach (const QList<QByteArray> &scenario, m_scenarios) {
-    if (!scenario.isEmpty()) {
-      return false;
+    foreach (const QList<QByteArray> &scenario, m_scenarios) {
+        if (!scenario.isEmpty()) {
+            return false;
+        }
     }
-  }
 
-  return true;
+    return true;
 }
 
 void FakeServer::writeServerPart(int scenarioNumber)
 {
-  QList<QByteArray> scenario = m_scenarios[scenarioNumber];
-  QTcpSocket* clientSocket = m_clientSockets[scenarioNumber];
+    QList<QByteArray> scenario = m_scenarios[scenarioNumber];
+    QTcpSocket *clientSocket = m_clientSockets[scenarioNumber];
 
-  while (!scenario.isEmpty()
-    && (scenario.first().startsWith("S: ") || scenario.first().startsWith( "W: " ))) {
-    QByteArray rule = scenario.takeFirst();
+    while (!scenario.isEmpty()
+            && (scenario.first().startsWith("S: ") || scenario.first().startsWith("W: "))) {
+        QByteArray rule = scenario.takeFirst();
 
-    if (rule.startsWith("S: ")) {
-      QByteArray payload = rule.mid(3);
-      clientSocket->write(payload + "\r\n");
-    } else {
-      int timeout = rule.mid(3).toInt();
-      QTest::qWait(timeout);
+        if (rule.startsWith("S: ")) {
+            QByteArray payload = rule.mid(3);
+            clientSocket->write(payload + "\r\n");
+        } else {
+            int timeout = rule.mid(3).toInt();
+            QTest::qWait(timeout);
+        }
     }
-  }
 
-  if (!scenario.isEmpty() && scenario.first().startsWith('X')) {
-    scenario.takeFirst();
-    clientSocket->close();
-  }
+    if (!scenario.isEmpty() && scenario.first().startsWith('X')) {
+        scenario.takeFirst();
+        clientSocket->close();
+    }
 
-  if (!scenario.isEmpty()) {
-    QVERIFY(scenario.first().startsWith("C: "));
-  }
+    if (!scenario.isEmpty()) {
+        QVERIFY(scenario.first().startsWith("C: "));
+    }
 
-  m_scenarios[scenarioNumber] = scenario;
+    m_scenarios[scenarioNumber] = scenario;
 }
 
-void FakeServer::readClientPart( int scenarioNumber )
+void FakeServer::readClientPart(int scenarioNumber)
 {
-  QList<QByteArray> scenario = m_scenarios[scenarioNumber];
-  QTcpSocket* clientSocket = m_clientSockets[scenarioNumber];
+    QList<QByteArray> scenario = m_scenarios[scenarioNumber];
+    QTcpSocket *clientSocket = m_clientSockets[scenarioNumber];
 
-  while (!scenario.isEmpty() && scenario.first().startsWith("C: ")) {
-    QByteArray line = clientSocket->readLine();
-    QByteArray received = "C: " + line.trimmed();
-    QByteArray expected = scenario.takeFirst();
+    while (!scenario.isEmpty() && scenario.first().startsWith("C: ")) {
+        QByteArray line = clientSocket->readLine();
+        QByteArray received = "C: " + line.trimmed();
+        QByteArray expected = scenario.takeFirst();
 
-    if (expected == "C: SKIP" && !scenario.isEmpty()) {
-      expected = scenario.takeFirst();
-      while (received != expected) {
-        received = "C: " + clientSocket->readLine().trimmed();
-      }
+        if (expected == "C: SKIP" && !scenario.isEmpty()) {
+            expected = scenario.takeFirst();
+            while (received != expected) {
+                received = "C: " + clientSocket->readLine().trimmed();
+            }
+        }
+
+        QCOMPARE(QString::fromUtf8(received), QString::fromUtf8(expected));
+        QCOMPARE(received, expected);
     }
 
-    QCOMPARE( QString::fromUtf8( received ), QString::fromUtf8( expected ) );
-    QCOMPARE( received, expected );
-  }
+    if (!scenario.isEmpty()) {
+        QVERIFY(scenario.first().startsWith("S: "));
+    }
 
-  if (!scenario.isEmpty()) {
-    QVERIFY(scenario.first().startsWith("S: "));
-  }
-
-  m_scenarios[scenarioNumber] = scenario;
+    m_scenarios[scenarioNumber] = scenario;
 }

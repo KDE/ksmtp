@@ -26,24 +26,25 @@
 
 #include <KMime/Message>
 
-namespace KSmtp {
+namespace KSmtp
+{
 
 class SendJobPrivate;
 
 class KSMTP_EXPORT SendJob : public Job
 {
-  Q_OBJECT
-  Q_DECLARE_PRIVATE(SendJob)
-  
-public:
-  explicit SendJob(Session *session);
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(SendJob)
 
-  void setMessage(KMime::Message::Ptr message);
-  int size() const;
+public:
+    explicit SendJob(Session *session);
+
+    void setMessage(KMime::Message::Ptr message);
+    int size() const;
 
 protected:
-  void doStart() override;
-  void handleResponse(const ServerResponse &r) override;
+    void doStart() override;
+    void handleResponse(const ServerResponse &r) override;
 };
 
 }

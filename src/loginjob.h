@@ -24,38 +24,39 @@
 
 #include "job.h"
 
-namespace KSmtp {
+namespace KSmtp
+{
 
 class LoginJobPrivate;
 
 class KSMTP_EXPORT LoginJob : public Job
 {
-  Q_OBJECT
-  Q_DECLARE_PRIVATE(LoginJob)
-  
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(LoginJob)
+
 public:
-  enum AuthMode {
-    UnknownAuth,
-    Plain,
-    Login,
-    CramMD5,
-    XOAuth
-    //TODO: Support other authentication modes
-  };
+    enum AuthMode {
+        UnknownAuth,
+        Plain,
+        Login,
+        CramMD5,
+        XOAuth
+        //TODO: Support other authentication modes
+    };
 
-  explicit LoginJob(Session *session);
-  ~LoginJob() override;
+    explicit LoginJob(Session *session);
+    ~LoginJob() override;
 
-  void setUserName(const QString &userName);
-  void setPassword(const QString &password);
-  void setUseTls(bool useTls);
-  void setPreferedAuthMode(AuthMode mode);
-  void setOAuthChallenge(const QByteArray &challenge);
-  AuthMode usedAuthMode() const;
+    void setUserName(const QString &userName);
+    void setPassword(const QString &password);
+    void setUseTls(bool useTls);
+    void setPreferedAuthMode(AuthMode mode);
+    void setOAuthChallenge(const QByteArray &challenge);
+    AuthMode usedAuthMode() const;
 
 protected:
-  void doStart() override;
-  void handleResponse(const ServerResponse &r) override;
+    void doStart() override;
+    void handleResponse(const ServerResponse &r) override;
 };
 
 }

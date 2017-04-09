@@ -27,102 +27,103 @@
 class KJob;
 class QEventLoop;
 
-namespace KSmtp {
+namespace KSmtp
+{
 
 class SessionPrivate;
 
 class KSMTP_EXPORT Session : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  enum State { 
-    Disconnected = 0, /**< The Session is not connected to the server. */
-    Ready,            /**< (internal) */
-    Handshake,        /**< (internal) */
-    NotAuthenticated, /**< The Session is ready for login. @sa KSmtp::LoginJob */
-    Authenticated     /**< The Session is ready to send email. @sa KSmtp::SendJob */
-  };
+    enum State {
+        Disconnected = 0, /**< The Session is not connected to the server. */
+        Ready,            /**< (internal) */
+        Handshake,        /**< (internal) */
+        NotAuthenticated, /**< The Session is ready for login. @sa KSmtp::LoginJob */
+        Authenticated     /**< The Session is ready to send email. @sa KSmtp::SendJob */
+    };
 
-  /**
-    Creates a new Smtp session to the specified host and port.
-    After creating the session, you should call either open() or openAndWait() to open the connection.
-    @sa open(), openAndWait()
-  */
-  explicit Session(const QString &hostName, quint16 port, QObject *parent = nullptr);
-  ~Session() override;
+    /**
+      Creates a new Smtp session to the specified host and port.
+      After creating the session, you should call either open() or openAndWait() to open the connection.
+      @sa open(), openAndWait()
+    */
+    explicit Session(const QString &hostName, quint16 port, QObject *parent = nullptr);
+    ~Session() override;
 
-  /**
-    Returns the host name that has been provided in the Session's constructor
-    @sa port()
-  */
-  QString hostName() const;
-  
-  /**
-    Returns the port number that has been provided in the Session's constructor
-    @sa hostName()
-  */
-  quint16 port() const;
-  
-  State state() const;
-  
-  /**
-    Returns true if the SMTP server has indicated that it allows TLS connections, false otherwise.
-    The session must be at least in the NotAuthenticated state. Before that, allowsTls() always 
-    returns false.
-    
-    @sa KSmtp::LoginJob::setUseTls()
-  */
-  bool allowsTls() const;
-  
-  /**
-    @todo: return parsed auth modes, instead of strings.
-  */
-  QStringList availableAuthModes() const;
-  
-  /**
-    Returns the maximum message size in bytes that the server accepts.
-    You can use SendJob::size() to get the size of the message that you are trying to send
-    @sa KSmtp::SendJob::size()
-  */
-  int sizeLimit() const;
+    /**
+      Returns the host name that has been provided in the Session's constructor
+      @sa port()
+    */
+    QString hostName() const;
 
-  int socketTimeout() const;
-  void setSocketTimeout(int ms);
-  
-  /**
-    Opens the connection to the server.
-    
-    You should connect to stateChanged() before calling this method, and wait until the session's
-    state is NotAuthenticated (Session is ready for a LoginJob) or Disconnected (connecting to the 
-    server failed)
-    
-    @sa openAndWait()
-  */
-  void open();
-  
-  /**
-    Opens the connection to the server and blocks the execution until the Session is in the 
-    NotAuthenticated state (ready for a LoginJob) or Disconnected (connecting to the server failed)
-    
-    @sa open()
-  */
-  void openAndWait();
-  
-  /**
-    Closes the connection.
-  */
-  void close();
+    /**
+      Returns the port number that has been provided in the Session's constructor
+      @sa hostName()
+    */
+    quint16 port() const;
+
+    State state() const;
+
+    /**
+      Returns true if the SMTP server has indicated that it allows TLS connections, false otherwise.
+      The session must be at least in the NotAuthenticated state. Before that, allowsTls() always
+      returns false.
+
+      @sa KSmtp::LoginJob::setUseTls()
+    */
+    bool allowsTls() const;
+
+    /**
+      @todo: return parsed auth modes, instead of strings.
+    */
+    QStringList availableAuthModes() const;
+
+    /**
+      Returns the maximum message size in bytes that the server accepts.
+      You can use SendJob::size() to get the size of the message that you are trying to send
+      @sa KSmtp::SendJob::size()
+    */
+    int sizeLimit() const;
+
+    int socketTimeout() const;
+    void setSocketTimeout(int ms);
+
+    /**
+      Opens the connection to the server.
+
+      You should connect to stateChanged() before calling this method, and wait until the session's
+      state is NotAuthenticated (Session is ready for a LoginJob) or Disconnected (connecting to the
+      server failed)
+
+      @sa openAndWait()
+    */
+    void open();
+
+    /**
+      Opens the connection to the server and blocks the execution until the Session is in the
+      NotAuthenticated state (ready for a LoginJob) or Disconnected (connecting to the server failed)
+
+      @sa open()
+    */
+    void openAndWait();
+
+    /**
+      Closes the connection.
+    */
+    void close();
 
 Q_SIGNALS:
-  void stateChanged(KSmtp::Session::State state);
+    void stateChanged(KSmtp::Session::State state);
 
 private:
-  friend class SessionPrivate;
-  friend class SessionThread;
-  friend class JobPrivate;
-  
-  SessionPrivate *const d;
+    friend class SessionPrivate;
+    friend class SessionThread;
+    friend class JobPrivate;
+
+    SessionPrivate *const d;
 };
 
 }

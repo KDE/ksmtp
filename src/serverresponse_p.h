@@ -21,19 +21,20 @@
 
 #include <QByteArray>
 
-namespace KSmtp {
+namespace KSmtp
+{
 
 class ServerResponse
 {
 public:
-  explicit ServerResponse(int code = 0, const QByteArray &text = QByteArray());
-  int code() const;
-  QByteArray text() const;
-  bool isCode(int other) const;
+    explicit ServerResponse(int code = 0, const QByteArray &text = QByteArray());
+    int code() const;
+    QByteArray text() const;
+    bool isCode(int other) const;
 
 private:
-  int m_code;
-  QByteArray m_text;
+    int m_code;
+    QByteArray m_text;
 };
 
 }
