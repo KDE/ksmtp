@@ -27,14 +27,18 @@ namespace KSmtp
 class ServerResponse
 {
 public:
-    explicit ServerResponse(int code = 0, const QByteArray &text = QByteArray());
+    explicit ServerResponse(int code = 0, const QByteArray &text = QByteArray(),
+                            bool multiline = false);
     int code() const;
     QByteArray text() const;
     bool isCode(int other) const;
 
+    bool isMultiline() const;
+
 private:
-    int m_code;
     QByteArray m_text;
+    int m_code;
+    bool m_multiline;
 };
 
 }

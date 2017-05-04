@@ -333,10 +333,16 @@ void SessionPrivate::onSocketTimeout()
 }
 
 
-ServerResponse::ServerResponse(int code, const QByteArray &text)
-    : m_code(code),
-      m_text(text)
+ServerResponse::ServerResponse(int code, const QByteArray &text, bool multiline)
+    : m_text(text),
+      m_code(code),
+      m_multiline(multiline)
 {
+}
+
+bool ServerResponse::isMultiline() const
+{
+    return m_multiline;
 }
 
 int ServerResponse::code() const

@@ -171,15 +171,21 @@ ServerResponse SessionThread::parseResponse(const QByteArray &resp)
     }
 
     // Server response code
-    QByteArray code = response;
-    code.truncate(3);
-    int returnCode = code.toInt();
-
-    if (returnCode) {
-        response = response.remove(0, 4); // Keep the text part
+    QByteArray code = response.left(3);
+    bool ok = false;
+    const int returnCode = code.toInt(&ok);
+    if (!ok) {
+        return ServerResponse();
     }
 
-    return ServerResponse(returnCode, response);
+    // RFC821, Appendix E
+    const bool multiline = (response.at(3) == ' ');
+
+    if (returnCode) {
+        response = response.mid(4); // Keep the text part
+    }
+
+    return ServerResponse(returnCode, response, multiline);
 }
 
 void SessionThread::startTls()
