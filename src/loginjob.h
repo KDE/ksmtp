@@ -51,7 +51,7 @@ public:
     void setPassword(const QString &password);
     void setUseTls(bool useTls);
     void setPreferedAuthMode(AuthMode mode);
-    void setOAuthChallenge(const QByteArray &challenge);
+
     AuthMode usedAuthMode() const;
 
 protected:

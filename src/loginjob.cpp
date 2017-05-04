@@ -25,6 +25,25 @@
 
 #include <KLocalizedString>
 
+extern "C" {
+#include <sasl/sasl.h>
+}
+
+namespace {
+
+static const sasl_callback_t callbacks[] = {
+    { SASL_CB_ECHOPROMPT, nullptr, nullptr },
+    { SASL_CB_NOECHOPROMPT, nullptr, nullptr },
+    { SASL_CB_GETREALM, nullptr, nullptr },
+    { SASL_CB_USER, nullptr, nullptr },
+    { SASL_CB_AUTHNAME, nullptr, nullptr },
+    { SASL_CB_PASS, nullptr, nullptr },
+    { SASL_CB_CANON_USER, nullptr, nullptr },
+    { SASL_CB_LIST_END, nullptr , nullptr }
+};
+
+}
+
 namespace KSmtp
 {
 
@@ -33,26 +52,35 @@ class LoginJobPrivate : public JobPrivate
 public:
     LoginJobPrivate(LoginJob *job, Session *session, const QString &name)
         : JobPrivate(session, name),
-          q(job),
           m_preferedAuthMode(LoginJob::Login),
-          m_useTls(false)
+          m_actualAuthMode(LoginJob::UnknownAuth),
+          m_useTls(false),
+          q(job)
     {
     }
+
     ~LoginJobPrivate() Q_DECL_OVERRIDE { }
 
-    LoginJob *q;
+    bool sasl_interact();
+    bool sasl_init();
+    bool sasl_challenge(const QByteArray &data);
 
     void authenticate();
     void selectAuthentication();
-    QByteArray authCommand(LoginJob::AuthMode mode);
-    LoginJob::AuthMode authModeFromCommand(const QString &cmd);
+    LoginJob::AuthMode authModeFromCommand(const QByteArray &mech) const;
+    QByteArray authCommand(LoginJob::AuthMode mode) const;
 
     QString m_userName;
     QString m_password;
-    QByteArray m_oauthChallenge;
     LoginJob::AuthMode m_preferedAuthMode;
-    LoginJob::AuthMode m_usedAuthMode;
+    LoginJob::AuthMode m_actualAuthMode;
     bool m_useTls;
+
+    sasl_conn_t *m_saslConn;
+    sasl_interact_t *m_saslClient;
+
+private:
+    LoginJob *q;
 };
 }
 
@@ -79,12 +107,6 @@ void LoginJob::setPassword(const QString &password)
     d->m_password = password;
 }
 
-void LoginJob::setOAuthChallenge(const QByteArray &challenge)
-{
-    Q_D(LoginJob);
-    d->m_oauthChallenge = challenge;
-}
-
 void LoginJob::setUseTls(bool useTls)
 {
     Q_D(LoginJob);
@@ -100,12 +122,6 @@ void LoginJob::setPreferedAuthMode(AuthMode mode)
         return;
     }
     d->m_preferedAuthMode = mode;
-}
-
-LoginJob::AuthMode LoginJob::usedAuthMode() const
-{
-    Q_D(const LoginJob);
-    return d->m_usedAuthMode;
 }
 
 void LoginJob::doStart()
@@ -129,22 +145,27 @@ void LoginJob::handleResponse(const ServerResponse &r)
     // Server accepts TLS connection
     if (r.isCode(220)) {
         d->sessionInternal()->startTls();
+        return;
     }
 
     // Available authentication mechanisms
     if (r.isCode(25) && r.text().startsWith("AUTH")) { //krazy:exclude=strings
         d->authenticate();
+        return;
     }
 
     // Send account data
-    if (r.isCode(334) && d->m_usedAuthMode == Login) {
-        QByteArray request = QByteArray::fromBase64(r.text());
-
-        if (request.startsWith("Username")) {//krazy:exclude=strings //TODO: Compare with case insensitive
-            sendCommand(QByteArray(d->m_userName.toUtf8()).toBase64());
-        } else if (request.startsWith("Password")) { //krazy:exclude=strings
-            sendCommand(QByteArray(d->m_password.toUtf8()).toBase64());
+    if (r.isCode(334)) {
+        if (d->m_actualAuthMode == Plain) {
+            const QByteArray challengeResponse = '\0' + d->m_userName.toUtf8() +
+                                                 '\0' + d->m_password.toUtf8();
+            sendCommand(challengeResponse.toBase64());
+        } else {
+            if (!d->sasl_challenge(QByteArray::fromBase64(r.text()))) {
+                emitResult();
+            }
         }
+        return;
     }
 
     // Final agreement
@@ -159,11 +180,11 @@ void LoginJobPrivate::selectAuthentication()
     QStringList availableModes = m_session->availableAuthModes();
 
     if (availableModes.contains(QString::fromLatin1(authCommand(m_preferedAuthMode)))) {
-        m_usedAuthMode = m_preferedAuthMode;
+        m_actualAuthMode = m_preferedAuthMode;
     } else if (availableModes.contains(QString::fromLatin1(authCommand(LoginJob::Login)))) {
-        m_usedAuthMode = LoginJob::Login;
+        m_actualAuthMode = LoginJob::Login;
     } else if (availableModes.contains(QString::fromLatin1(authCommand(LoginJob::Plain)))) {
-        m_usedAuthMode = LoginJob::Plain;
+        m_actualAuthMode = LoginJob::Plain;
     } else {
         qCWarning(KSMTP_LOG) << "LoginJob: Couldn't choose an authentication method. Please retry with : " << availableModes;
         q->setError(KJob::UserDefinedError);
@@ -173,29 +194,150 @@ void LoginJobPrivate::selectAuthentication()
     }
 }
 
+bool LoginJobPrivate::sasl_init()
+{
+    if (sasl_client_init(nullptr) != SASL_OK) {
+        qCWarning(KSMTP_LOG) << "Failed to initialize SASL";
+        return false;
+    }
+    return true;
+}
+
+bool LoginJobPrivate::sasl_interact()
+{
+    sasl_interact_t *interact = m_saslClient;
+
+    while (interact->id != SASL_CB_LIST_END) {
+        qCDebug(KSMTP_LOG) << "SASL_INTERACT Id" << interact->id;
+        switch (interact->id) {
+        case SASL_CB_AUTHNAME:
+        //case SASL_CB_USER:
+            qCDebug(KSMTP_LOG) << "SASL_CB_[USER|AUTHNAME]: '" << m_userName << "'";
+            interact->result = strdup(m_userName.toUtf8().constData());
+            interact->len = strlen((const char *) interact->result);
+            break;
+        case SASL_CB_PASS:
+            qCDebug(KSMTP_LOG) << "SASL_CB_PASS: [hidden]";
+            interact->result = strdup(m_password.toUtf8().constData());
+            interact->len = strlen((const char *) interact->result);
+            break;
+        default:
+            interact->result = nullptr;
+            interact->len = 0;
+            break;
+        }
+        ++interact;
+    }
+
+    return true;
+}
+
+bool LoginJobPrivate::sasl_challenge(const QByteArray &challenge)
+{
+    int result = -1;
+    const char *out = nullptr;
+    uint outLen = 0;
+
+    Q_FOREVER {
+        result = sasl_client_step(m_saslConn, challenge.isEmpty() ? nullptr : challenge.constData(),
+                                  challenge.size(), &m_saslClient, &out, &outLen);
+        if (result == SASL_INTERACT) {
+            if (!sasl_interact()){
+                q->setError(LoginJob::UserDefinedError);
+                sasl_dispose(&m_saslConn);
+                return false;
+            }
+        }  else {
+            break;
+        }
+    }
+
+    if (result != SASL_OK && result != SASL_CONTINUE) {
+        const QString saslError = QString::fromUtf8(sasl_errdetail(m_saslConn));
+        qCWarning(KSMTP_LOG) << "sasl_client_step failed: " << result << saslError;
+        q->setError(LoginJob::UserDefinedError);
+        q->setErrorText(saslError);
+        sasl_dispose(&m_saslConn);
+        return false;
+    }
+
+    q->sendCommand(QByteArray::fromRawData(out, outLen).toBase64());
+
+    return true;
+}
+
 void LoginJobPrivate::authenticate()
 {
     selectAuthentication();
+    
+    if (!sasl_init()) {
+        q->setError(LoginJob::UserDefinedError);
+        q->setErrorText(i18n("Login failed, cannot initialize the SASL library"));
+        return;
+    }
 
-    switch (m_usedAuthMode) {
-    case LoginJob::Plain:
-        q->sendCommand("AUTH PLAIN " + QByteArray('\000' + m_userName.toUtf8() + '\000' + m_password.toUtf8()).toBase64());
-        break;
-    case LoginJob::Login:
-        q->sendCommand("AUTH LOGIN");
-        break;
-    case LoginJob::CramMD5:
-        qCWarning(KSMTP_LOG) << "LoginJob: CramMD5: Not yet implemented";
-        break;
-    case LoginJob::XOAuth:
-        q->sendCommand("AUTH XOAUTH " + m_oauthChallenge);
-        break;
-    case LoginJob::UnknownAuth:
-        break; // Should not happen
+    int result = sasl_client_new("smtp", m_session->hostName().toUtf8().constData(),
+                                 nullptr, nullptr, callbacks, 0, &m_saslConn);
+    if (result != SASL_OK) {
+        const auto saslError = QString::fromUtf8(sasl_errdetail(m_saslConn));
+        q->setError(LoginJob::UserDefinedError);
+        q->setErrorText(saslError);
+        return;
+    }
+
+    uint outLen = 0;
+    const char *out = nullptr;
+    const char *actualMech = nullptr;
+    const auto authMode = authCommand(m_actualAuthMode);
+    Q_FOREVER {
+        qCDebug(KSMTP_LOG) << "Trying authmod" << authMode;
+        result = sasl_client_start(m_saslConn, authMode.constData(),
+                                   &m_saslClient, &out, &outLen, &actualMech);
+        if (result == SASL_INTERACT) {
+            if (!sasl_interact()) {
+                sasl_dispose(&m_saslConn);
+                q->setError(LoginJob::UserDefinedError);
+                return;
+            }
+        } else {
+            break;
+        }
+    }
+
+    m_actualAuthMode = authModeFromCommand(actualMech);
+
+    if (result != SASL_CONTINUE && result != SASL_OK) {
+        const auto saslError = QString::fromUtf8(sasl_errdetail(m_saslConn));
+        qCWarning(KSMTP_LOG) << "sasl_client_start failed with:" << result << saslError;
+        q->setError(LoginJob::UserDefinedError);
+        q->setErrorText(saslError);
+        sasl_dispose(&m_saslConn);
+        return;
+    }
+
+    if (outLen == 0) {
+        q->sendCommand("AUTH " + authMode);
+    } else {
+        q->sendCommand("AUTH " + authMode + ' ' + QByteArray::fromRawData(out, outLen).toBase64());
     }
 }
 
-QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode)
+LoginJob::AuthMode LoginJobPrivate::authModeFromCommand(const QByteArray &mech) const
+{
+    if (qstrnicmp(mech.constData(), "PLAIN", 5) == 0) {
+        return LoginJob::Plain;
+    } else if (qstrnicmp(mech.constData(), "LOGIN", 5) == 0) {
+        return LoginJob::Login;
+    } else if (qstrnicmp(mech.constData(), "CRAM-MD5", 8) == 0) {
+        return LoginJob::CramMD5;
+    } else if (qstrnicmp(mech.constData(), "XOAUTH", 6) == 0) {
+        return LoginJob::XOAuth;
+    } else {
+        return LoginJob::UnknownAuth;
+    }
+}
+
+QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode) const
 {
     switch (mode) {
     case LoginJob::Plain:
@@ -211,19 +353,3 @@ QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode)
         return ""; // Should not happen
     }
 }
-
-LoginJob::AuthMode LoginJobPrivate::authModeFromCommand(const QString &cmd)
-{
-    if (cmd.compare(QLatin1String("PLAIN"), Qt::CaseInsensitive) == 0) {
-        return LoginJob::Plain;
-    } else if (cmd.compare(QLatin1String("LOGIN"), Qt::CaseInsensitive) == 0) {
-        return LoginJob::Login;
-    } else if (cmd.compare(QLatin1String("CRAM-MD5"), Qt::CaseInsensitive) == 0) {
-        return LoginJob::CramMD5;
-    } else if (cmd.compare(QLatin1String("XOAUTH"), Qt::CaseInsensitive) == 0) {
-        return LoginJob::XOAuth;
-    } else {
-        return LoginJob::UnknownAuth;
-    }
-}
-

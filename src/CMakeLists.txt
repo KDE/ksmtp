@@ -1,3 +1,5 @@
+include_directories(${Sasl2_INCLUDE_DIRECTORY})
+
 set(ksmtp_SRCS
     job.cpp
     loginjob.cpp
@@ -22,6 +24,7 @@ PRIVATE
     KF5::I18n
     KF5::KIOCore
     Qt5::Network
+    ${Sasl2_LIBRARIES}
 )
 
 set_target_properties(KPimSMTP PROPERTIES
