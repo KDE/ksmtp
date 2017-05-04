@@ -26,6 +26,7 @@
 
 #include <ktcpsocket.h>
 
+class QFile;
 namespace KSmtp
 {
 
@@ -68,6 +69,7 @@ private:
     KTcpSocket *m_socket;
     QMutex m_mutex;
     QQueue<QByteArray> m_dataQueue;
+    QFile *m_logFile;
 
     Session *m_parentSession;
     QString m_hostName;

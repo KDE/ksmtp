@@ -25,21 +25,37 @@
 
 #include <QTimer>
 #include <QUrl>
+#include <QFile>
+#include <QCoreApplication>
 
 using namespace KSmtp;
 
 SessionThread::SessionThread(const QString &hostName, quint16 port, Session *session)
     : QThread(),
       m_socket(nullptr),
+      m_logFile(nullptr),
       m_parentSession(session),
       m_hostName(hostName),
       m_port(port)
 {
     moveToThread(this);
+
+    const auto logfile = qgetenv("KSMTP_SESSION_LOG");
+    if (!logfile.isEmpty()) {
+        static uint sSessionCount = 0;
+        const QString filename = QStringLiteral("%1.%2.%3").arg(QString::fromUtf8(logfile))
+                                                           .arg(qApp->applicationPid())
+                                                           .arg(++sSessionCount);
+        m_logFile = new QFile(filename);
+        if (!m_logFile->open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            qCWarning(KSMTP_LOG) << "Failed to open log file" << filename << ":" << m_logFile->errorString();
+        }
+    }
 }
 
 SessionThread::~SessionThread()
 {
+    delete m_logFile;
 }
 
 QString SessionThread::hostName() const
@@ -55,7 +71,11 @@ quint16 SessionThread::port() const
 void SessionThread::sendData(const QByteArray &payload)
 {
     QMutexLocker locker(&m_mutex);
-    //kDebug() << "C:: " << payload;
+    //qCDebug(KSMTP_LOG) << "C:: " << payload;
+    if (m_logFile) {
+        m_logFile->write("C: " + payload + '\n');
+        m_logFile->flush();
+    }
 
     m_dataQueue.enqueue(payload + "\r\n");
     QTimer::singleShot(0, this, SLOT(writeDataQueue()));
@@ -78,8 +98,14 @@ void SessionThread::readResponse()
         return;
     }
 
-    ServerResponse response = parseResponse(m_socket->readLine());
+    const QByteArray data = m_socket->readLine();
+    //qCDebug(KSMTP_LOG) << "S:" << data;
+    if (m_logFile) {
+        m_logFile->write("S: " + data);
+        m_logFile->flush();
+    }
 
+    const ServerResponse response = parseResponse(data);
     emit responseReceived(response);
 
     if (m_socket->bytesAvailable()) {
