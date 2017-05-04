@@ -163,7 +163,7 @@ void SessionPrivate::sendData(const QByteArray &data)
 
 void SessionPrivate::responseReceived(const ServerResponse &r)
 {
-    //kDebug() << "S:: [" << r.code() << "] " << r.text();
+    //qCDebug(KSMTP_LOG) << "S:: [" << r.code() << "] " << r.text();
 
     if (m_state == Session::Handshake) {
         if (r.isCode(500) || r.isCode(502)) {
@@ -173,11 +173,13 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
             } else {
                 qCWarning(KSMTP_LOG) << "KSmtp::Session: Handshake failed with both EHLO and HELO";
                 m_thread->closeSocket();
+                return;
             }
         }
 
         if (r.isCode(25)) {
             setState(Session::NotAuthenticated);
+            return;
         }
     }
 
@@ -191,14 +193,17 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
             }
             setState(Session::Handshake);
             sendData(cmd + QUrl::toAce(m_thread->hostName()));
+            return;
         }
     }
 
     if (m_state == Session::NotAuthenticated && r.isCode(25)) {
         if (r.text().startsWith("SIZE ")) { //krazy:exclude=strings
             m_size = r.text().remove(0, QByteArray("SIZE ").count()).toInt();
+            return;
         } else if (r.text() == "STARTTLS") {
             m_allowsTls = true;
+            return;
         } else if (r.text().startsWith("AUTH ")) { //krazy:exclude=strings
             QList<QByteArray> modes = r.text().remove(0, QByteArray("AUTH ").count()).split(' ');
             foreach (const QByteArray &mode, modes) {
@@ -207,6 +212,7 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
                     m_authModes.append(m);
                 }
             }
+            return;
         }
     }
 
