@@ -26,11 +26,12 @@
 
 #include <iostream>
 
-void login(KSmtp::Session *session, const QString &user, const QString &pass)
+void login(KSmtp::Session *session, const QString &user, const QString &pass, bool tls)
 {
     auto login = new KSmtp::LoginJob(session);
     login->setUserName(user);
     login->setPassword(pass);
+    login->setUseTls(tls);
     QObject::connect(
         login, &KJob::result,
         [](KJob *job) {
@@ -54,10 +55,12 @@ int main(int argc, char **argv)
     QCommandLineOption portOption(QStringLiteral("port"), QString(), QStringLiteral("port"));
     QCommandLineOption userOption(QStringLiteral("user"), QString(), QStringLiteral("username"));
     QCommandLineOption passOption(QStringLiteral("pass"), QString(), QStringLiteral("password"));
+    QCommandLineOption tlsOption(QStringLiteral("tls"));
     parser.addOption(hostOption);
     parser.addOption(portOption);
     parser.addOption(userOption);
     parser.addOption(passOption);
+    parser.addOption(tlsOption);
     parser.addHelpOption();
 
     parser.process(app);
@@ -91,7 +94,7 @@ int main(int argc, char **argv)
                     std::cout << mode.toStdString() << " ";
                 }
                 std::cout << std::endl;
-                login(&session, parser.value(userOption), parser.value(passOption));
+                login(&session, parser.value(userOption), parser.value(passOption), parser.isSet(tlsOption));
             } break;
             case KSmtp::Session::Authenticated:
                 std::cout << "Session entered Authenticated state, we are done" << std::endl;
