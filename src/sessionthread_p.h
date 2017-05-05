@@ -44,14 +44,16 @@ public:
     QString hostName() const;
     quint16 port() const;
 
+    void handleSslErrorResponse(bool ignoreError);
+
 public Q_SLOTS:
     void reconnect();
     void closeSocket();
-    void startTls();
-    void tlsConnected();
+    void startSsl(KTcpSocket::SslVersion version);
     void sendData(const QByteArray &payload);
 
 Q_SIGNALS:
+    void encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version);
     void responseReceived(const ServerResponse &response);
     void sslError(const KSslErrorUiData &);
 
@@ -59,9 +61,11 @@ protected:
     void run() Q_DECL_OVERRIDE;
 
 private Q_SLOTS:
+    void sslConnected();
     void writeDataQueue();
     void readResponse();
     void doCloseSocket();
+    void doHandleSslErrorResponse(bool ignoreError);
 
 private:
     ServerResponse parseResponse(const QByteArray &response);

@@ -6,6 +6,7 @@ set(ksmtp_SRCS
     sendjob.cpp
     session.cpp
     sessionthread.cpp
+    sessionuiproxy.cpp
 )
 
 ecm_qt_declare_logging_category(ksmtp_SRCS HEADER ksmtp_debug.h IDENTIFIER KSMTP_LOG CATEGORY_NAME org.kde.pim.ksmtp)

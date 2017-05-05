@@ -35,6 +35,15 @@ class KSMTP_EXPORT LoginJob : public Job
     Q_DECLARE_PRIVATE(LoginJob)
 
 public:
+    enum EncryptionMode {
+        Unencrypted,
+        TlsV1,
+        SslV2,
+        SslV3,
+        SslV3_1,
+        AnySslVersion
+    };
+
     enum AuthMode {
         UnknownAuth,
         Plain,
@@ -49,10 +58,12 @@ public:
 
     void setUserName(const QString &userName);
     void setPassword(const QString &password);
-    void setUseTls(bool useTls);
-    void setPreferedAuthMode(AuthMode mode);
 
+    void setPreferedAuthMode(AuthMode mode);
     AuthMode usedAuthMode() const;
+
+    void setEncryptionMode(EncryptionMode mode);
+    EncryptionMode encryptionMode() const;
 
 protected:
     void doStart() Q_DECL_OVERRIDE;

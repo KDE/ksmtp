@@ -21,6 +21,7 @@
 #define KSMTP_SESSION_H
 
 #include "ksmtp_export.h"
+#include "sessionuiproxy.h"
 
 #include <QObject>
 
@@ -50,6 +51,9 @@ public:
     */
     explicit Session(const QString &hostName, quint16 port, QObject *parent = nullptr);
     ~Session() Q_DECL_OVERRIDE;
+
+    void setUiProxy(const SessionUiProxy::Ptr &uiProxy);
+    SessionUiProxy::Ptr uiProxy() const;
 
     /**
       Returns the host name that has been provided in the Session's constructor

@@ -26,9 +26,10 @@
 #include <QTimer>
 #include <QStringList>
 
+#include <KTcpSocket>
+
 class KJob;
 class QEventLoop;
-
 
 namespace KSmtp
 {
@@ -50,7 +51,12 @@ public:
     void addJob(Job *job);
     void sendData(const QByteArray &data);
     void setState(Session::State s);
-    void startTls();
+    void startSsl(KTcpSocket::SslVersion version);
+
+    KTcpSocket::SslVersion negotiatedEncryption() const;
+
+public Q_SLOTS:
+    void handleSslError(const KSslErrorUiData &data);
 
 private Q_SLOTS:
     void doStartNext();
@@ -60,6 +66,7 @@ private Q_SLOTS:
     void responseReceived(const ServerResponse &response);
     void socketConnected();
     void socketDisconnected();
+    void encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version);
     void onSocketTimeout();
 
 private:
@@ -74,9 +81,11 @@ private:
     // Smtp session
     Session::State m_state;
     SessionThread *m_thread;
+    SessionUiProxy::Ptr m_uiProxy;
     int m_socketTimerInterval;
     QTimer m_socketTimer;
     QEventLoop *m_startLoop;
+    KTcpSocket::SslVersion m_sslVersion;
 
     // Jobs
     bool m_jobRunning;

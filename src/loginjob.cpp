@@ -51,11 +51,11 @@ class LoginJobPrivate : public JobPrivate
 {
 public:
     LoginJobPrivate(LoginJob *job, Session *session, const QString &name)
-        : JobPrivate(session, name),
-          m_preferedAuthMode(LoginJob::Login),
-          m_actualAuthMode(LoginJob::UnknownAuth),
-          m_useTls(false),
-          q(job)
+        : JobPrivate(session, name)
+        , m_preferedAuthMode(LoginJob::Login)
+        , m_actualAuthMode(LoginJob::UnknownAuth)
+        , m_encryptionMode(LoginJob::Unencrypted)
+        , q(job)
     {
     }
 
@@ -65,22 +65,25 @@ public:
     bool sasl_init();
     bool sasl_challenge(const QByteArray &data);
 
-    void authenticate();
-    void selectAuthentication();
+    bool authenticate();
+    bool selectAuthentication();
+
     LoginJob::AuthMode authModeFromCommand(const QByteArray &mech) const;
     QByteArray authCommand(LoginJob::AuthMode mode) const;
+    LoginJob::EncryptionMode sslVersionToEncryption(KTcpSocket::SslVersion version) const;
+    KTcpSocket::SslVersion encryptionToSslVersion(LoginJob::EncryptionMode mode) const;
 
     QString m_userName;
     QString m_password;
     LoginJob::AuthMode m_preferedAuthMode;
     LoginJob::AuthMode m_actualAuthMode;
-    bool m_useTls;
+    LoginJob::EncryptionMode m_encryptionMode;
 
     sasl_conn_t *m_saslConn;
     sasl_interact_t *m_saslClient;
 
 private:
-    LoginJob *q;
+    LoginJob * const q;
 };
 }
 
@@ -107,12 +110,6 @@ void LoginJob::setPassword(const QString &password)
     d->m_password = password;
 }
 
-void LoginJob::setUseTls(bool useTls)
-{
-    Q_D(LoginJob);
-    d->m_useTls = useTls;
-}
-
 void LoginJob::setPreferedAuthMode(AuthMode mode)
 {
     Q_D(LoginJob);
@@ -124,14 +121,38 @@ void LoginJob::setPreferedAuthMode(AuthMode mode)
     d->m_preferedAuthMode = mode;
 }
 
+void LoginJob::setEncryptionMode(EncryptionMode mode)
+{
+    Q_D(LoginJob);
+    d->m_encryptionMode = mode;
+}
+
+LoginJob::EncryptionMode LoginJob::encryptionMode() const
+{
+    return d_func()->m_encryptionMode;
+}
+
 void LoginJob::doStart()
 {
     Q_D(LoginJob);
 
-    if (session()->allowsTls() && d->m_useTls) {
+    const auto negotiatedEnc = d->sessionInternal()->negotiatedEncryption();
+    if (negotiatedEnc != KTcpSocket::UnknownSslVersion) {
+        // Socket already encrypted, pretend we did not want any
+        if (d->m_encryptionMode == d->sslVersionToEncryption(negotiatedEnc)) {
+            d->m_encryptionMode = Unencrypted;
+        }
+    }
+
+    if (d->m_encryptionMode == SslV2 || d->m_encryptionMode == SslV3
+        || d->m_encryptionMode == SslV3_1 || d->m_encryptionMode == AnySslVersion) {
+        d->sessionInternal()->startSsl(d->encryptionToSslVersion(d->m_encryptionMode));
+    } else if (d->m_encryptionMode == TlsV1 && session()->allowsTls()) {
         sendCommand("STARTTLS");
     } else {
-        d->authenticate();
+        if (!d->authenticate()) {
+            emitResult();
+        }
     }
 }
 
@@ -144,7 +165,7 @@ void LoginJob::handleResponse(const ServerResponse &r)
 
     // Server accepts TLS connection
     if (r.isCode(220)) {
-        d->sessionInternal()->startTls();
+        d->sessionInternal()->startSsl(d->encryptionToSslVersion(d->m_encryptionMode));
         return;
     }
 
@@ -175,7 +196,7 @@ void LoginJob::handleResponse(const ServerResponse &r)
     }
 }
 
-void LoginJobPrivate::selectAuthentication()
+bool LoginJobPrivate::selectAuthentication()
 {
     QStringList availableModes = m_session->availableAuthModes();
 
@@ -189,9 +210,10 @@ void LoginJobPrivate::selectAuthentication()
         qCWarning(KSMTP_LOG) << "LoginJob: Couldn't choose an authentication method. Please retry with : " << availableModes;
         q->setError(KJob::UserDefinedError);
         q->setErrorText(i18n("Could not authenticate to the SMTP server because no matching authentication method has been found"));
-        q->emitResult();
-        return;
+        return false;
     }
+
+    return true;
 }
 
 bool LoginJobPrivate::sasl_init()
@@ -266,14 +288,16 @@ bool LoginJobPrivate::sasl_challenge(const QByteArray &challenge)
     return true;
 }
 
-void LoginJobPrivate::authenticate()
+bool LoginJobPrivate::authenticate()
 {
-    selectAuthentication();
-    
+    if (!selectAuthentication()) {
+        return false;
+    }
+
     if (!sasl_init()) {
         q->setError(LoginJob::UserDefinedError);
         q->setErrorText(i18n("Login failed, cannot initialize the SASL library"));
-        return;
+        return false;
     }
 
     int result = sasl_client_new("smtp", m_session->hostName().toUtf8().constData(),
@@ -282,13 +306,14 @@ void LoginJobPrivate::authenticate()
         const auto saslError = QString::fromUtf8(sasl_errdetail(m_saslConn));
         q->setError(LoginJob::UserDefinedError);
         q->setErrorText(saslError);
-        return;
+        return false;
     }
 
     uint outLen = 0;
     const char *out = nullptr;
     const char *actualMech = nullptr;
     const auto authMode = authCommand(m_actualAuthMode);
+
     Q_FOREVER {
         qCDebug(KSMTP_LOG) << "Trying authmod" << authMode;
         result = sasl_client_start(m_saslConn, authMode.constData(),
@@ -297,7 +322,7 @@ void LoginJobPrivate::authenticate()
             if (!sasl_interact()) {
                 sasl_dispose(&m_saslConn);
                 q->setError(LoginJob::UserDefinedError);
-                return;
+                return false;
             }
         } else {
             break;
@@ -312,7 +337,7 @@ void LoginJobPrivate::authenticate()
         q->setError(LoginJob::UserDefinedError);
         q->setErrorText(saslError);
         sasl_dispose(&m_saslConn);
-        return;
+        return false;
     }
 
     if (outLen == 0) {
@@ -320,6 +345,8 @@ void LoginJobPrivate::authenticate()
     } else {
         q->sendCommand("AUTH " + authMode + ' ' + QByteArray::fromRawData(out, outLen).toBase64());
     }
+
+    return true;
 }
 
 LoginJob::AuthMode LoginJobPrivate::authModeFromCommand(const QByteArray &mech) const
@@ -351,5 +378,37 @@ QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode) const
     default:
     case LoginJob::UnknownAuth:
         return ""; // Should not happen
+    }
+}
+
+LoginJob::EncryptionMode LoginJobPrivate::sslVersionToEncryption(KTcpSocket::SslVersion version) const
+{
+    switch (version) {
+    case KTcpSocket::SslV2:
+        return LoginJob::SslV2;
+    case KTcpSocket::SslV3:
+        return LoginJob::SslV3;
+    case KTcpSocket::SslV3_1:
+        return LoginJob::SslV3_1;
+    case KTcpSocket::AnySslVersion:
+        return LoginJob::AnySslVersion;
+    default:
+        return LoginJob::Unencrypted;
+    }
+}
+
+KTcpSocket::SslVersion LoginJobPrivate::encryptionToSslVersion(LoginJob::EncryptionMode mode) const
+{
+    switch (mode) {
+    case LoginJob::SslV2:
+        return KTcpSocket::SslV2;
+    case LoginJob::SslV3:
+        return KTcpSocket::SslV3;
+    case LoginJob::SslV3_1:
+        return KTcpSocket::SslV3_1;
+    case LoginJob::AnySslVersion:
+        return KTcpSocket::AnySslVersion;
+    default:
+        return KTcpSocket::UnknownSslVersion;
     }
 }

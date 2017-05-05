@@ -27,8 +27,12 @@
 #include <QHostAddress>
 #include <QUrl>
 #include <QEventLoop>
+#include <QPointer>
 
 using namespace KSmtp;
+
+Q_DECLARE_METATYPE(KTcpSocket::SslVersion)
+Q_DECLARE_METATYPE(KSslErrorUiData)
 
 SessionPrivate::SessionPrivate(Session *session)
     : QObject(session),
@@ -37,13 +41,33 @@ SessionPrivate::SessionPrivate(Session *session)
       m_thread(nullptr),
       m_socketTimerInterval(10000),
       m_startLoop(nullptr),
+      m_sslVersion(KTcpSocket::UnknownSslVersion),
       m_jobRunning(false),
       m_currentJob(nullptr),
       m_ehloRejected(false),
       m_size(0),
       m_allowsTls(false)
 {
+    qRegisterMetaType<KTcpSocket::SslVersion>();
+    qRegisterMetaType<KSslErrorUiData>();
 }
+
+SessionPrivate::~SessionPrivate()
+{
+    m_thread->quit();
+    m_thread->wait(10000);
+    delete m_thread;
+}
+
+void SessionPrivate::handleSslError(const KSslErrorUiData &data)
+{
+    QPointer<SessionThread> _t = m_thread;
+    const bool ignore = m_uiProxy && m_uiProxy->ignoreSslError(data);
+    if (_t) {
+        _t->handleSslErrorResponse(ignore);
+    }
+}
+
 
 Session::Session(const QString &hostName, quint16 port, QObject *parent)
     : QObject(parent),
@@ -60,17 +84,23 @@ Session::Session(const QString &hostName, quint16 port, QObject *parent)
 
     d->m_thread = new SessionThread(saneHostName, port, this);
     d->m_thread->start();
+
+    connect(d->m_thread, &SessionThread::sslError,
+            d, &SessionPrivate::handleSslError);
 }
 
 Session::~Session()
 {
 }
 
-SessionPrivate::~SessionPrivate()
+void Session::setUiProxy(const SessionUiProxy::Ptr &uiProxy)
 {
-    m_thread->quit();
-    m_thread->wait(10000);
-    delete m_thread;
+    d->m_uiProxy = uiProxy;
+}
+
+SessionUiProxy::Ptr Session::uiProxy() const
+{
+    return d->m_uiProxy;
 }
 
 QString Session::hostName() const
@@ -229,10 +259,23 @@ void SessionPrivate::socketDisconnected()
     m_thread->closeSocket();
 }
 
-void SessionPrivate::startTls()
+void SessionPrivate::startSsl(KTcpSocket::SslVersion version)
 {
-    QMetaObject::invokeMethod(m_thread, "startTls", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(m_thread, "startSsl", Qt::QueuedConnection,
+                              Q_ARG(KTcpSocket::SslVersion, version));
 }
+
+KTcpSocket::SslVersion SessionPrivate::negotiatedEncryption() const
+{
+    return m_sslVersion;
+}
+
+void SessionPrivate::encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version)
+{
+    Q_UNUSED(encrypted);
+    m_sslVersion = version;
+}
+
 
 void SessionPrivate::addJob(Job *job)
 {

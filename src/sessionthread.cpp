@@ -147,6 +147,9 @@ void SessionThread::run()
     connect(m_socket, SIGNAL(connected()),
             m_parentSession->d, SLOT(socketConnected()));
 
+    connect(this, SIGNAL(encryptionNegotiationResult(bool,KTcpSocket::SslVersion)),
+            m_parentSession->d, SLOT(encryptionNegotiationResult(bool,KTcpSocket::SslVersion)));
+
     connect(this, SIGNAL(responseReceived(ServerResponse)),
             m_parentSession->d, SLOT(responseReceived(ServerResponse)));
 
@@ -188,17 +191,17 @@ ServerResponse SessionThread::parseResponse(const QByteArray &resp)
     return ServerResponse(returnCode, response, multiline);
 }
 
-void SessionThread::startTls()
+void SessionThread::startSsl(KTcpSocket::SslVersion version)
 {
     QMutexLocker locker(&m_mutex);
 
-    m_socket->setAdvertisedSslVersion(KTcpSocket::TlsV1);
+    m_socket->setAdvertisedSslVersion(version);
     m_socket->ignoreSslErrors();
-    connect(m_socket, SIGNAL(encrypted()), this, SLOT(tlsConnected()));
+    connect(m_socket, SIGNAL(encrypted()), this, SLOT(sslConnected()));
     m_socket->startClientEncryption();
 }
 
-void SessionThread::tlsConnected()
+void SessionThread::sslConnected()
 {
     QMutexLocker locker(&m_mutex);
     KSslCipher cipher = m_socket->sessionCipher();
@@ -216,5 +219,29 @@ void SessionThread::tlsConnected()
         qCDebug(KSMTP_LOG) << "TLS negotiation done.";
 
         QMetaObject::invokeMethod(this, "sendData", Qt::QueuedConnection, Q_ARG(QByteArray, "EHLO " + QUrl::toAce(hostName())));
+        Q_EMIT encryptionNegotiationResult(true, m_socket->negotiatedSslVersion());
+    }
+}
+
+void SessionThread::handleSslErrorResponse(bool ignoreError)
+{
+    QMetaObject::invokeMethod(this, "doHandleSslErrorResponse", Qt::QueuedConnection,
+                              Q_ARG(bool, ignoreError));
+}
+
+void SessionThread::doHandleSslErrorResponse(bool ignoreError)
+{
+    Q_ASSERT(QThread::currentThread() == thread());
+    if (!m_socket) {
+        return;
+    }
+    if (ignoreError) {
+        emit encryptionNegotiationResult(true, m_socket->negotiatedSslVersion());
+    } else {
+        //reconnect in unencrypted mode, so new commands can be issued
+        m_socket->disconnectFromHost();
+        m_socket->waitForDisconnected();
+        m_socket->connectToHost(m_hostName, m_port);
+        emit encryptionNegotiationResult(false, KTcpSocket::UnknownSslVersion);
     }
 }
