@@ -24,8 +24,6 @@
 
 #include <QObject>
 
-class KJob;
-class QEventLoop;
 
 namespace KSmtp
 {

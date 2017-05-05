@@ -26,6 +26,10 @@
 #include <QTimer>
 #include <QStringList>
 
+class KJob;
+class QEventLoop;
+
+
 namespace KSmtp
 {
 
