@@ -25,7 +25,6 @@
 #include "ksmtp_debug.h"
 
 #include <QHostAddress>
-#include <QMetaType>
 #include <QUrl>
 #include <QEventLoop>
 
