@@ -176,7 +176,7 @@ void Session::close()
 void SessionPrivate::setState(Session::State s)
 {
     m_state = s;
-    emit q->stateChanged(m_state);
+    Q_EMIT q->stateChanged(m_state);
 
     // After a handshake success or failure, exit the startup event loop if any
     if (m_startLoop && (m_state == Session::NotAuthenticated || m_state == Session::Disconnected)) {
@@ -280,7 +280,7 @@ void SessionPrivate::encryptionNegotiationResult(bool encrypted, KTcpSocket::Ssl
 void SessionPrivate::addJob(Job *job)
 {
     m_queue.append(job);
-    //emit q->jobQueueSizeChanged( q->jobQueueSize() );
+    //Q_EMIT q->jobQueueSizeChanged( q->jobQueueSize() );
 
     connect(job, SIGNAL(result(KJob *)), SLOT(jobDone(KJob *)));
     connect(job, SIGNAL(destroyed(QObject *)), SLOT(jobDestroyed(QObject *)));
@@ -324,7 +324,7 @@ void SessionPrivate::jobDone(KJob *job)
 
     m_jobRunning = false;
     m_currentJob = nullptr;
-    //emit q->jobQueueSizeChanged( q->jobQueueSize() );
+    //Q_EMIT q->jobQueueSizeChanged( q->jobQueueSize() );
     startNext();
 }
 

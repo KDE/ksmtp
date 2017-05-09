@@ -108,7 +108,7 @@ void SessionThread::readResponse()
     }
 
     const ServerResponse response = parseResponse(data);
-    emit responseReceived(response);
+    Q_EMIT responseReceived(response);
 
     if (m_socket->bytesAvailable()) {
         QTimer::singleShot(0, this, SLOT(readResponse()));
@@ -216,7 +216,7 @@ void SessionThread::sslConnected()
                            << "and the list of SSL errors contains"
                            << m_socket->sslErrors().count() << "items.";
         KSslErrorUiData errorData(m_socket);
-        emit sslError(errorData);
+        Q_EMIT sslError(errorData);
     } else {
         qCDebug(KSMTP_LOG) << "TLS negotiation done.";
 
@@ -238,12 +238,12 @@ void SessionThread::doHandleSslErrorResponse(bool ignoreError)
         return;
     }
     if (ignoreError) {
-        emit encryptionNegotiationResult(true, m_socket->negotiatedSslVersion());
+        Q_EMIT encryptionNegotiationResult(true, m_socket->negotiatedSslVersion());
     } else {
         //reconnect in unencrypted mode, so new commands can be issued
         m_socket->disconnectFromHost();
         m_socket->waitForDisconnected();
         m_socket->connectToHost(m_hostName, m_port);
-        emit encryptionNegotiationResult(false, KTcpSocket::UnknownSslVersion);
+        Q_EMIT encryptionNegotiationResult(false, KTcpSocket::UnknownSslVersion);
     }
 }
