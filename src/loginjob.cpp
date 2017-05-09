@@ -148,7 +148,7 @@ void LoginJob::doStart()
         || d->m_encryptionMode == SslV3_1 || d->m_encryptionMode == AnySslVersion) {
         d->sessionInternal()->startSsl(d->encryptionToSslVersion(d->m_encryptionMode));
     } else if (d->m_encryptionMode == TlsV1 && session()->allowsTls()) {
-        sendCommand("STARTTLS");
+        sendCommand(QByteArrayLiteral("STARTTLS"));
     } else {
         if (!d->authenticate()) {
             emitResult();
@@ -198,7 +198,7 @@ void LoginJob::handleResponse(const ServerResponse &r)
 
 bool LoginJobPrivate::selectAuthentication()
 {
-    QStringList availableModes = m_session->availableAuthModes();
+    const QStringList availableModes = m_session->availableAuthModes();
 
     if (availableModes.contains(QString::fromLatin1(authCommand(m_preferedAuthMode)))) {
         m_actualAuthMode = m_preferedAuthMode;
@@ -368,13 +368,13 @@ QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode) const
 {
     switch (mode) {
     case LoginJob::Plain:
-        return "PLAIN";
+        return QByteArrayLiteral("PLAIN");
     case LoginJob::Login:
-        return "LOGIN";
+        return QByteArrayLiteral("LOGIN");
     case LoginJob::CramMD5:
-        return "CRAM-MD5";
+        return QByteArrayLiteral("CRAM-MD5");
     case LoginJob::XOAuth:
-        return "XOAUTH";
+        return QByteArrayLiteral( "XOAUTH");
     default:
     case LoginJob::UnknownAuth:
         return ""; // Should not happen

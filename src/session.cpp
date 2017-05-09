@@ -169,7 +169,7 @@ void Session::openAndWait()
 
 void Session::close()
 {
-    d->sendData("QUIT");
+    d->sendData(QByteArrayLiteral("QUIT"));
     d->socketDisconnected();
 }
 
@@ -232,8 +232,8 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
         } else if (r.text() == "STARTTLS") {
             m_allowsTls = true;
         } else if (r.text().startsWith("AUTH ")) { //krazy:exclude=strings
-            QList<QByteArray> modes = r.text().remove(0, QByteArray("AUTH ").count()).split(' ');
-            foreach (const QByteArray &mode, modes) {
+            const QList<QByteArray> modes = r.text().remove(0, QByteArray("AUTH ").count()).split(' ');
+            for (const QByteArray &mode : modes) {
                 QString m = QString::fromLatin1(mode);
                 if (!m_authModes.contains(m)) {
                     m_authModes.append(m);

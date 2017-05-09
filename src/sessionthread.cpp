@@ -49,6 +49,8 @@ SessionThread::SessionThread(const QString &hostName, quint16 port, Session *ses
         m_logFile = new QFile(filename);
         if (!m_logFile->open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             qCWarning(KSMTP_LOG) << "Failed to open log file" << filename << ":" << m_logFile->errorString();
+            delete m_logFile;
+            m_logFile = nullptr;
         }
     }
 }
