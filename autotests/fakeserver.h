@@ -33,7 +33,7 @@ class FakeServer : public QThread
     Q_OBJECT
 
 public:
-    FakeServer(QObject *parent = nullptr);
+    explicit FakeServer(QObject *parent = nullptr);
     ~FakeServer() Q_DECL_OVERRIDE;
 
     void startAndWait();

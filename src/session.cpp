@@ -282,8 +282,8 @@ void SessionPrivate::addJob(Job *job)
     m_queue.append(job);
     //Q_EMIT q->jobQueueSizeChanged( q->jobQueueSize() );
 
-    connect(job, SIGNAL(result(KJob *)), SLOT(jobDone(KJob *)));
-    connect(job, SIGNAL(destroyed(QObject *)), SLOT(jobDestroyed(QObject *)));
+    connect(job, &KJob::result, this, &SessionPrivate::jobDone);
+    connect(job, &KJob::destroyed, this, &SessionPrivate::jobDestroyed);
 
     if (m_state != Session::Disconnected) {
         startNext();
