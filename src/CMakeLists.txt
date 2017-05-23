@@ -1,4 +1,4 @@
-include_directories(${Sasl2_INCLUDE_DIRECTORY})
+include_directories(${Sasl2_INCLUDE_DIRS})
 
 set(ksmtp_SRCS
     job.cpp
