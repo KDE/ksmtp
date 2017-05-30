@@ -192,7 +192,7 @@ void SessionPrivate::sendData(const QByteArray &data)
 
 void SessionPrivate::responseReceived(const ServerResponse &r)
 {
-    //qCDebug(KSMTP_LOG) << "S:: [" << r.code() << "] " << r.text();
+    //qCDebug(KSMTP_LOG) << "S:: [" << r.code() << "]" << (r.isMultiline() ? "-" : " ") << r.text();
 
     if (m_state == Session::Handshake) {
         if (r.isCode(500) || r.isCode(502)) {
@@ -204,11 +204,27 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
                 m_thread->closeSocket();
                 return;
             }
-        }
+        } else if (r.isCode(25)) {
+            if (r.text().startsWith("SIZE ")) { //krazy:exclude=strings
+                m_size = r.text().remove(0, QByteArray("SIZE ").count()).toInt();
+            } else if (r.text() == "STARTTLS") {
+                m_allowsTls = true;
+            } else if (r.text().startsWith("AUTH ")) { //krazy:exclude=strings
+                const QList<QByteArray> modes = r.text().remove(0, QByteArray("AUTH ").count()).split(' ');
+                for (const QByteArray &mode : modes) {
+                    QString m = QString::fromLatin1(mode);
+                    if (!m_authModes.contains(m)) {
+                        m_authModes.append(m);
+                    }
+                }
+            }
 
-        if (r.isCode(25)) {
-            setState(Session::NotAuthenticated);
-            return;
+            if (r.isMultiline()) {
+                // There will be more EHLO/HELO responses, let's wait for them
+                return;
+            } else {
+                setState(Session::NotAuthenticated);
+            }
         }
     }
 
@@ -223,22 +239,6 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
             setState(Session::Handshake);
             sendData(cmd + QUrl::toAce(m_thread->hostName()));
             return;
-        }
-    }
-
-    if (m_state == Session::NotAuthenticated && r.isCode(25)) {
-        if (r.text().startsWith("SIZE ")) { //krazy:exclude=strings
-            m_size = r.text().remove(0, QByteArray("SIZE ").count()).toInt();
-        } else if (r.text() == "STARTTLS") {
-            m_allowsTls = true;
-        } else if (r.text().startsWith("AUTH ")) { //krazy:exclude=strings
-            const QList<QByteArray> modes = r.text().remove(0, QByteArray("AUTH ").count()).split(' ');
-            for (const QByteArray &mode : modes) {
-                QString m = QString::fromLatin1(mode);
-                if (!m_authModes.contains(m)) {
-                    m_authModes.append(m);
-                }
-            }
         }
     }
 
@@ -285,7 +285,7 @@ void SessionPrivate::addJob(Job *job)
     connect(job, &KJob::result, this, &SessionPrivate::jobDone);
     connect(job, &KJob::destroyed, this, &SessionPrivate::jobDestroyed);
 
-    if (m_state != Session::Disconnected) {
+    if (m_state >= Session::NotAuthenticated) {
         startNext();
     } else {
         m_thread->reconnect();
@@ -403,7 +403,7 @@ bool ServerResponse::isCode(int other) const
         codeLength = 1;
     } else {
         while (otherCpy > 0) {
-            otherCpy = otherCpy / 10;
+            otherCpy /= 10;
             codeLength++;
         }
     }

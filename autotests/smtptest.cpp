@@ -114,7 +114,7 @@ void SmtpTest::testLoginJob_data()
     QTest::newRow("Login not supported") << scenario << "Login" << 0;
 
     scenario.clear();
-    scenario << FakeServer::greetingAndEhlo()
+    scenario << FakeServer::greetingAndEhlo(false)
              << "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
              << "S: 235 Authenticated";
     QTest::newRow("Auth not supported") << scenario << "Login" << 100;
@@ -170,13 +170,13 @@ void SmtpTest::testSendJob_data()
     QTest::addColumn<int>("errorCode");
 
     QList<QByteArray> scenario;
-    scenario << FakeServer::greetingAndEhlo()
+    scenario << FakeServer::greetingAndEhlo(false)
              << "C: MAIL FROM:<foo@bar.com>"
              << "S: 530 Not allowed";
     QTest::newRow("Send not allowed") << scenario << 100;
 
     scenario.clear();
-    scenario << FakeServer::greetingAndEhlo()
+    scenario << FakeServer::greetingAndEhlo(false)
              << "C: MAIL FROM:<foo@bar.com>"
              << "S: 250 ok"
              << "C: RCPT TO:<bar@foo.com>"

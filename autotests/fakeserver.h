@@ -40,7 +40,7 @@ public:
     void run() Q_DECL_OVERRIDE;
 
     static QByteArray greeting();
-    static QList<QByteArray> greetingAndEhlo();
+    static QList<QByteArray> greetingAndEhlo(bool multiline = true);
 
     void setScenario(const QList<QByteArray> &scenario);
     void addScenario(const QList<QByteArray> &scenario);

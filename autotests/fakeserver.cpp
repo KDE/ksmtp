@@ -34,11 +34,11 @@ QByteArray FakeServer::greeting()
     return "S: 220 localhost ESMTP xx777xx";
 }
 
-QList<QByteArray> FakeServer::greetingAndEhlo()
+QList<QByteArray> FakeServer::greetingAndEhlo(bool multiline)
 {
     return QList<QByteArray>() << greeting()
            << "C: EHLO 127.0.0.1"
-           << "S: 250 Localhost ready to roll";
+           << QByteArray("S: 250") + (multiline ? '-' : ' ') + "Localhost ready to roll";
 }
 
 FakeServer::~FakeServer()
