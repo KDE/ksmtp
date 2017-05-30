@@ -173,6 +173,7 @@ void Session::quit()
         return;
     }
 
+    d->setState(Quitting);
     d->sendData("QUIT");
 }
 
@@ -189,6 +190,7 @@ void Session::quitAndWait()
                     loop.quit();
                 }
             });
+    d->setState(Quitting);
     d->sendData("QUIT");
     loop.exec();
 }
@@ -213,6 +215,12 @@ void SessionPrivate::sendData(const QByteArray &data)
 void SessionPrivate::responseReceived(const ServerResponse &r)
 {
     //qCDebug(KSMTP_LOG) << "S:: [" << r.code() << "]" << (r.isMultiline() ? "-" : " ") << r.text();
+
+    if (m_state == Session::Quitting) {
+        m_thread->closeSocket();
+        return;
+    }
+
     if (m_state == Session::Handshake) {
         if (r.isCode(500) || r.isCode(502)) {
             if (!m_ehloRejected) {

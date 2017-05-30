@@ -41,7 +41,8 @@ public:
         Ready,            /**< (internal) */
         Handshake,        /**< (internal) */
         NotAuthenticated, /**< The Session is ready for login. @sa KSmtp::LoginJob */
-        Authenticated     /**< The Session is ready to send email. @sa KSmtp::SendJob */
+        Authenticated,    /**< The Session is ready to send email. @sa KSmtp::SendJob */
+        Quitting          /**< (internal) */
     };
 
     /**
