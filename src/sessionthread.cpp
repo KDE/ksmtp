@@ -184,7 +184,7 @@ ServerResponse SessionThread::parseResponse(const QByteArray &resp)
     }
 
     // RFC821, Appendix E
-    const bool multiline = (response.at(3) == ' ');
+    const bool multiline = (response.at(3) == '-');
 
     if (returnCode) {
         response = response.mid(4); // Keep the text part
