@@ -55,6 +55,8 @@ public:
         , m_preferedAuthMode(LoginJob::Login)
         , m_actualAuthMode(LoginJob::UnknownAuth)
         , m_encryptionMode(LoginJob::Unencrypted)
+        , m_saslConn(nullptr)
+        , m_saslClient(nullptr)
         , q(job)
     {
     }
