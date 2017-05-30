@@ -41,6 +41,14 @@ QList<QByteArray> FakeServer::greetingAndEhlo(bool multiline)
            << QByteArray("S: 250") + (multiline ? '-' : ' ') + "Localhost ready to roll";
 }
 
+QList<QByteArray> FakeServer::bye()
+{
+    return { "C: QUIT",
+             "S: 221 So long, and thanks for all the fish",
+             "X: "
+           };
+}
+
 FakeServer::~FakeServer()
 {
     quit();
@@ -156,6 +164,7 @@ bool FakeServer::isAllScenarioDone() const
 
     foreach (const QList<QByteArray> &scenario, m_scenarios) {
         if (!scenario.isEmpty()) {
+            qDebug() << scenario;
             return false;
         }
     }

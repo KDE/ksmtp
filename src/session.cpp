@@ -167,10 +167,30 @@ void Session::openAndWait()
     d->m_startLoop = nullptr;
 }
 
-void Session::close()
+void Session::quit()
 {
-    d->sendData(QByteArrayLiteral("QUIT"));
-    d->socketDisconnected();
+    if (d->m_state == Session::Disconnected) {
+        return;
+    }
+
+    d->sendData("QUIT");
+}
+
+void Session::quitAndWait()
+{
+    if (d->m_state == Session::Disconnected) {
+        return;
+    }
+
+    QEventLoop loop;
+    connect(this, &Session::stateChanged,
+            this, [&](Session::State state) {
+                if (state == Session::Disconnected) {
+                    loop.quit();
+                }
+            });
+    d->sendData("QUIT");
+    loop.exec();
 }
 
 void SessionPrivate::setState(Session::State s)
@@ -193,7 +213,6 @@ void SessionPrivate::sendData(const QByteArray &data)
 void SessionPrivate::responseReceived(const ServerResponse &r)
 {
     //qCDebug(KSMTP_LOG) << "S:: [" << r.code() << "]" << (r.isMultiline() ? "-" : " ") << r.text();
-
     if (m_state == Session::Handshake) {
         if (r.isCode(500) || r.isCode(502)) {
             if (!m_ehloRejected) {
@@ -201,7 +220,7 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
                 m_ehloRejected = true;
             } else {
                 qCWarning(KSMTP_LOG) << "KSmtp::Session: Handshake failed with both EHLO and HELO";
-                m_thread->closeSocket();
+                q->quit();
                 return;
             }
         } else if (r.isCode(25)) {

@@ -33,7 +33,8 @@ void SmtpTest::testHello_data()
     QList<QByteArray> scenario;
     scenario << FakeServer::greeting()
              << "C: EHLO 127.0.0.1"
-             << "S: 250 Localhost ready to roll";
+             << "S: 250 Localhost ready to roll"
+             << FakeServer::bye();
     QTest::newRow("EHLO OK") << scenario;
 
     scenario.clear();
@@ -41,7 +42,8 @@ void SmtpTest::testHello_data()
              << "C: EHLO 127.0.0.1"
              << "S: 500 Command was not recognized"
              << "C: HELO 127.0.0.1"
-             << "S: 250 Localhost ready to roll";
+             << "S: 250 Localhost ready to roll"
+             << FakeServer::bye();
     QTest::newRow("EHLO unknown") << scenario;
 
     scenario.clear();
@@ -49,7 +51,8 @@ void SmtpTest::testHello_data()
              << "C: EHLO 127.0.0.1"
              << "S: 502 Command not implemented"
              << "C: HELO 127.0.0.1"
-             << "S: 250 Localhost ready to roll";
+             << "S: 250 Localhost ready to roll"
+             << FakeServer::bye();
     QTest::newRow("EHLO not implemented") << scenario;
 
     scenario.clear();
@@ -57,7 +60,8 @@ void SmtpTest::testHello_data()
              << "C: EHLO 127.0.0.1"
              << "S: 502 Command not implemented"
              << "C: HELO 127.0.0.1"
-             << "S: 500 Command was not recognized";
+             << "S: 500 Command was not recognized"
+             << FakeServer::bye();
     QTest::newRow("ERROR") << scenario;
 
 }
@@ -77,6 +81,9 @@ void SmtpTest::testHello()
     QEXPECT_FAIL("ERROR" , "Expected failure if HELO command not recognized", Continue);
     QVERIFY2(session.state() == KSmtp::Session::NotAuthenticated, "Handshake failed");
 
+    session.quitAndWait();
+
+    QVERIFY(fakeServer.isAllScenarioDone());
     fakeServer.quit();
 }
 
@@ -92,7 +99,8 @@ void SmtpTest::testLoginJob_data()
     scenario << FakeServer::greetingAndEhlo()
              << "S: 250 AUTH PLAIN LOGIN"
              << "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
-             << "S: 235 Authenticated";
+             << "S: 235 Authenticated"
+             << FakeServer::bye();
     QTest::newRow("Plain auth ok") << scenario << "Plain" << 0;
 
     scenario.clear();
@@ -103,27 +111,33 @@ void SmtpTest::testLoginJob_data()
              << "C: bG9naW4="           // "login".toBase64()
              << "S: 334 UGFzc3dvcmQ6"   // "Password:".toBase64()
              << "C: cGFzc3dvcmQ="       // "password".toBase64()
-             << "S: 235 Authenticated";
+             << "S: 235 Authenticated"
+             << FakeServer::bye();
     QTest::newRow("Login auth ok") << scenario << "Login" << 0;
 
     scenario.clear();
     scenario << FakeServer::greetingAndEhlo()
              << "S: 250 AUTH PLAIN"
              << "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
-             << "S: 235 Authenticated";
+             << "S: 235 Authenticated"
+             << FakeServer::bye();
     QTest::newRow("Login not supported") << scenario << "Login" << 0;
 
     scenario.clear();
     scenario << FakeServer::greetingAndEhlo(false)
-             << "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
-             << "S: 235 Authenticated";
+             // The login job won't even try to send AUTH, because it does not
+             // have any mechanisms to use
+             //<< "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
+             //<< "S: 235 Authenticated"
+             << FakeServer::bye();
     QTest::newRow("Auth not supported") << scenario << "Login" << 100;
 
     scenario.clear();
     scenario << FakeServer::greetingAndEhlo()
              << "S: 250 AUTH PLAIN"
              << "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
-             << "S: 535 Authorization failed";
+             << "S: 535 Authorization failed"
+             << FakeServer::bye();
     QTest::newRow("Wrong password") << scenario << "Plain" << 100;
 }
 
@@ -160,6 +174,10 @@ void SmtpTest::testLoginJob()
     QEXPECT_FAIL("Wrong password" , "Expected failure if wrong password", Continue);
     QVERIFY2(session.state() == KSmtp::Session::Authenticated, "Authentication failed");
 
+    session.quitAndWait();
+
+    QVERIFY(fakeServer.isAllScenarioDone());
+
     fakeServer.quit();
 }
 
@@ -172,7 +190,8 @@ void SmtpTest::testSendJob_data()
     QList<QByteArray> scenario;
     scenario << FakeServer::greetingAndEhlo(false)
              << "C: MAIL FROM:<foo@bar.com>"
-             << "S: 530 Not allowed";
+             << "S: 530 Not allowed"
+             << FakeServer::bye();
     QTest::newRow("Send not allowed") << scenario << 100;
 
     scenario.clear();
@@ -185,7 +204,8 @@ void SmtpTest::testSendJob_data()
              << "S: 354 Ok go ahead"
              << "C: SKIP"
              << "C: ."
-             << "S: 250 Ok transfer done";
+             << "S: 250 Ok transfer done"
+             << FakeServer::bye();
     QTest::newRow("ok") << scenario << 0;
 
     scenario.clear();
@@ -215,6 +235,9 @@ void SmtpTest::testSendJob()
     // Checking job error code:
     QVERIFY2(send->error() == errorCode, "Unexpected LoginJob error code");
 
+    session.quitAndWait();
+
+    QVERIFY(fakeServer.isAllScenarioDone());
     fakeServer.quit();
 }
 

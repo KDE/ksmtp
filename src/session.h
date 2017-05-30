@@ -113,9 +113,28 @@ public:
     void openAndWait();
 
     /**
-      Closes the connection.
+      Requests the server to quit the connection.
+
+      This sends "QUIT" command to the server and will not close the connection until
+      it receives a response. That means you should not delete this object right after
+      calling close, instead wait for stateChanged() to change to Disconnected, or use
+      quitAndWait().
+
+      See RFC 821, Chapter 4.1.1, "QUIT".
+
+      @sa quitAndWait()
     */
-    void close();
+    void quit();
+
+    /**
+      Requests the server to quit the connection and blocks the execution until the
+      server replies and closes the connection.
+
+      See RFC 821, Chapter 4.1.1, "QUIT".
+
+      @sa quit()
+    */
+    void quitAndWait();
 
 Q_SIGNALS:
     void stateChanged(KSmtp::Session::State state);

@@ -41,6 +41,7 @@ public:
 
     static QByteArray greeting();
     static QList<QByteArray> greetingAndEhlo(bool multiline = true);
+    static QList<QByteArray> bye();
 
     void setScenario(const QList<QByteArray> &scenario);
     void addScenario(const QList<QByteArray> &scenario);
