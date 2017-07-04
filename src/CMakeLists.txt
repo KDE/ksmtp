@@ -31,7 +31,7 @@ PRIVATE
     KF5::KIOCore
     Qt5::Network
     ${Sasl2_LIBRARIES}
-    ${ws2_32}
+    ${extra_LIBS}
 )
 
 set_target_properties(KPimSMTP PROPERTIES
