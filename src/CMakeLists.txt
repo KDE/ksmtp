@@ -17,6 +17,11 @@ generate_export_header(KPimSMTP BASE_NAME ksmtp)
 
 add_library(KPim::SMTP ALIAS KPimSMTP)
 
+if (WIN32)
+    set(extra_LIBS ws2_32)
+endif()
+
+
 target_link_libraries(KPimSMTP
 PUBLIC
     KF5::Mime
@@ -26,6 +31,7 @@ PRIVATE
     KF5::KIOCore
     Qt5::Network
     ${Sasl2_LIBRARIES}
+    ${ws2_32}
 )
 
 set_target_properties(KPimSMTP PROPERTIES
