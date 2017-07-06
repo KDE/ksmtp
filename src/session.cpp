@@ -303,7 +303,6 @@ void SessionPrivate::encryptionNegotiationResult(bool encrypted, KTcpSocket::Ssl
     m_sslVersion = version;
 }
 
-
 void SessionPrivate::addJob(Job *job)
 {
     m_queue.append(job);

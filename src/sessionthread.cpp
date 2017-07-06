@@ -80,7 +80,7 @@ void SessionThread::sendData(const QByteArray &payload)
     }
 
     m_dataQueue.enqueue(payload + "\r\n");
-    QTimer::singleShot(0, this, SLOT(writeDataQueue()));
+    QTimer::singleShot(0, this, &SessionThread::writeDataQueue);
 }
 
 void SessionThread::writeDataQueue()
@@ -111,13 +111,13 @@ void SessionThread::readResponse()
     Q_EMIT responseReceived(response);
 
     if (m_socket->bytesAvailable()) {
-        QTimer::singleShot(0, this, SLOT(readResponse()));
+        QTimer::singleShot(0, this, &SessionThread::readResponse);
     }
 }
 
 void SessionThread::closeSocket()
 {
-    QTimer::singleShot(0, this, SLOT(doCloseSocket()));
+    QTimer::singleShot(0, this, &SessionThread::doCloseSocket);
 }
 
 void SessionThread::doCloseSocket()
