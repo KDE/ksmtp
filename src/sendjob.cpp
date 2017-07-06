@@ -198,7 +198,7 @@ bool SendJobPrivate::prepare()
 }
 
 
-void SendJob::setMessage(KMime::Message::Ptr message)
+void SendJob::setMessage(const KMime::Message::Ptr &message)
 {
     Q_D(SendJob);
     d->m_message = message;

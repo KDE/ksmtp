@@ -39,7 +39,7 @@ class KSMTP_EXPORT SendJob : public Job
 public:
     explicit SendJob(Session *session);
 
-    void setMessage(KMime::Message::Ptr message);
+    void setMessage(const KMime::Message::Ptr &message);
     int size() const;
 
 protected:
