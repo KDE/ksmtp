@@ -47,6 +47,7 @@ ecm_generate_headers(KSMTP_CamelCase_HEADERS
     LoginJob
     SendJob
     Session
+    SessionUiProxy
     PREFIX KSMTP
 
     REQUIRED_HEADERS KSMTP_HEADERS
