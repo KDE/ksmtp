@@ -16,6 +16,7 @@ add_library(KPimSMTP ${ksmtp_SRCS})
 generate_export_header(KPimSMTP BASE_NAME ksmtp)
 
 add_library(KPim::SMTP ALIAS KPimSMTP)
+target_include_directories(KPimSMTP INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KSMTP;${KDE_INSTALL_INCLUDEDIR}/KPim/KSMTP/ksmtp>")
 
 if (WIN32)
     set(extra_LIBS ws2_32)
