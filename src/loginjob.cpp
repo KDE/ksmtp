@@ -359,6 +359,8 @@ LoginJob::AuthMode LoginJobPrivate::authModeFromCommand(const QByteArray &mech) 
         return LoginJob::Login;
     } else if (qstrnicmp(mech.constData(), "CRAM-MD5", 8) == 0) {
         return LoginJob::CramMD5;
+    } else if (qstrnicmp(mech.constData(), "DIGEST-MD5", 10) == 0) {
+        return LoginJob::DigestMD5;
     } else if (qstrnicmp(mech.constData(), "XOAUTH", 6) == 0) {
         return LoginJob::XOAuth;
     } else {
@@ -375,6 +377,8 @@ QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode) const
         return QByteArrayLiteral("LOGIN");
     case LoginJob::CramMD5:
         return QByteArrayLiteral("CRAM-MD5");
+    case LoginJob::DigestMD5:
+        return QByteArrayLiteral("DIGEST-MD5");
     case LoginJob::XOAuth:
         return QByteArrayLiteral( "XOAUTH");
     default:

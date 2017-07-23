@@ -49,6 +49,7 @@ public:
         Plain,
         Login,
         CramMD5,
+        DigestMD5,
         XOAuth
         //TODO: Support other authentication modes
     };
