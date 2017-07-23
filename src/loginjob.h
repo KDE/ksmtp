@@ -50,8 +50,10 @@ public:
         Login,
         CramMD5,
         DigestMD5,
+        NTLM,
+        GSSAPI,
+        Anonymous,
         XOAuth
-        //TODO: Support other authentication modes
     };
 
     explicit LoginJob(Session *session);

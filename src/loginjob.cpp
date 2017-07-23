@@ -361,6 +361,12 @@ LoginJob::AuthMode LoginJobPrivate::authModeFromCommand(const QByteArray &mech) 
         return LoginJob::CramMD5;
     } else if (qstrnicmp(mech.constData(), "DIGEST-MD5", 10) == 0) {
         return LoginJob::DigestMD5;
+    } else if (qstrnicmp(mech.constData(), "GSSAPI", 6) == 0) {
+        return LoginJob::GSSAPI;
+    } else if (qstrnicmp(mech.constData(), "NTLM", 4) == 0) {
+        return LoginJob::NTLM;
+    } else if (qstrnicmp(mech.constData(), "ANONYMOUS", 9) == 0) {
+        return LoginJob::Anonymous;
     } else if (qstrnicmp(mech.constData(), "XOAUTH", 6) == 0) {
         return LoginJob::XOAuth;
     } else {
@@ -379,6 +385,12 @@ QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode) const
         return QByteArrayLiteral("CRAM-MD5");
     case LoginJob::DigestMD5:
         return QByteArrayLiteral("DIGEST-MD5");
+    case LoginJob::GSSAPI:
+        return QByteArrayLiteral("GSSAPI");
+    case LoginJob::NTLM:
+        return QByteArrayLiteral("NTLM");
+    case LoginJob::Anonymous:
+        return QByteArrayLiteral("ANONYMOUS");
     case LoginJob::XOAuth:
         return QByteArrayLiteral( "XOAUTH");
     default:
