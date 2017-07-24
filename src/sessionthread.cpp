@@ -140,20 +140,22 @@ void SessionThread::run()
 {
     m_socket = new KTcpSocket;
 
-    connect(m_socket, SIGNAL(readyRead()),
-            this, SLOT(readResponse()), Qt::QueuedConnection);
+    connect(m_socket, &KTcpSocket::readyRead,
+            this, &SessionThread::readResponse, Qt::QueuedConnection);
 
-    connect(m_socket, SIGNAL(disconnected()),
-            m_parentSession->d, SLOT(socketDisconnected()));
+    connect(m_socket, &KTcpSocket::disconnected,
+            m_parentSession->d, &SessionPrivate::socketDisconnected);
+    connect(m_socket, &KTcpSocket::connected,
+            m_parentSession->d, &SessionPrivate::socketConnected);
+    connect(m_socket, static_cast<void(KTcpSocket::*)(KTcpSocket::Error)>(&KTcpSocket::error),
+            this, [this](KTcpSocket::Error err) {
+                qCWarning(KSMTP_LOG) << "Socket error:" << err << m_socket->errorString();
+            });
+    connect(this, &SessionThread::encryptionNegotiationResult,
+            m_parentSession->d, &SessionPrivate::encryptionNegotiationResult);
 
-    connect(m_socket, SIGNAL(connected()),
-            m_parentSession->d, SLOT(socketConnected()));
-
-    connect(this, SIGNAL(encryptionNegotiationResult(bool,KTcpSocket::SslVersion)),
-            m_parentSession->d, SLOT(encryptionNegotiationResult(bool,KTcpSocket::SslVersion)));
-
-    connect(this, SIGNAL(responseReceived(ServerResponse)),
-            m_parentSession->d, SLOT(responseReceived(ServerResponse)));
+    connect(this, &SessionThread::responseReceived,
+            m_parentSession->d, &SessionPrivate::responseReceived);
 
     exec();
 

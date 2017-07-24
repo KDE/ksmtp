@@ -58,15 +58,16 @@ public:
 public Q_SLOTS:
     void handleSslError(const KSslErrorUiData &data);
 
+    void socketDisconnected();
+    void encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version);
+    void responseReceived(const ServerResponse &response);
+    void socketConnected();
+
 private Q_SLOTS:
     void doStartNext();
     void jobDone(KJob *job);
     void jobDestroyed(QObject *job);
 
-    void responseReceived(const ServerResponse &response);
-    void socketConnected();
-    void socketDisconnected();
-    void encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version);
     void onSocketTimeout();
 
 private:

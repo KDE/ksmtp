@@ -30,6 +30,7 @@ namespace KSmtp
 {
 
 class SessionPrivate;
+class SessionThread;
 
 class KSMTP_EXPORT Session : public QObject
 {
@@ -44,6 +45,7 @@ public:
         Authenticated,    /**< The Session is ready to send email. @sa KSmtp::SendJob */
         Quitting          /**< (internal) */
     };
+    Q_ENUM(State)
 
     /**
       Creates a new Smtp session to the specified host and port.
