@@ -39,7 +39,42 @@ class KSMTP_EXPORT SendJob : public Job
 public:
     explicit SendJob(Session *session);
 
+    /**
+     * Set the sender email address
+     */
+    void setFrom(const QString &from);
+
+    /**
+     * Add recipients.
+     *
+     */
+    void setTo(const QStringList &to);
+
+    /**
+     * Add recipients.
+     */
+    void setCc(const QStringList &cc);
+
+    /**
+     * Add recipients.
+     */
+    void setBcc(const QStringList &bcc);
+
+    /**
+     * Set the actual message data.
+     */
+    void setData(const QByteArray &data);
+
+    /**
+     * Set a message. Sender, recipients and the data will be extracted
+     * from the message, so it is not necessary to call setFrom(), setTo(),
+     * etc. after this.
+     */
     void setMessage(const KMime::Message::Ptr &message);
+
+    /**
+     * Returns size of the encoded message data.
+     */
     int size() const;
 
 protected:

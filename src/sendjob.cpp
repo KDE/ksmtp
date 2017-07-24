@@ -48,6 +48,7 @@ public:
     SendJob *q;
 
     void sendNextRecipient();
+    void addRecipients(const QStringList &rcpts);
     bool prepare();
 
     typedef struct {
@@ -72,6 +73,42 @@ using namespace KSmtp;
 SendJob::SendJob(Session *session)
     : Job(*new SendJobPrivate(this, session, i18n("SendJob")))
 {
+}
+
+void SendJob::setFrom(const QString &from)
+{
+    Q_D(SendJob);
+    const auto start = from.indexOf(QLatin1Char('<'));
+    if (start > -1) {
+        const auto end = qMax(start, from.indexOf(QLatin1Char('>'), start));
+        d->m_returnPath = QStringLiteral("<%1>").arg(from.mid(start + 1, end - start - 1));
+    } else {
+        d->m_returnPath = QStringLiteral("<%1>").arg(from);
+    }
+}
+
+void SendJob::setTo(const QStringList &to)
+{
+    Q_D(SendJob);
+    d->addRecipients(to);
+}
+
+void SendJob::setCc(const QStringList &cc)
+{
+    Q_D(SendJob);
+    d->addRecipients(cc);
+}
+
+void SendJob::setBcc(const QStringList &bcc)
+{
+    Q_D(SendJob);
+    d->addRecipients(bcc);
+}
+
+void SendJob::setData(const QByteArray &data)
+{
+    Q_D(SendJob);
+    d->m_data = data;
 }
 
 void SendJob::doStart()
@@ -154,37 +191,59 @@ void SendJobPrivate::sendNextRecipient()
     q->sendCommand("RCPT TO:<" + m_recipientsCopy.takeFirst().toUtf8() + '>');
 }
 
+void SendJobPrivate::addRecipients(const QStringList &rcpts)
+{
+    for (const auto &rcpt : rcpts) {
+        if (rcpt.isEmpty()) {
+            continue;
+        }
+
+        const int start = rcpt.indexOf(QLatin1Char('<'));
+        if (start > -1) {
+            const int end = qMax(start, rcpt.indexOf(QLatin1Char('>'), start));
+            m_recipients.push_back(rcpt.mid(start + 1, end - start - 1));
+        } else {
+            m_recipients.push_back(rcpt);
+        }
+    }
+}
 
 bool SendJobPrivate::prepare()
 {
-    if (!m_message) {
+    if (!m_message && m_data.isEmpty()) {
         qCWarning(KSMTP_LOG) << "A message has to be set before starting a SendJob";
         return false;
     }
 
-    if (m_message->from()->isEmpty()) {
-        qCWarning(KSMTP_LOG) << "Message has no sender";
-        return false;
-    }
-
-    if (m_message->headerByType("Return-Path")) {
-        m_returnPath = m_message->headerByType("Return-Path")->asUnicodeString();
-    } else {
-        m_returnPath = m_message->from()->asUnicodeString();
-        if (m_returnPath.contains(QLatin1Char('<'))) {
-            m_returnPath = m_returnPath.split(QLatin1Char('<'))[1].split(QLatin1Char('>'))[0];
+    if (m_message) {
+        if (auto from = m_message->from(false)) {
+            if (from->isEmpty()) {
+                qCWarning(KSMTP_LOG) << "Message has no sender";
+                return false;
+            }
         }
-        m_returnPath = QStringLiteral("<%1>").arg(m_returnPath);
-    }
 
-    QStringList rec = m_message->to()->asUnicodeString().split(QStringLiteral(", ")) + m_message->cc()->asUnicodeString().split(QStringLiteral(", ")) + m_message->bcc()->asUnicodeString().split(QStringLiteral(", "));
-    rec.removeAll(QStringLiteral(""));
-    foreach (const QString &r, rec) {
-        if (r.contains(QLatin1Char('<'))) {
-            m_recipients.append(r.split(QLatin1Char('<'))[1].split(QLatin1Char('>'))[0]); //TODO: (CL) Replace by a regex
+        if (auto returnPath = m_message->headerByType("Return-Path")) {
+            m_returnPath = returnPath->asUnicodeString();
         } else {
-            m_recipients.append(r);
+            m_returnPath = m_message->from(false)->asUnicodeString();
+            if (m_returnPath.contains(QLatin1Char('<'))) {
+                m_returnPath = m_returnPath.split(QLatin1Char('<'))[1].split(QLatin1Char('>'))[0];
+            }
+            m_returnPath = QStringLiteral("<%1>").arg(m_returnPath);
         }
+
+        if (auto to = m_message->to(false)) {
+            addRecipients(to->asUnicodeString().split(QStringLiteral(", ")));
+        }
+        if (auto cc = m_message->cc(false)) {
+            addRecipients(cc->asUnicodeString().split(QStringLiteral(", ")));
+        }
+        if (auto bcc = m_message->bcc(false)) {
+            addRecipients(bcc->asUnicodeString().split(QStringLiteral(", ")));
+        }
+
+        m_data = m_message->encodedContent();
     }
     m_recipientsCopy = m_recipients;
 
@@ -193,7 +252,6 @@ bool SendJobPrivate::prepare()
         return false;
     }
 
-    m_data = m_message->encodedContent();
     return true;
 }
 
@@ -210,6 +268,7 @@ int SendJob::size() const
 
     if (d->m_message) {
         return d->m_message->encodedContent().size();
+    } else {
+        return d->m_data.size();
     }
-    return 0;
 }
