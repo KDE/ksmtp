@@ -22,6 +22,7 @@
 #include "sessionthread_p.h"
 #include "job.h"
 #include "serverresponse_p.h"
+#include "loginjob.h"
 #include "ksmtp_debug.h"
 
 #include <QHostAddress>
@@ -67,6 +68,17 @@ void SessionPrivate::handleSslError(const KSslErrorUiData &data)
         _t->handleSslErrorResponse(ignore);
     }
 }
+
+void SessionPrivate::setAuthenticationMethods(const QList<QByteArray> &authMethods)
+{
+    for (const QByteArray &method : authMethods) {
+        QString m = QString::fromLatin1(method);
+        if (!m_authModes.contains(m)) {
+            m_authModes.append(m);
+        }
+    }
+}
+
 
 
 Session::Session(const QString &hostName, quint16 port, QObject *parent)
@@ -197,6 +209,10 @@ void Session::quitAndWait()
 
 void SessionPrivate::setState(Session::State s)
 {
+    if (m_state == s) {
+        return;
+    }
+
     m_state = s;
     Q_EMIT q->stateChanged(m_state);
 
@@ -237,20 +253,12 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
             } else if (r.text() == "STARTTLS") {
                 m_allowsTls = true;
             } else if (r.text().startsWith("AUTH ")) { //krazy:exclude=strings
-                const QList<QByteArray> modes = r.text().remove(0, QByteArray("AUTH ").count()).split(' ');
-                for (const QByteArray &mode : modes) {
-                    QString m = QString::fromLatin1(mode);
-                    if (!m_authModes.contains(m)) {
-                        m_authModes.append(m);
-                    }
-                }
+                setAuthenticationMethods(r.text().remove(0, QByteArray("AUTH ").count()).split(' '));
             }
 
-            if (r.isMultiline()) {
-                // There will be more EHLO/HELO responses, let's wait for them
-                return;
-            } else {
+            if (!r.isMultiline()) {
                 setState(Session::NotAuthenticated);
+                startNext();
             }
         }
     }
@@ -276,7 +284,24 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
 
 void SessionPrivate::socketConnected()
 {
+    stopSocketTimer();
     setState(Session::Ready);
+
+    bool useSsl = false;
+    if (!m_queue.isEmpty()) {
+        if (auto login = qobject_cast<LoginJob*>(m_queue.first())) {
+            useSsl = login->encryptionMode() == LoginJob::SslV2
+                    || login->encryptionMode() == LoginJob::SslV3
+                    || login->encryptionMode() == LoginJob::SslV3_1
+                    || login->encryptionMode() == LoginJob::AnySslVersion;
+        }
+    }
+
+    if (q->state() == Session::Ready && useSsl) {
+        startNext();
+    } else {
+        startSocketTimer();
+    }
 }
 
 void SessionPrivate::socketDisconnected()
@@ -284,6 +309,17 @@ void SessionPrivate::socketDisconnected()
     qCDebug(KSMTP_LOG) << "Socket disconnected";
     setState(Session::Disconnected);
     m_thread->closeSocket();
+
+    if (m_currentJob) {
+        m_currentJob->connectionLost();
+    } else if (!m_queue.isEmpty()) {
+        m_currentJob = m_queue.takeFirst();
+        m_currentJob->connectionLost();
+    }
+
+    auto copy = m_queue;
+    qDeleteAll(copy);
+    m_queue.clear();
 }
 
 void SessionPrivate::startSsl(KTcpSocket::SslVersion version)

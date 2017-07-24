@@ -141,6 +141,7 @@ public:
 
 Q_SIGNALS:
     void stateChanged(KSmtp::Session::State state);
+    void connectionError(const QString &error);
 
 private:
     friend class SessionPrivate;

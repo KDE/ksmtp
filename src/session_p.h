@@ -62,6 +62,7 @@ public Q_SLOTS:
     void encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version);
     void responseReceived(const ServerResponse &response);
     void socketConnected();
+    void setAuthenticationMethods(const QList<QByteArray> &authMethods);
 
 private Q_SLOTS:
     void doStartNext();

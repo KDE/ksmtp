@@ -73,3 +73,9 @@ void Job::handleErrors(const ServerResponse &r)
     }
 }
 
+void Job::connectionLost()
+{
+    setError(KJob::UserDefinedError);
+    setErrorText(i18n("Connection to server lost."));
+    emitResult();
+}

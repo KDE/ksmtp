@@ -172,7 +172,8 @@ void LoginJob::handleResponse(const ServerResponse &r)
     }
 
     // Available authentication mechanisms
-    if (r.isCode(25) && r.text().startsWith("AUTH")) { //krazy:exclude=strings
+    if (r.isCode(25) && r.text().startsWith("AUTH ")) { //krazy:exclude=strings
+        d->sessionInternal()->setAuthenticationMethods(r.text().remove(0, QByteArray("AUTH ").count()).split(' '));
         d->authenticate();
         return;
     }

@@ -50,9 +50,11 @@ protected:
     virtual void doStart() = 0;
     virtual void handleResponse(const ServerResponse &response) = 0;
     void handleErrors(const ServerResponse &response);
+    void connectionLost();
 
     explicit Job(Session *session);
     explicit Job(JobPrivate &dd);
+
 
     JobPrivate *const d_ptr;
 };
