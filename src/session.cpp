@@ -165,6 +165,16 @@ int Session::socketTimeout() const
     return d->m_socketTimerInterval;
 }
 
+void Session::setCustomHostname(const QString &hostname)
+{
+    d->m_customHostname = hostname;
+}
+
+QString Session::customHostname() const
+{
+    return d->m_customHostname;
+}
+
 void Session::open()
 {
     QTimer::singleShot(0, d->m_thread, SLOT(reconnect()));
@@ -272,7 +282,8 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
                 cmd = "HELO ";
             }
             setState(Session::Handshake);
-            sendData(cmd + QUrl::toAce(m_thread->hostName()));
+            const auto hostname = m_customHostname.isEmpty() ? m_thread->hostName() : m_customHostname;
+            sendData(cmd + QUrl::toAce(hostname));
             return;
         }
     }

@@ -29,13 +29,14 @@
 void SmtpTest::testHello_data()
 {
     QTest::addColumn<QList<QByteArray> >("scenario");
+    QTest::addColumn<QString>("hostname");
 
     QList<QByteArray> scenario;
     scenario << FakeServer::greeting()
              << "C: EHLO 127.0.0.1"
              << "S: 250 Localhost ready to roll"
              << FakeServer::bye();
-    QTest::newRow("EHLO OK") << scenario;
+    QTest::newRow("EHLO OK") << scenario << QString();
 
     scenario.clear();
     scenario << FakeServer::greeting()
@@ -44,7 +45,7 @@ void SmtpTest::testHello_data()
              << "C: HELO 127.0.0.1"
              << "S: 250 Localhost ready to roll"
              << FakeServer::bye();
-    QTest::newRow("EHLO unknown") << scenario;
+    QTest::newRow("EHLO unknown") << scenario << QString();
 
     scenario.clear();
     scenario << FakeServer::greeting()
@@ -53,7 +54,7 @@ void SmtpTest::testHello_data()
              << "C: HELO 127.0.0.1"
              << "S: 250 Localhost ready to roll"
              << FakeServer::bye();
-    QTest::newRow("EHLO not implemented") << scenario;
+    QTest::newRow("EHLO not implemented") << scenario << QString();
 
     scenario.clear();
     scenario << FakeServer::greeting()
@@ -62,18 +63,26 @@ void SmtpTest::testHello_data()
              << "C: HELO 127.0.0.1"
              << "S: 500 Command was not recognized"
              << FakeServer::bye();
-    QTest::newRow("ERROR") << scenario;
+    QTest::newRow("ERROR") << scenario << QString();
 
+    scenario.clear();
+    scenario << FakeServer::greeting()
+             << "C: EHLO random.stranger"
+             << "S: 250 random.stranger ready to roll"
+             << FakeServer::bye();
+    QTest::newRow("EHLO hostname") << scenario << QStringLiteral("random.stranger");
 }
 
 void SmtpTest::testHello()
 {
     QFETCH(QList<QByteArray>, scenario);
+    QFETCH(QString, hostname);
 
     FakeServer fakeServer;
     fakeServer.setScenario(scenario);
     fakeServer.startAndWait();
     KSmtp::Session session(QStringLiteral("127.0.0.1"), 5989);
+    session.setCustomHostname(hostname);
     session.openAndWait();
 
     qDebug() << "### Session state is:" << session.state();

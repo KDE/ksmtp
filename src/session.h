@@ -97,6 +97,12 @@ public:
     void setSocketTimeout(int ms);
 
     /**
+     * Custom hostname to send in EHLO/HELO command
+     */
+    void setCustomHostname(const QString &hostname);
+    QString customHostname() const;
+
+    /**
       Opens the connection to the server.
 
       You should connect to stateChanged() before calling this method, and wait until the session's

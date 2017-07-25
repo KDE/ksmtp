@@ -99,6 +99,7 @@ private:
     int m_size;
     bool m_allowsTls;
     QStringList m_authModes;
+    QString m_customHostname;
 };
 
 }
