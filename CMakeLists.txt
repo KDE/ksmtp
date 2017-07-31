@@ -42,11 +42,7 @@ find_package(KF5Mime ${KMIME_LIB_VESRION} CONFIG REQUIRED)
 
 
 find_package(Sasl2)
-set_package_properties(Sasl2 PROPERTIES
-    DESCRIPTION "The Cyrus-sasl library"
-    URL "http://www.cyrussasl.org"
-    TYPE REQUIRED
-)
+set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
 
 ########### CMake Config Files ############
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPimSMTP")

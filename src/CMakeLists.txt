@@ -1,5 +1,3 @@
-include_directories(${Sasl2_INCLUDE_DIRS})
-
 set(ksmtp_SRCS
     job.cpp
     loginjob.cpp
@@ -31,7 +29,7 @@ PRIVATE
     KF5::I18n
     KF5::KIOCore
     Qt5::Network
-    ${Sasl2_LIBRARIES}
+    Sasl2::Sasl2
     ${extra_LIBS}
 )
 
