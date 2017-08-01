@@ -28,7 +28,7 @@ using namespace KSmtp;
 
 Job::Job(Session *session)
     : KJob(session),
-      d_ptr(new JobPrivate(session, i18n("Job")))
+      d_ptr(new JobPrivate(session, QStringLiteral("Job")))
 {
 }
 
