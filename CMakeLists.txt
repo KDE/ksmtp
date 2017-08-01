@@ -38,7 +38,7 @@ find_package(KF5CoreAddons ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5I18n ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5KIO ${KF5_VERSION} CONFIG REQUIRED)
 
-find_package(KF5Mime ${KMIME_LIB_VESRION} CONFIG REQUIRED)
+find_package(KF5Mime ${KMIME_LIB_VERSION} CONFIG REQUIRED)
 
 
 find_package(Sasl2)
