@@ -104,6 +104,9 @@ int main(int argc, char **argv)
             case KSmtp::Session::Ready:
                 std::cout << "Session in Ready state" << std::endl;
                 break;
+            case KSmtp::Session::Quitting:
+                //Internal (avoid compile warning)
+                break;
             case KSmtp::Session::NotAuthenticated: {
                 std::cout << "Session in NotAuthenticated state" << std::endl;
                 std::cout << "Available auth modes: ";
