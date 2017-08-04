@@ -178,6 +178,7 @@ QString Session::customHostname() const
 void Session::open()
 {
     QTimer::singleShot(0, d->m_thread, SLOT(reconnect()));
+    d->startSocketTimer();
 }
 
 void Session::openAndWait()
@@ -310,8 +311,6 @@ void SessionPrivate::socketConnected()
 
     if (q->state() == Session::Ready && useSsl) {
         startNext();
-    } else {
-        startSocketTimer();
     }
 }
 
