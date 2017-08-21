@@ -211,7 +211,7 @@ void SessionThread::sslConnected()
     QMutexLocker locker(&m_mutex);
     KSslCipher cipher = m_socket->sessionCipher();
 
-    if (m_socket->sslErrors().count() > 0 || m_socket->encryptionMode() != KTcpSocket::SslClientMode
+    if (!m_socket->sslErrors().isEmpty() || m_socket->encryptionMode() != KTcpSocket::SslClientMode
             || cipher.isNull() || cipher.usedBits() == 0) {
         qCDebug(KSMTP_LOG) << "Initial SSL handshake failed. cipher.isNull() is" << cipher.isNull()
                            << ", cipher.usedBits() is" << cipher.usedBits()
