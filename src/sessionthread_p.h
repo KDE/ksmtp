@@ -70,12 +70,12 @@ private Q_SLOTS:
 private:
     ServerResponse parseResponse(const QByteArray &response);
 
-    KTcpSocket *m_socket;
+    KTcpSocket *m_socket = nullptr;
     QMutex m_mutex;
     QQueue<QByteArray> m_dataQueue;
-    QFile *m_logFile;
+    QFile *m_logFile = nullptr;
 
-    Session *m_parentSession;
+    Session *m_parentSession = nullptr;
     QString m_hostName;
     quint16 m_port;
 };

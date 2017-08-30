@@ -42,7 +42,7 @@ public:
         return m_session->d;
     }
 
-    Session *m_session;
+    Session *m_session = nullptr;
     QString m_name;
 };
 

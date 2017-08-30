@@ -82,22 +82,22 @@ private:
 
     // Smtp session
     Session::State m_state;
-    SessionThread *m_thread;
+    SessionThread *m_thread = nullptr;
     SessionUiProxy::Ptr m_uiProxy;
-    int m_socketTimerInterval;
+    int m_socketTimerInterval = 0;
     QTimer m_socketTimer;
-    QEventLoop *m_startLoop;
+    QEventLoop *m_startLoop = nullptr;
     KTcpSocket::SslVersion m_sslVersion;
 
     // Jobs
-    bool m_jobRunning;
-    Job *m_currentJob;
+    bool m_jobRunning = false;
+    Job *m_currentJob = nullptr;
     QQueue<Job *> m_queue;
 
     // Smtp info
-    bool m_ehloRejected;
-    int m_size;
-    bool m_allowsTls;
+    bool m_ehloRejected = false;
+    int m_size = 0;
+    bool m_allowsTls = false;
     QStringList m_authModes;
     QString m_customHostname;
 };
