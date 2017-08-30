@@ -53,7 +53,7 @@ public:
       @sa open(), openAndWait()
     */
     explicit Session(const QString &hostName, quint16 port, QObject *parent = nullptr);
-    ~Session() Q_DECL_OVERRIDE;
+    ~Session() override;
 
     void setUiProxy(const SessionUiProxy::Ptr &uiProxy);
     SessionUiProxy::Ptr uiProxy() const;

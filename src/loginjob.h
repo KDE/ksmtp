@@ -57,7 +57,7 @@ public:
     };
 
     explicit LoginJob(Session *session);
-    ~LoginJob() Q_DECL_OVERRIDE;
+    ~LoginJob() override;
 
     void setUserName(const QString &userName);
     void setPassword(const QString &password);
@@ -69,8 +69,8 @@ public:
     EncryptionMode encryptionMode() const;
 
 protected:
-    void doStart() Q_DECL_OVERRIDE;
-    void handleResponse(const ServerResponse &r) Q_DECL_OVERRIDE;
+    void doStart() override;
+    void handleResponse(const ServerResponse &r) override;
 };
 
 }

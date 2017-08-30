@@ -39,7 +39,7 @@ class SessionThread : public QThread
 
 public:
     explicit SessionThread(const QString &hostName, quint16 port, Session *session);
-    ~SessionThread() Q_DECL_OVERRIDE;
+    ~SessionThread() override;
 
     QString hostName() const;
     quint16 port() const;
@@ -58,7 +58,7 @@ Q_SIGNALS:
     void sslError(const KSslErrorUiData &);
 
 protected:
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
 
 private Q_SLOTS:
     void sslConnected();

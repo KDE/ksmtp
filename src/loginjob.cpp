@@ -61,7 +61,7 @@ public:
     {
     }
 
-    ~LoginJobPrivate() Q_DECL_OVERRIDE { }
+    ~LoginJobPrivate() override { }
 
     bool sasl_interact();
     bool sasl_init();

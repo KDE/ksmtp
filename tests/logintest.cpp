@@ -32,7 +32,7 @@
 class SessionUiProxy : public KSmtp::SessionUiProxy
 {
 public:
-    bool ignoreSslError(const KSslErrorUiData &errorData) Q_DECL_OVERRIDE
+    bool ignoreSslError(const KSslErrorUiData &errorData) override
     {
         return KIO::SslUi::askIgnoreSslErrors(errorData);
     }

@@ -34,10 +34,10 @@ class FakeServer : public QThread
 
 public:
     explicit FakeServer(QObject *parent = nullptr);
-    ~FakeServer() Q_DECL_OVERRIDE;
+    ~FakeServer() override;
 
     void startAndWait();
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
 
     static QByteArray greeting();
     static QList<QByteArray> greetingAndEhlo(bool multiline = true);

@@ -40,10 +40,10 @@ class KSMTP_EXPORT Job : public KJob
     friend class SessionPrivate;
 
 public:
-    ~Job() Q_DECL_OVERRIDE;
+    ~Job() override;
 
     Session *session() const;
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
 protected:
     void sendCommand(const QByteArray &cmd);
