@@ -202,7 +202,7 @@ void SessionThread::startSsl(KTcpSocket::SslVersion version)
 
     m_socket->setAdvertisedSslVersion(version);
     m_socket->ignoreSslErrors();
-    connect(m_socket, SIGNAL(encrypted()), this, SLOT(sslConnected()));
+    connect(m_socket, &KTcpSocket::encrypted, this, &SessionThread::sslConnected);
     m_socket->startClientEncryption();
 }
 

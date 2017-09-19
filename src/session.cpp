@@ -177,7 +177,7 @@ QString Session::customHostname() const
 
 void Session::open()
 {
-    QTimer::singleShot(0, d->m_thread, SLOT(reconnect()));
+    QTimer::singleShot(0, d->m_thread, &SessionThread::reconnect);
     d->startSocketTimer();
 }
 
