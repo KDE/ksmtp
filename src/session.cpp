@@ -366,7 +366,7 @@ void SessionPrivate::addJob(Job *job)
 
 void SessionPrivate::startNext()
 {
-    QTimer::singleShot(0, this, SLOT(doStartNext()));
+    QTimer::singleShot(0, this, [this]() { doStartNext(); });
 }
 
 void SessionPrivate::doStartNext()
