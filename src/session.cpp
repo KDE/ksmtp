@@ -415,7 +415,7 @@ void SessionPrivate::startSocketTimer()
     }
     Q_ASSERT(!m_socketTimer.isActive());
 
-    connect(&m_socketTimer, SIGNAL(timeout()), SLOT(onSocketTimeout()));
+    connect(&m_socketTimer, &QTimer::timeout, this, &SessionPrivate::onSocketTimeout);
 
     m_socketTimer.setSingleShot(true);
     m_socketTimer.start(m_socketTimerInterval);
@@ -429,7 +429,7 @@ void SessionPrivate::stopSocketTimer()
     Q_ASSERT(m_socketTimer.isActive());
 
     m_socketTimer.stop();
-    disconnect(&m_socketTimer, SIGNAL(timeout()), this, SLOT(onSocketTimeout()));
+    disconnect(&m_socketTimer, &QTimer::timeout, this, &SessionPrivate::onSocketTimeout);
 }
 
 void SessionPrivate::restartSocketTimer()
