@@ -81,8 +81,8 @@ public:
     LoginJob::AuthMode m_actualAuthMode;
     LoginJob::EncryptionMode m_encryptionMode;
 
-    sasl_conn_t *m_saslConn;
-    sasl_interact_t *m_saslClient;
+    sasl_conn_t *m_saslConn = nullptr;
+    sasl_interact_t *m_saslClient = nullptr;
 
 private:
     LoginJob * const q;

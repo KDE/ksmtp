@@ -45,7 +45,7 @@ public:
     {
     }
 
-    SendJob *q;
+    SendJob *q = nullptr;
 
     void sendNextRecipient();
     void addRecipients(const QStringList &rcpts);
