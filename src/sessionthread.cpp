@@ -222,8 +222,6 @@ void SessionThread::sslConnected()
         Q_EMIT sslError(errorData);
     } else {
         qCDebug(KSMTP_LOG) << "TLS negotiation done.";
-
-        QMetaObject::invokeMethod(this, "sendData", Qt::QueuedConnection, Q_ARG(QByteArray, "EHLO " + QUrl::toAce(hostName())));
         Q_EMIT encryptionNegotiationResult(true, m_socket->negotiatedSslVersion());
     }
 }
