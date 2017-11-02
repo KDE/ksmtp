@@ -40,7 +40,7 @@ public:
         TlsV1,
         SslV2,
         SslV3,
-        SslV3_1,
+        TlsV1SslV3,
         AnySslVersion
     };
 

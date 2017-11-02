@@ -147,7 +147,7 @@ void LoginJob::doStart()
     }
 
     if (d->m_encryptionMode == SslV2 || d->m_encryptionMode == SslV3
-        || d->m_encryptionMode == SslV3_1 || d->m_encryptionMode == AnySslVersion) {
+        || d->m_encryptionMode == TlsV1SslV3 || d->m_encryptionMode == AnySslVersion) {
         d->sessionInternal()->startSsl(d->encryptionToSslVersion(d->m_encryptionMode));
     } else if (d->m_encryptionMode == TlsV1 && session()->allowsTls()) {
         sendCommand(QByteArrayLiteral("STARTTLS"));
@@ -403,15 +403,18 @@ QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode) const
 LoginJob::EncryptionMode LoginJobPrivate::sslVersionToEncryption(KTcpSocket::SslVersion version) const
 {
     switch (version) {
+    case KTcpSocket::TlsV1:
+        return LoginJob::TlsV1;
     case KTcpSocket::SslV2:
         return LoginJob::SslV2;
     case KTcpSocket::SslV3:
         return LoginJob::SslV3;
-    case KTcpSocket::SslV3_1:
-        return LoginJob::SslV3_1;
+    case KTcpSocket::TlsV1SslV3:
+        return LoginJob::TlsV1SslV3;
     case KTcpSocket::AnySslVersion:
         return LoginJob::AnySslVersion;
     default:
+        qCWarning(KSMTP_LOG) << "Unkown SSL version" << version;
         return LoginJob::Unencrypted;
     }
 }
@@ -423,8 +426,10 @@ KTcpSocket::SslVersion LoginJobPrivate::encryptionToSslVersion(LoginJob::Encrypt
         return KTcpSocket::SslV2;
     case LoginJob::SslV3:
         return KTcpSocket::SslV3;
-    case LoginJob::SslV3_1:
-        return KTcpSocket::SslV3_1;
+    case LoginJob::TlsV1SslV3:
+        return KTcpSocket::TlsV1SslV3;
+    case LoginJob::TlsV1:
+        return KTcpSocket::TlsV1;
     case LoginJob::AnySslVersion:
         return KTcpSocket::AnySslVersion;
     default:

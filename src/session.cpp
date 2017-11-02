@@ -304,7 +304,7 @@ void SessionPrivate::socketConnected()
         if (auto login = qobject_cast<LoginJob*>(m_queue.first())) {
             useSsl = login->encryptionMode() == LoginJob::SslV2
                     || login->encryptionMode() == LoginJob::SslV3
-                    || login->encryptionMode() == LoginJob::SslV3_1
+                    || login->encryptionMode() == LoginJob::TlsV1SslV3
                     || login->encryptionMode() == LoginJob::AnySslVersion;
         }
     }
