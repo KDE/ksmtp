@@ -8,7 +8,12 @@ option(RUN_UNINSTALL "test run uninstalled apps (experimental)" FALSE)
 set(KF5_VERSION "5.39.0")
 
 find_package(ECM ${KF5_VERSION} CONFIG REQUIRED)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${KSMTP_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
+# TODO: Remove the cmake directory when we'll require ECM >= 5.41.0
+if("${ECM_VERSION}" VERSION_LESS "5.41.0")
+  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${KSMTP_SOURCE_DIR}/cmake)
+endif()
 
 include(GenerateExportHeader)
 include(ECMGenerateHeaders)
