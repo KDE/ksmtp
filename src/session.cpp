@@ -23,6 +23,7 @@
 #include "job.h"
 #include "serverresponse_p.h"
 #include "loginjob.h"
+#include "sendjob.h"
 #include "ksmtp_debug.h"
 
 #include <QHostAddress>
@@ -380,6 +381,12 @@ void SessionPrivate::doStartNext()
 
     m_currentJob = m_queue.dequeue();
     m_currentJob->doStart();
+
+    // sending can take a while depending on bandwidth - don't fail with timeout
+    // if it takes longer
+    if (qobject_cast<const KSmtp::SendJob *>(m_currentJob)) {
+        stopSocketTimer();
+    }
 }
 
 void SessionPrivate::jobDone(KJob *job)
@@ -391,7 +398,9 @@ void SessionPrivate::jobDone(KJob *job)
     // here because the inactivity timer triggered, so no need to
     // stop it (it is single shot)
     if (m_state != Session::Disconnected) {
-        stopSocketTimer();
+        if (!qobject_cast<const KSmtp::SendJob *>(m_currentJob)) {
+            stopSocketTimer();
+        }
     }
 
     m_jobRunning = false;
