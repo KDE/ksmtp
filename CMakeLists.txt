@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-set(PIM_VERSION "5.7.0")
+set(PIM_VERSION "5.7.1")
 
 project(KSMTP VERSION ${PIM_VERSION})
 option(RUN_UNINSTALL "test run uninstalled apps (experimental)" FALSE)
