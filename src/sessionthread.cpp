@@ -149,8 +149,8 @@ void SessionThread::run()
             m_parentSession->d, &SessionPrivate::socketConnected);
     connect(m_socket, static_cast<void(KTcpSocket::*)(KTcpSocket::Error)>(&KTcpSocket::error),
             this, [this](KTcpSocket::Error err) {
-                qCWarning(KSMTP_LOG) << "Socket error:" << err;
-                Q_EMIT m_parentSession->connectionError(QString::number(err));
+                qCWarning(KSMTP_LOG) << "Socket error:" << err << m_socket->errorString();
+                Q_EMIT m_parentSession->connectionError(m_socket->errorString());
             });
     connect(this, &SessionThread::encryptionNegotiationResult,
             m_parentSession->d, &SessionPrivate::encryptionNegotiationResult);
