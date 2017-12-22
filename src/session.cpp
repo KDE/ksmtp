@@ -80,6 +80,19 @@ void SessionPrivate::setAuthenticationMethods(const QList<QByteArray> &authMetho
     }
 }
 
+void SessionPrivate::startHandshake()
+{
+    QByteArray cmd;
+    if (!m_ehloRejected) {
+         cmd = "EHLO ";
+    } else {
+         cmd = "HELO ";
+    }
+    setState(Session::Handshake);
+    const auto hostname = m_customHostname.isEmpty() ? m_thread->hostName() : m_customHostname;
+    sendData(cmd + QUrl::toAce(hostname));
+}
+
 
 
 Session::Session(const QString &hostName, quint16 port, QObject *parent)
@@ -277,15 +290,7 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
 
     if (m_state == Session::Ready) {
         if (r.isCode(22) || m_ehloRejected) {
-            QByteArray cmd;
-            if (!m_ehloRejected) {
-                cmd = "EHLO ";
-            } else {
-                cmd = "HELO ";
-            }
-            setState(Session::Handshake);
-            const auto hostname = m_customHostname.isEmpty() ? m_thread->hostName() : m_customHostname;
-            sendData(cmd + QUrl::toAce(hostname));
+            startHandshake();
             return;
         }
     }
@@ -346,7 +351,11 @@ KTcpSocket::SslVersion SessionPrivate::negotiatedEncryption() const
 
 void SessionPrivate::encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version)
 {
-    Q_UNUSED(encrypted);
+    if (encrypted) {
+        // Get the updated auth methods
+        startHandshake();
+    }
+
     m_sslVersion = version;
 }
 
