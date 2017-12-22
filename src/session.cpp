@@ -27,6 +27,7 @@
 #include "ksmtp_debug.h"
 
 #include <QHostAddress>
+#include <QHostInfo>
 #include <QUrl>
 #include <QEventLoop>
 #include <QPointer>
@@ -82,6 +83,18 @@ void SessionPrivate::setAuthenticationMethods(const QList<QByteArray> &authMetho
 
 void SessionPrivate::startHandshake()
 {
+    QString hostname = m_customHostname;
+
+    if (hostname.isEmpty()) {
+        // FIXME: QHostInfo::fromName can get a FQDN, but does a DNS lookup
+        hostname = QHostInfo::localHostName();
+        if (hostname.isEmpty()) {
+            hostname = QStringLiteral("localhost.invalid");
+        } else if (!hostname.contains(QLatin1Char('.'))) {
+            hostname += QStringLiteral(".localnet");
+        }
+    }
+
     QByteArray cmd;
     if (!m_ehloRejected) {
          cmd = "EHLO ";
@@ -89,7 +102,6 @@ void SessionPrivate::startHandshake()
          cmd = "HELO ";
     }
     setState(Session::Handshake);
-    const auto hostname = m_customHostname.isEmpty() ? m_thread->hostName() : m_customHostname;
     sendData(cmd + QUrl::toAce(hostname));
 }
 
