@@ -27,6 +27,7 @@
 #include "ksmtp_debug.h"
 
 #include <QHostAddress>
+#include <QHostInfo>
 #include <QUrl>
 #include <QEventLoop>
 #include <QPointer>
@@ -78,6 +79,30 @@ void SessionPrivate::setAuthenticationMethods(const QList<QByteArray> &authMetho
             m_authModes.append(m);
         }
     }
+}
+
+void SessionPrivate::startHandshake()
+{
+    QString hostname = m_customHostname;
+
+    if (hostname.isEmpty()) {
+        // FIXME: QHostInfo::fromName can get a FQDN, but does a DNS lookup
+        hostname = QHostInfo::localHostName();
+        if (hostname.isEmpty()) {
+            hostname = QStringLiteral("localhost.invalid");
+        } else if (!hostname.contains(QLatin1Char('.'))) {
+            hostname += QStringLiteral(".localnet");
+        }
+    }
+
+    QByteArray cmd;
+    if (!m_ehloRejected) {
+         cmd = "EHLO ";
+    } else {
+         cmd = "HELO ";
+    }
+    setState(Session::Handshake);
+    sendData(cmd + QUrl::toAce(hostname));
 }
 
 
@@ -277,15 +302,7 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
 
     if (m_state == Session::Ready) {
         if (r.isCode(22) || m_ehloRejected) {
-            QByteArray cmd;
-            if (!m_ehloRejected) {
-                cmd = "EHLO ";
-            } else {
-                cmd = "HELO ";
-            }
-            setState(Session::Handshake);
-            const auto hostname = m_customHostname.isEmpty() ? m_thread->hostName() : m_customHostname;
-            sendData(cmd + QUrl::toAce(hostname));
+            startHandshake();
             return;
         }
     }
@@ -346,7 +363,11 @@ KTcpSocket::SslVersion SessionPrivate::negotiatedEncryption() const
 
 void SessionPrivate::encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version)
 {
-    Q_UNUSED(encrypted);
+    if (encrypted) {
+        // Get the updated auth methods
+        startHandshake();
+    }
+
     m_sslVersion = version;
 }
 

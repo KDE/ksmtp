@@ -73,6 +73,7 @@ private Q_SLOTS:
 
 private:
 
+    void startHandshake();
     void startNext();
     void startSocketTimer();
     void stopSocketTimer();
