@@ -356,12 +356,8 @@ void SessionPrivate::socketDisconnected()
 
 void SessionPrivate::startSsl(KTcpSocket::SslVersion version)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-    QMetaObject::invokeMethod(m_thread, [this, version] {m_thread->startSsl(version); }, Qt::QueuedConnection);
-#else
     QMetaObject::invokeMethod(m_thread, "startSsl", Qt::QueuedConnection,
                               Q_ARG(KTcpSocket::SslVersion, version));
-#endif
 }
 
 KTcpSocket::SslVersion SessionPrivate::negotiatedEncryption() const
