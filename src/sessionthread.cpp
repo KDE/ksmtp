@@ -229,8 +229,12 @@ void SessionThread::sslConnected()
 
 void SessionThread::handleSslErrorResponse(bool ignoreError)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    QMetaObject::invokeMethod(this, [this, ignoreError] {doHandleSslErrorResponse(ignoreError); }, Qt::QueuedConnection);
+#else
     QMetaObject::invokeMethod(this, "doHandleSslErrorResponse", Qt::QueuedConnection,
                               Q_ARG(bool, ignoreError));
+#endif
 }
 
 void SessionThread::doHandleSslErrorResponse(bool ignoreError)
