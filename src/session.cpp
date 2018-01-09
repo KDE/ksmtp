@@ -261,12 +261,8 @@ void SessionPrivate::setState(Session::State s)
 
 void SessionPrivate::sendData(const QByteArray &data)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-    QMetaObject::invokeMethod(m_thread, [this, data] { sendData(data); }, Qt::QueuedConnection);
-#else
     QMetaObject::invokeMethod(m_thread, "sendData",
                               Qt::QueuedConnection, Q_ARG(QByteArray, data));
-#endif
 }
 
 void SessionPrivate::responseReceived(const ServerResponse &r)
