@@ -109,6 +109,9 @@ void SendJob::setData(const QByteArray &data)
 {
     Q_D(SendJob);
     d->m_data = data;
+    // A line with a single dot would make SMTP think "end of message", so use two dots in that case,
+    // as per https://tools.ietf.org/html/rfc5321#section-4.5.2
+    d->m_data.replace("\r\n.\r\n", "\r\n..\r\n");
 }
 
 void SendJob::doStart()
