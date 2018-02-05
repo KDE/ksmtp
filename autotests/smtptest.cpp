@@ -36,7 +36,7 @@ void SmtpTest::testHello_data()
              << "C: EHLO 127.0.0.1"
              << "S: 250 Localhost ready to roll"
              << FakeServer::bye();
-    QTest::newRow("EHLO OK") << scenario << QString();
+    QTest::newRow("EHLO OK") << scenario << QStringLiteral("127.0.0.1");
 
     scenario.clear();
     scenario << FakeServer::greeting()
@@ -45,7 +45,7 @@ void SmtpTest::testHello_data()
              << "C: HELO 127.0.0.1"
              << "S: 250 Localhost ready to roll"
              << FakeServer::bye();
-    QTest::newRow("EHLO unknown") << scenario << QString();
+    QTest::newRow("EHLO unknown") << scenario << QStringLiteral("127.0.0.1");
 
     scenario.clear();
     scenario << FakeServer::greeting()
@@ -54,7 +54,7 @@ void SmtpTest::testHello_data()
              << "C: HELO 127.0.0.1"
              << "S: 250 Localhost ready to roll"
              << FakeServer::bye();
-    QTest::newRow("EHLO not implemented") << scenario << QString();
+    QTest::newRow("EHLO not implemented") << scenario << QStringLiteral("127.0.0.1");
 
     scenario.clear();
     scenario << FakeServer::greeting()
@@ -63,7 +63,7 @@ void SmtpTest::testHello_data()
              << "C: HELO 127.0.0.1"
              << "S: 500 Command was not recognized"
              << FakeServer::bye();
-    QTest::newRow("ERROR") << scenario << QString();
+    QTest::newRow("ERROR") << scenario << QStringLiteral("127.0.0.1");
 
     scenario.clear();
     scenario << FakeServer::greeting()
@@ -167,6 +167,7 @@ void SmtpTest::testLoginJob()
     fakeServer.setScenario(scenario);
     fakeServer.startAndWait();
     KSmtp::Session session(QStringLiteral("127.0.0.1"), 5989);
+    session.setCustomHostname(QStringLiteral("127.0.0.1"));
     session.openAndWait();
 
     KSmtp::LoginJob *login = new KSmtp::LoginJob(&session);
@@ -230,6 +231,7 @@ void SmtpTest::testSendJob()
     fakeServer.setScenario(scenario);
     fakeServer.startAndWait();
     KSmtp::Session session(QStringLiteral("127.0.0.1"), 5989);
+    session.setCustomHostname(QStringLiteral("127.0.0.1"));
     session.openAndWait();
 
     KSmtp::SendJob *send = new KSmtp::SendJob(&session);
