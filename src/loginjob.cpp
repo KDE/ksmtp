@@ -394,10 +394,10 @@ QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode) const
         return QByteArrayLiteral("ANONYMOUS");
     case LoginJob::XOAuth:
         return QByteArrayLiteral( "XOAUTH");
-    default:
     case LoginJob::UnknownAuth:
         return ""; // Should not happen
     }
+    return {};
 }
 
 LoginJob::EncryptionMode LoginJobPrivate::sslVersionToEncryption(KTcpSocket::SslVersion version) const
