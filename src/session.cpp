@@ -131,6 +131,11 @@ Session::~Session()
 {
 }
 
+void Session::setUseNetworkProxy(bool useProxy)
+{
+    d->m_thread->setUseNetworkProxy(useProxy);
+}
+
 void Session::setUiProxy(const SessionUiProxy::Ptr &uiProxy)
 {
     d->m_uiProxy = uiProxy;

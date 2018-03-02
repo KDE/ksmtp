@@ -48,8 +48,9 @@ public:
     Q_ENUM(State)
 
     /**
-      Creates a new Smtp session to the specified host and port.
-      After creating the session, you should call either open() or openAndWait() to open the connection.
+      Creates a new SMTP session to the specified host and port.
+      After creating the session, call setUseProxy() if necessary
+      and then either open() or openAndWait() to open the connection.
       @sa open(), openAndWait()
     */
     explicit Session(const QString &hostName, quint16 port, QObject *parent = nullptr);
@@ -57,6 +58,13 @@ public:
 
     void setUiProxy(const SessionUiProxy::Ptr &uiProxy);
     SessionUiProxy::Ptr uiProxy() const;
+
+    /**
+      Sets whether the SMTP network connection should use the system proxy settings
+
+      The default is to not use the proxy.
+    */
+    void setUseNetworkProxy(bool useProxy);
 
     /**
       Returns the host name that has been provided in the Session's constructor
@@ -124,7 +132,7 @@ public:
     /**
       Requests the server to quit the connection.
 
-      This sends "QUIT" command to the server and will not close the connection until
+      This sends a "QUIT" command to the server and will not close the connection until
       it receives a response. That means you should not delete this object right after
       calling close, instead wait for stateChanged() to change to Disconnected, or use
       quitAndWait().

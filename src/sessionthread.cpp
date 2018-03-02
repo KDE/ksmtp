@@ -27,6 +27,7 @@
 #include <QUrl>
 #include <QFile>
 #include <QCoreApplication>
+#include <QNetworkProxy>
 
 using namespace KSmtp;
 
@@ -36,7 +37,8 @@ SessionThread::SessionThread(const QString &hostName, quint16 port, Session *ses
       m_logFile(nullptr),
       m_parentSession(session),
       m_hostName(hostName),
-      m_port(port)
+      m_port(port),
+      m_useProxy(false)
 {
     moveToThread(this);
 
@@ -132,6 +134,16 @@ void SessionThread::reconnect()
     if (m_socket->state() != KTcpSocket::ConnectedState &&
             m_socket->state() != KTcpSocket::ConnectingState) {
 
+        if (!m_useProxy) {
+            qCDebug(KSMTP_LOG) << "using no proxy";
+
+            QNetworkProxy proxy;
+            proxy.setType(QNetworkProxy::NoProxy);
+            m_socket->setProxy(proxy);
+        } else {
+            qCDebug(KSMTP_LOG) << "using default system proxy";
+        }
+
         m_socket->connectToHost(hostName(), port());
     }
 }
@@ -162,6 +174,13 @@ void SessionThread::run()
 
     delete m_socket;
 }
+
+
+void SessionThread::setUseNetworkProxy(bool useProxy)
+{
+    m_useProxy = useProxy;
+}
+
 
 ServerResponse SessionThread::parseResponse(const QByteArray &resp)
 {

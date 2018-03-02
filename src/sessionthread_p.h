@@ -44,6 +44,8 @@ public:
     QString hostName() const;
     quint16 port() const;
 
+    void setUseNetworkProxy(bool useProxy);
+
     void handleSslErrorResponse(bool ignoreError);
 
 public Q_SLOTS:
@@ -78,6 +80,7 @@ private:
     Session *m_parentSession = nullptr;
     QString m_hostName;
     quint16 m_port;
+    bool m_useProxy;
 };
 
 }
