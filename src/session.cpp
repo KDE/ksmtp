@@ -42,7 +42,7 @@ SessionPrivate::SessionPrivate(Session *session)
       q(session),
       m_state(Session::Disconnected),
       m_thread(nullptr),
-      m_socketTimerInterval(10000),
+      m_socketTimerInterval(60000),
       m_startLoop(nullptr),
       m_sslVersion(KTcpSocket::UnknownSslVersion),
       m_jobRunning(false),
