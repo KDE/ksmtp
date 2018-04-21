@@ -53,7 +53,7 @@ public:
         NTLM,
         GSSAPI,
         Anonymous,
-        XOAuth
+        XOAuth2
     };
 
     explicit LoginJob(Session *session);

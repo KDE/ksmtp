@@ -368,8 +368,8 @@ LoginJob::AuthMode LoginJobPrivate::authModeFromCommand(const QByteArray &mech) 
         return LoginJob::NTLM;
     } else if (qstrnicmp(mech.constData(), "ANONYMOUS", 9) == 0) {
         return LoginJob::Anonymous;
-    } else if (qstrnicmp(mech.constData(), "XOAUTH", 6) == 0) {
-        return LoginJob::XOAuth;
+    } else if (qstrnicmp(mech.constData(), "XOAUTH2", 7) == 0) {
+        return LoginJob::XOAuth2;
     } else {
         return LoginJob::UnknownAuth;
     }
@@ -392,8 +392,8 @@ QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode) const
         return QByteArrayLiteral("NTLM");
     case LoginJob::Anonymous:
         return QByteArrayLiteral("ANONYMOUS");
-    case LoginJob::XOAuth:
-        return QByteArrayLiteral( "XOAUTH");
+    case LoginJob::XOAuth2:
+        return QByteArrayLiteral("XOAUTH2");
     case LoginJob::UnknownAuth:
         return ""; // Should not happen
     }
