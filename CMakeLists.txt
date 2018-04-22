@@ -24,7 +24,6 @@ include(ECMCoverageOption)
 
 set(KSMTP_LIB_VERSION ${PIM_VERSION})
 set(QT5_REQUIRED_VERSION "5.8.0")
-set(KMIME_LIB_VERSION "5.8.0")
 ecm_setup_version(PROJECT VARIABLE_PREFIX KSMTP
     VERSION_HEADER ${KSMTP_BINARY_DIR}/ksmtp_version.h
     PACKAGE_VERSION_FILE ${KSMTP_BINARY_DIR}/KPimSMTPConfigVersion.cmake
@@ -38,9 +37,6 @@ find_package(Qt5Network ${QT_REQUIRED_VERSION} REQUIRED)
 find_package(KF5CoreAddons ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5I18n ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5KIO ${KF5_VERSION} CONFIG REQUIRED)
-
-find_package(KF5Mime ${KMIME_LIB_VERSION} CONFIG REQUIRED)
-
 
 find_package(Sasl2)
 set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)

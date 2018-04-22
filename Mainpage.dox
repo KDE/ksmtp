@@ -11,12 +11,12 @@
  * @code
  * void MyClass::login()
  * {
- *   m_session = new KSmtp::Session("smtp.gmail.com", 587, KSmtp::Session::StartAndWait, this);
+ *   m_session = new KSmtp::Session("smtp.example.com", 587, KSmtp::Session::StartAndWait, this);
  * 
  *   // Start authentication
  *   KSmtp::LoginJob* login = new KSmtp::LoginJob(m_session);
  *   login->setUseTls(true);
- * 	 login->setUserName("example@gmail.com");
+ * 	 login->setUserName("example@example.com");
  * 	 login->setPassword("password");
  * 	 connect(login, SIGNAL(result(KJob*)), this, SLOT(loginResult(KJob*)));
  * 	 login->start();
@@ -31,18 +31,22 @@
  * 
  *   // Create a new KMime::Message
  *   KMime::Message::Ptr msg(new KMime::Message());
- *   msg->from()->fromUnicodeString("sender@gmail.com", "utf-8");
+ *   msg->from()->fromUnicodeString("sender@example.com", "utf-8");
  * 	 msg->to()->fromUnicodeString("recipient@example.com", "utf-8");
  * 	 msg->subject()->fromUnicodeString("Hi there!", "utf-8");
  * 	 msg->contentType()->setMimeType("text/plain");
  * 	 msg->contentTransferEncoding()->setEncoding(KMime::Headers::CEquPr);
- * 
+ *
  * 	 // Assembles and encodes the message
  * 	 msg->assemble();
- * 
+ *   const QByteArray content = msg->encodedContent(true) + "\r\n";
+ *
  * 	 // Start sending the message
  * 	 KSmtp::SendJob* send = new KSmtp::SendJob(m_session);
- * 	 send->setMessage(msg);
+ * 	 send->setData(content);
+ *   send->setSender("sender@example.com");
+ *   send->setTo("recipient@example.com");
+ *   send->setBcc("hidden-recipient@example.com");
  * 	 connect(send, SIGNAL(result(KJob*)), SLOT(sendResult(KJob*)));
  * 	 send->start();
  * }
