@@ -24,6 +24,8 @@
 
 #include "job.h"
 
+#include <KMime/Message>
+
 namespace KSmtp
 {
 
@@ -62,6 +64,13 @@ public:
      * Set the actual message data.
      */
     void setData(const QByteArray &data);
+
+    /**
+     * Set a message. Sender, recipients and the data will be extracted
+     * from the message, so it is not necessary to call setFrom(), setTo(),
+     * etc. after this.
+     */
+    void setMessage(const KMime::Message::Ptr &message);
 
     /**
      * Returns size of the encoded message data.

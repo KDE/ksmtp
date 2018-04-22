@@ -23,6 +23,7 @@
 #include "ksmtp_debug.h"
 
 #include <KLocalizedString>
+#include <KMime/Util>
 
 namespace KSmtp
 {
@@ -59,6 +60,8 @@ public:
     QString m_returnPath;
     QStringList m_recipients;
     QByteArray m_data;
+
+    KMime::Message::Ptr m_message;
 
     QStringList m_recipientsCopy;
     Status m_status;
@@ -210,11 +213,41 @@ void SendJobPrivate::addRecipients(const QStringList &rcpts)
 
 bool SendJobPrivate::prepare()
 {
-    if (m_data.isEmpty()) {
+    if (!m_message && m_data.isEmpty()) {
         qCWarning(KSMTP_LOG) << "A message has to be set before starting a SendJob";
         return false;
     }
 
+    if (m_message) {
+        if (auto from = m_message->from(false)) {
+            if (from->isEmpty()) {
+                qCWarning(KSMTP_LOG) << "Message has no sender";
+                return false;
+            }
+        }
+
+        if (auto returnPath = m_message->headerByType("Return-Path")) {
+            m_returnPath = returnPath->asUnicodeString();
+        } else {
+            m_returnPath = m_message->from(false)->asUnicodeString();
+            if (m_returnPath.contains(QLatin1Char('<'))) {
+                m_returnPath = m_returnPath.split(QLatin1Char('<'))[1].split(QLatin1Char('>'))[0];
+            }
+            m_returnPath = QStringLiteral("<%1>").arg(m_returnPath);
+        }
+
+        if (auto to = m_message->to(false)) {
+            addRecipients(to->asUnicodeString().split(QStringLiteral(", ")));
+        }
+        if (auto cc = m_message->cc(false)) {
+            addRecipients(cc->asUnicodeString().split(QStringLiteral(", ")));
+        }
+        if (auto bcc = m_message->bcc(false)) {
+            addRecipients(bcc->asUnicodeString().split(QStringLiteral(", ")));
+        }
+
+        m_data = m_message->encodedContent();
+    }
     m_recipientsCopy = m_recipients;
 
     if (m_recipients.isEmpty()) {
@@ -226,9 +259,19 @@ bool SendJobPrivate::prepare()
 }
 
 
+void SendJob::setMessage(const KMime::Message::Ptr &message)
+{
+    Q_D(SendJob);
+    d->m_message = message;
+}
+
 int SendJob::size() const
 {
     Q_D(const SendJob);
 
-    return d->m_data.size();
+    if (d->m_message) {
+        return d->m_message->encodedContent().size();
+    } else {
+        return d->m_data.size();
+    }
 }
