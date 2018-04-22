@@ -212,7 +212,15 @@ void SmtpTest::testSendJob_data()
              << "S: 250 ok"
              << "C: DATA"
              << "S: 354 Ok go ahead"
-             << "C: SKIP"
+             << "C: From: foo@bar.com"
+             << "C: To: bar@foo.com"
+             << "C: Hello world."
+             << "C: .." // Single dot becomes two
+             << "C: .." // Single dot becomes two
+             << "C: ..." // Two dots become three
+             << "C: ..Foo"  // .Foo becomes ..Foo
+             << "C: End"
+             << "C: "
              << "C: ."
              << "S: 250 Ok transfer done"
              << FakeServer::bye();
@@ -235,16 +243,13 @@ void SmtpTest::testSendJob()
     session.openAndWait();
 
     KSmtp::SendJob *send = new KSmtp::SendJob(&session);
-
-    KMime::Message::Ptr m(new KMime::Message());
-    m->from()->fromUnicodeString(QStringLiteral("Foo Bar <foo@bar.com>"), "utf-8");
-    m->to()->fromUnicodeString(QStringLiteral("Bar Foo <bar@foo.com>"), "utf-8");
-    m->subject()->fromUnicodeString(QStringLiteral("Subject"), "utf-8");
-    send->setMessage(m);
+    send->setData("From: foo@bar.com\r\nTo: bar@foo.com\r\nHello world.\r\n.\r\n.\r\n..\r\n.Foo\r\nEnd");
+    send->setFrom(QStringLiteral("foo@bar.com"));
+    send->setTo({QStringLiteral("bar@foo.com")});
     send->exec();
 
     // Checking job error code:
-    QVERIFY2(send->error() == errorCode, "Unexpected LoginJob error code");
+    QVERIFY2(send->error() == errorCode, qPrintable(QStringLiteral("Unexpected LoginJob error: ") + send->errorString()));
 
     session.quitAndWait();
 
