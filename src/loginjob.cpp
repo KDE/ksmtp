@@ -123,6 +123,11 @@ void LoginJob::setPreferedAuthMode(AuthMode mode)
     d->m_preferedAuthMode = mode;
 }
 
+LoginJob::AuthMode LoginJob::usedAuthMode() const
+{
+    return d_func()->m_actualAuthMode;
+}
+
 void LoginJob::setEncryptionMode(EncryptionMode mode)
 {
     Q_D(LoginJob);
