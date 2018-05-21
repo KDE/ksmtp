@@ -56,6 +56,10 @@ public:
         XOAuth2
     };
 
+    enum LoginError {
+        TokenExpired = KJob::UserDefinedError + 1
+    };
+
     explicit LoginJob(Session *session);
     ~LoginJob() override;
 

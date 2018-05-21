@@ -25,6 +25,9 @@
 
 #include <KLocalizedString>
 
+#include <QJsonDocument>
+#include <QJsonObject>
+
 extern "C" {
 #include <sasl/sasl.h>
 }
@@ -240,17 +243,21 @@ bool LoginJobPrivate::sasl_interact()
     while (interact->id != SASL_CB_LIST_END) {
         qCDebug(KSMTP_LOG) << "SASL_INTERACT Id" << interact->id;
         switch (interact->id) {
-        case SASL_CB_AUTHNAME:
+        case SASL_CB_AUTHNAME: {
         //case SASL_CB_USER:
             qCDebug(KSMTP_LOG) << "SASL_CB_[USER|AUTHNAME]: '" << m_userName << "'";
-            interact->result = strdup(m_userName.toUtf8().constData());
-            interact->len = strlen((const char *) interact->result);
+            const auto username = m_userName.toUtf8();
+            interact->result = strdup(username.constData());
+            interact->len = username.size();
             break;
-        case SASL_CB_PASS:
+        }
+        case SASL_CB_PASS: {
             qCDebug(KSMTP_LOG) << "SASL_CB_PASS: [hidden]";
-            interact->result = strdup(m_password.toUtf8().constData());
-            interact->len = strlen((const char *) interact->result);
+            const auto pass = m_password.toUtf8();
+            interact->result = strdup(pass.constData());
+            interact->len = pass.size();
             break;
+        }
         default:
             interact->result = nullptr;
             interact->len = 0;
@@ -267,6 +274,21 @@ bool LoginJobPrivate::sasl_challenge(const QByteArray &challenge)
     int result = -1;
     const char *out = nullptr;
     uint outLen = 0;
+
+    if (m_actualAuthMode == LoginJob::XOAuth2) {
+        QJsonDocument doc = QJsonDocument::fromJson(challenge);
+        if (!doc.isNull() && doc.isObject()) {
+            const auto obj = doc.object();
+            if (obj.value(QLatin1String("status")).toString() == QLatin1String("400")) {
+                q->setError(LoginJob::TokenExpired);
+                q->setErrorText(i18n("Token expired"));
+                // https://developers.google.com/gmail/imap/xoauth2-protocol#error_response_2
+                // "The client sends an empty response ("\r\n") to the challenge containing the error message."
+                q->sendCommand("");
+                return false;
+            }
+        }
+    }
 
     Q_FOREVER {
         result = sasl_client_step(m_saslConn, challenge.isEmpty() ? nullptr : challenge.constData(),
