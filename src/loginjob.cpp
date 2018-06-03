@@ -163,6 +163,7 @@ void LoginJob::doStart()
         } else {
             qCWarning(KSMTP_LOG) << "STARTTLS not supported by the server!";
             setError(KJob::UserDefinedError);
+            setErrorText(i18n("STARTTLS is not supported by the server, try using SSL/TLS instead."));
             emitResult();
         }
     } else {
