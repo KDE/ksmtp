@@ -38,15 +38,15 @@ public:
     }
 };
 
-void login(KSmtp::Session *session, const QString &user, const QString &pass, bool tls, bool ssl)
+void login(KSmtp::Session *session, const QString &user, const QString &pass, bool ssltls, bool starttls)
 {
     auto login = new KSmtp::LoginJob(session);
     login->setUserName(user);
     login->setPassword(pass);
-    if (tls) {
-        login->setEncryptionMode(KSmtp::LoginJob::TlsV1);
-    } else if (ssl) {
-        login->setEncryptionMode(KSmtp::LoginJob::SslV3);
+    if (ssltls) {
+        login->setEncryptionMode(KSmtp::LoginJob::SSLorTLS);
+    } else if (starttls) {
+        login->setEncryptionMode(KSmtp::LoginJob::STARTTLS);
     }
     QObject::connect(
         login, &KJob::result,
@@ -65,20 +65,20 @@ void login(KSmtp::Session *session, const QString &user, const QString &pass, bo
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
-    
+
     QCommandLineParser parser;
     QCommandLineOption hostOption(QStringLiteral("host"), QString(), QStringLiteral("hostname"));
     QCommandLineOption portOption(QStringLiteral("port"), QString(), QStringLiteral("port"));
     QCommandLineOption userOption(QStringLiteral("user"), QString(), QStringLiteral("username"));
     QCommandLineOption passOption(QStringLiteral("pass"), QString(), QStringLiteral("password"));
-    QCommandLineOption tlsOption(QStringLiteral("tls"));
-    QCommandLineOption sslOption(QStringLiteral("ssl"));
+    QCommandLineOption sslTlsOption(QStringLiteral("sslTls"));
+    QCommandLineOption startTlsOption(QStringLiteral("starttls"));
     parser.addOption(hostOption);
     parser.addOption(portOption);
     parser.addOption(userOption);
     parser.addOption(passOption);
-    parser.addOption(tlsOption);
-    parser.addOption(sslOption);
+    parser.addOption(sslTlsOption);
+    parser.addOption(startTlsOption);
     parser.addHelpOption();
 
     parser.process(app);
@@ -103,6 +103,9 @@ int main(int argc, char **argv)
                 break;
             case KSmtp::Session::Ready:
                 std::cout << "Session in Ready state" << std::endl;
+                std::cout << std::endl;
+                login(&session, parser.value(userOption), parser.value(passOption),
+                      parser.isSet(sslTlsOption), parser.isSet(startTlsOption));
                 break;
             case KSmtp::Session::Quitting:
                 //Internal (avoid compile warning)
@@ -115,8 +118,6 @@ int main(int argc, char **argv)
                     std::cout << mode.toStdString() << " ";
                 }
                 std::cout << std::endl;
-                login(&session, parser.value(userOption), parser.value(passOption),
-                      parser.isSet(tlsOption), parser.isSet(sslOption));
             } break;
             case KSmtp::Session::Authenticated:
                 std::cout << "Session entered Authenticated state, we are done" << std::endl;
