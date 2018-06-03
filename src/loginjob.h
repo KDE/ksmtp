@@ -37,11 +37,6 @@ class KSMTP_EXPORT LoginJob : public Job
 public:
     enum EncryptionMode {
         Unencrypted,
-        TlsV1,      ///< @deprecated Use EncryptionModel::STARTTLS instead
-        SslV2,      ///< @deprecated Use EncryptionModel::SSLorTLS instead
-        SslV3,      ///< @deprecated Use EncryptionModel::SSLorTLS instead
-        TlsV1SslV3, ///< @deprecated Use EncryptionModel::SSLorTLS instead
-        AnySslVersion, ///< @deprecated Use EncryptionModel::SSLorTLS instead
         SSLorTLS,   ///< Use SSL/TLS encryption
         STARTTLS    ///< Use STARTTLS to upgrade an unencrypted connection to encrypted
     };

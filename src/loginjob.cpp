@@ -132,11 +132,6 @@ LoginJob::AuthMode LoginJob::usedAuthMode() const
 void LoginJob::setEncryptionMode(EncryptionMode mode)
 {
     Q_D(LoginJob);
-    if (mode == SslV2 || mode == SslV3 || mode == TlsV1SslV3 || mode == AnySslVersion) {
-        mode = SSLorTLS;
-    } else if (mode == TlsV1) {
-        mode = STARTTLS;
-    }
     d->m_encryptionMode = mode;
 }
 
