@@ -42,7 +42,7 @@ class KSMTP_EXPORT Job : public KJob
 public:
     ~Job() override;
 
-    Session *session() const;
+    Q_REQUIRED_RESULT Session *session() const;
     void start() override;
 
 protected:

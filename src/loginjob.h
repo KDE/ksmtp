@@ -64,10 +64,10 @@ public:
     void setPassword(const QString &password);
 
     void setPreferedAuthMode(AuthMode mode);
-    AuthMode usedAuthMode() const;
+    Q_REQUIRED_RESULT AuthMode usedAuthMode() const;
 
     void setEncryptionMode(EncryptionMode mode);
-    EncryptionMode encryptionMode() const;
+    Q_REQUIRED_RESULT EncryptionMode encryptionMode() const;
 
 protected:
     void doStart() override;

@@ -57,7 +57,7 @@ public:
     ~Session() override;
 
     void setUiProxy(const SessionUiProxy::Ptr &uiProxy);
-    SessionUiProxy::Ptr uiProxy() const;
+    Q_REQUIRED_RESULT SessionUiProxy::Ptr uiProxy() const;
 
     /**
       Sets whether the SMTP network connection should use the system proxy settings
@@ -70,15 +70,15 @@ public:
       Returns the host name that has been provided in the Session's constructor
       @sa port()
     */
-    QString hostName() const;
+    Q_REQUIRED_RESULT QString hostName() const;
 
     /**
       Returns the port number that has been provided in the Session's constructor
       @sa hostName()
     */
-    quint16 port() const;
+    Q_REQUIRED_RESULT quint16 port() const;
 
-    State state() const;
+    Q_REQUIRED_RESULT State state() const;
 
     /**
       Returns true if the SMTP server has indicated that it allows TLS connections, false otherwise.
@@ -87,28 +87,28 @@ public:
 
       @sa KSmtp::LoginJob::setUseTls()
     */
-    bool allowsTls() const;
+    Q_REQUIRED_RESULT bool allowsTls() const;
 
     /**
       @todo: return parsed auth modes, instead of strings.
     */
-    QStringList availableAuthModes() const;
+    Q_REQUIRED_RESULT QStringList availableAuthModes() const;
 
     /**
       Returns the maximum message size in bytes that the server accepts.
       You can use SendJob::size() to get the size of the message that you are trying to send
       @sa KSmtp::SendJob::size()
     */
-    int sizeLimit() const;
+    Q_REQUIRED_RESULT int sizeLimit() const;
 
-    int socketTimeout() const;
+    Q_REQUIRED_RESULT int socketTimeout() const;
     void setSocketTimeout(int ms);
 
     /**
      * Custom hostname to send in EHLO/HELO command
      */
     void setCustomHostname(const QString &hostname);
-    QString customHostname() const;
+    Q_REQUIRED_RESULT QString customHostname() const;
 
     /**
       Opens the connection to the server.

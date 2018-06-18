@@ -66,7 +66,7 @@ public:
     /**
      * Returns size of the encoded message data.
      */
-    int size() const;
+    Q_REQUIRED_RESULT int size() const;
 
 protected:
     void doStart() override;
