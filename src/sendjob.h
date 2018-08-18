@@ -24,9 +24,7 @@
 
 #include "job.h"
 
-namespace KSmtp
-{
-
+namespace KSmtp {
 class SendJobPrivate;
 
 class KSMTP_EXPORT SendJob : public Job
@@ -72,7 +70,6 @@ protected:
     void doStart() override;
     void handleResponse(const ServerResponse &r) override;
 };
-
 }
 
 #endif // KSMTP_SENDJOB_H

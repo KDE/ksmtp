@@ -31,9 +31,7 @@
 class KJob;
 class QEventLoop;
 
-namespace KSmtp
-{
-
+namespace KSmtp {
 class Job;
 class SessionThread;
 class ServerResponse;
@@ -102,7 +100,6 @@ private:
     QStringList m_authModes;
     QString m_customHostname;
 };
-
 }
 
 #endif //KSMTP_SESSION_P_H

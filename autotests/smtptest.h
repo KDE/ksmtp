@@ -22,7 +22,6 @@
 
 #include "QObject"
 
-
 class SmtpTest : public QObject
 {
     Q_OBJECT

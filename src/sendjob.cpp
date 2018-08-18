@@ -24,9 +24,7 @@
 
 #include <KLocalizedString>
 
-namespace KSmtp
-{
-
+namespace KSmtp {
 class SendJobPrivate : public JobPrivate
 {
 public:
@@ -38,9 +36,9 @@ public:
     };
 
     SendJobPrivate(SendJob *job, Session *session, const QString &name)
-        : JobPrivate(session, name),
-          q(job),
-          m_status(Idle)
+        : JobPrivate(session, name)
+        , q(job)
+        , m_status(Idle)
     {
     }
 
@@ -142,7 +140,6 @@ void SendJob::handleResponse(const ServerResponse &r)
     handleErrors(r);
 
     switch (d->m_status) {
-
     case SendJobPrivate::Idle:
         //TODO: anything to do here?
         break;
@@ -224,7 +221,6 @@ bool SendJobPrivate::prepare()
 
     return true;
 }
-
 
 int SendJob::size() const
 {

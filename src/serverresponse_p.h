@@ -21,14 +21,11 @@
 
 #include <QByteArray>
 
-namespace KSmtp
-{
-
+namespace KSmtp {
 class ServerResponse
 {
 public:
-    explicit ServerResponse(int code = 0, const QByteArray &text = QByteArray(),
-                            bool multiline = false);
+    explicit ServerResponse(int code = 0, const QByteArray &text = QByteArray(), bool multiline = false);
     int code() const;
     QByteArray text() const;
     bool isCode(int other) const;
@@ -40,7 +37,6 @@ private:
     int m_code;
     bool m_multiline;
 };
-
 }
 
 #endif //KSMTP_SERVERRESPONSE_P_H

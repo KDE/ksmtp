@@ -28,9 +28,7 @@
 
 class KSslErrorUiData;
 
-namespace KSmtp
-{
-
+namespace KSmtp {
 /** @short Interface to display communication errors and wait for user feedback. */
 class KSMTP_EXPORT SessionUiProxy
 {
@@ -63,7 +61,6 @@ public:
      */
     virtual bool ignoreSslError(const KSslErrorUiData &errorData) = 0;
 };
-
 }
 
 #endif

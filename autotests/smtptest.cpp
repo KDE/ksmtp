@@ -25,7 +25,6 @@
 #include "loginjob.h"
 #include "sendjob.h"
 
-
 void SmtpTest::testHello_data()
 {
     QTest::addColumn<QList<QByteArray> >("scenario");
@@ -87,7 +86,7 @@ void SmtpTest::testHello()
 
     qDebug() << "### Session state is:" << session.state();
 
-    QEXPECT_FAIL("ERROR" , "Expected failure if HELO command not recognized", Continue);
+    QEXPECT_FAIL("ERROR", "Expected failure if HELO command not recognized", Continue);
     QVERIFY2(session.state() == KSmtp::Session::NotAuthenticated, "Handshake failed");
 
     session.quitAndWait();
@@ -96,13 +95,11 @@ void SmtpTest::testHello()
     fakeServer.quit();
 }
 
-
 void SmtpTest::testLoginJob_data()
 {
     QTest::addColumn<QList<QByteArray> >("scenario");
     QTest::addColumn<QString>("authMode");
     QTest::addColumn<int>("errorCode");
-
 
     QList<QByteArray> scenario;
     scenario << FakeServer::greetingAndEhlo()
@@ -134,10 +131,10 @@ void SmtpTest::testLoginJob_data()
 
     scenario.clear();
     scenario << FakeServer::greetingAndEhlo(false)
-             // The login job won't even try to send AUTH, because it does not
-             // have any mechanisms to use
-             //<< "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
-             //<< "S: 235 Authenticated"
+        // The login job won't even try to send AUTH, because it does not
+        // have any mechanisms to use
+        //<< "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
+        //<< "S: 235 Authenticated"
              << FakeServer::bye();
     QTest::newRow("Auth not supported") << scenario << "Login" << 100;
 
@@ -180,8 +177,8 @@ void SmtpTest::testLoginJob()
     QVERIFY2(login->error() == errorCode, "Unexpected LoginJob error code");
 
     // Checking session state:
-    QEXPECT_FAIL("Auth not supported" , "Expected failure if not authentication method suported", Continue);
-    QEXPECT_FAIL("Wrong password" , "Expected failure if wrong password", Continue);
+    QEXPECT_FAIL("Auth not supported", "Expected failure if not authentication method suported", Continue);
+    QEXPECT_FAIL("Wrong password", "Expected failure if wrong password", Continue);
     QVERIFY2(session.state() == KSmtp::Session::Authenticated, "Authentication failed");
 
     session.quitAndWait();
@@ -190,7 +187,6 @@ void SmtpTest::testLoginJob()
 
     fakeServer.quit();
 }
-
 
 void SmtpTest::testSendJob_data()
 {
@@ -227,7 +223,6 @@ void SmtpTest::testSendJob_data()
     QTest::newRow("ok") << scenario << 0;
 
     scenario.clear();
-
 }
 
 void SmtpTest::testSendJob()
@@ -257,7 +252,6 @@ void SmtpTest::testSendJob()
     fakeServer.quit();
 }
 
-
 SmtpTest::SmtpTest()
 {
 }
@@ -269,6 +263,5 @@ void SmtpTest::initTestCase()
 void SmtpTest::cleanupTestCase()
 {
 }
-
 
 QTEST_MAIN(SmtpTest)

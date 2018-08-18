@@ -25,10 +25,7 @@
 
 #include <QObject>
 
-
-namespace KSmtp
-{
-
+namespace KSmtp {
 class SessionPrivate;
 class SessionThread;
 
@@ -164,7 +161,6 @@ private:
 
     SessionPrivate *const d;
 };
-
 }
 
 #endif // KSMTP_SESSION_H

@@ -24,9 +24,7 @@
 
 #include <KJob>
 
-namespace KSmtp
-{
-
+namespace KSmtp {
 class Session;
 class SessionPrivate;
 class JobPrivate;
@@ -55,10 +53,8 @@ protected:
     explicit Job(Session *session);
     explicit Job(JobPrivate &dd);
 
-
     JobPrivate *const d_ptr;
 };
-
 }
 
 #endif

@@ -27,13 +27,14 @@
 using namespace KSmtp;
 
 Job::Job(Session *session)
-    : KJob(session),
-      d_ptr(new JobPrivate(session, QStringLiteral("Job")))
+    : KJob(session)
+    , d_ptr(new JobPrivate(session, QStringLiteral("Job")))
 {
 }
 
 Job::Job(JobPrivate &dd)
-    : KJob(dd.m_session), d_ptr(&dd)
+    : KJob(dd.m_session)
+    , d_ptr(&dd)
 {
 }
 

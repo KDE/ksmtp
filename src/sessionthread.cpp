@@ -32,13 +32,13 @@
 using namespace KSmtp;
 
 SessionThread::SessionThread(const QString &hostName, quint16 port, Session *session)
-    : QThread(),
-      m_socket(nullptr),
-      m_logFile(nullptr),
-      m_parentSession(session),
-      m_hostName(hostName),
-      m_port(port),
-      m_useProxy(false)
+    : QThread()
+    , m_socket(nullptr)
+    , m_logFile(nullptr)
+    , m_parentSession(session)
+    , m_hostName(hostName)
+    , m_port(port)
+    , m_useProxy(false)
 {
     moveToThread(this);
 
@@ -46,8 +46,8 @@ SessionThread::SessionThread(const QString &hostName, quint16 port, Session *ses
     if (!logfile.isEmpty()) {
         static uint sSessionCount = 0;
         const QString filename = QStringLiteral("%1.%2.%3").arg(QString::fromUtf8(logfile))
-                                                           .arg(qApp->applicationPid())
-                                                           .arg(++sSessionCount);
+                                 .arg(qApp->applicationPid())
+                                 .arg(++sSessionCount);
         m_logFile = new QFile(filename);
         if (!m_logFile->open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             qCWarning(KSMTP_LOG) << "Failed to open log file" << filename << ":" << m_logFile->errorString();
@@ -131,9 +131,8 @@ void SessionThread::reconnect()
 {
     QMutexLocker locker(&m_mutex);
 
-    if (m_socket->state() != KTcpSocket::ConnectedState &&
-            m_socket->state() != KTcpSocket::ConnectingState) {
-
+    if (m_socket->state() != KTcpSocket::ConnectedState
+        && m_socket->state() != KTcpSocket::ConnectingState) {
         if (!m_useProxy) {
             qCDebug(KSMTP_LOG) << "using no proxy";
 
@@ -161,9 +160,9 @@ void SessionThread::run()
             m_parentSession->d, &SessionPrivate::socketConnected);
     connect(m_socket, QOverload<KTcpSocket::Error>::of(&KTcpSocket::error),
             this, [this](KTcpSocket::Error err) {
-                qCWarning(KSMTP_LOG) << "Socket error:" << err << m_socket->errorString();
-                Q_EMIT m_parentSession->connectionError(m_socket->errorString());
-            });
+        qCWarning(KSMTP_LOG) << "Socket error:" << err << m_socket->errorString();
+        Q_EMIT m_parentSession->connectionError(m_socket->errorString());
+    });
     connect(this, &SessionThread::encryptionNegotiationResult,
             m_parentSession->d, &SessionPrivate::encryptionNegotiationResult);
 
@@ -175,12 +174,10 @@ void SessionThread::run()
     delete m_socket;
 }
 
-
 void SessionThread::setUseNetworkProxy(bool useProxy)
 {
     m_useProxy = useProxy;
 }
-
 
 ServerResponse SessionThread::parseResponse(const QByteArray &resp)
 {
@@ -231,7 +228,7 @@ void SessionThread::sslConnected()
     KSslCipher cipher = m_socket->sessionCipher();
 
     if (!m_socket->sslErrors().isEmpty() || m_socket->encryptionMode() != KTcpSocket::SslClientMode
-            || cipher.isNull() || cipher.usedBits() == 0) {
+        || cipher.isNull() || cipher.usedBits() == 0) {
         qCDebug(KSMTP_LOG) << "Initial SSL handshake failed. cipher.isNull() is" << cipher.isNull()
                            << ", cipher.usedBits() is" << cipher.usedBits()
                            << ", the socket says:" <<  m_socket->errorString()
@@ -249,7 +246,9 @@ void SessionThread::sslConnected()
 void SessionThread::handleSslErrorResponse(bool ignoreError)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-    QMetaObject::invokeMethod(this, [this, ignoreError] {doHandleSslErrorResponse(ignoreError); }, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, [this, ignoreError] {
+        doHandleSslErrorResponse(ignoreError);
+    }, Qt::QueuedConnection);
 #else
     QMetaObject::invokeMethod(this, "doHandleSslErrorResponse", Qt::QueuedConnection,
                               Q_ARG(bool, ignoreError));

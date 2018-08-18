@@ -38,18 +38,18 @@ Q_DECLARE_METATYPE(KTcpSocket::SslVersion)
 Q_DECLARE_METATYPE(KSslErrorUiData)
 
 SessionPrivate::SessionPrivate(Session *session)
-    : QObject(session),
-      q(session),
-      m_state(Session::Disconnected),
-      m_thread(nullptr),
-      m_socketTimerInterval(60000),
-      m_startLoop(nullptr),
-      m_sslVersion(KTcpSocket::UnknownSslVersion),
-      m_jobRunning(false),
-      m_currentJob(nullptr),
-      m_ehloRejected(false),
-      m_size(0),
-      m_allowsTls(false)
+    : QObject(session)
+    , q(session)
+    , m_state(Session::Disconnected)
+    , m_thread(nullptr)
+    , m_socketTimerInterval(60000)
+    , m_startLoop(nullptr)
+    , m_sslVersion(KTcpSocket::UnknownSslVersion)
+    , m_jobRunning(false)
+    , m_currentJob(nullptr)
+    , m_ehloRejected(false)
+    , m_size(0)
+    , m_allowsTls(false)
 {
     qRegisterMetaType<KTcpSocket::SslVersion>();
     qRegisterMetaType<KSslErrorUiData>();
@@ -97,20 +97,17 @@ void SessionPrivate::startHandshake()
 
     QByteArray cmd;
     if (!m_ehloRejected) {
-         cmd = "EHLO ";
+        cmd = "EHLO ";
     } else {
-         cmd = "HELO ";
+        cmd = "HELO ";
     }
     setState(Session::Handshake);
     sendData(cmd + QUrl::toAce(hostname));
 }
 
-
-
 Session::Session(const QString &hostName, quint16 port, QObject *parent)
-    : QObject(parent),
-      d(new SessionPrivate(this))
-
+    : QObject(parent)
+    , d(new SessionPrivate(this))
 {
     qRegisterMetaType<ServerResponse>("ServerResponse");
 
@@ -240,10 +237,10 @@ void Session::quitAndWait()
     QEventLoop loop;
     connect(this, &Session::stateChanged,
             this, [&](Session::State state) {
-                if (state == Session::Disconnected) {
-                    loop.quit();
-                }
-            });
+        if (state == Session::Disconnected) {
+            loop.quit();
+        }
+    });
     d->setState(Quitting);
     d->sendData("QUIT");
     loop.exec();
@@ -267,7 +264,9 @@ void SessionPrivate::setState(Session::State s)
 void SessionPrivate::sendData(const QByteArray &data)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-    QMetaObject::invokeMethod(m_thread, [this, data] { m_thread->sendData(data); }, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(m_thread, [this, data] {
+        m_thread->sendData(data);
+    }, Qt::QueuedConnection);
 #else
     QMetaObject::invokeMethod(m_thread, "sendData",
                               Qt::QueuedConnection, Q_ARG(QByteArray, data));
@@ -328,7 +327,7 @@ void SessionPrivate::socketConnected()
 
     bool useSsl = false;
     if (!m_queue.isEmpty()) {
-        if (auto login = qobject_cast<LoginJob*>(m_queue.first())) {
+        if (auto login = qobject_cast<LoginJob *>(m_queue.first())) {
             useSsl = login->encryptionMode() == LoginJob::SSLorTLS;
         }
     }
@@ -359,7 +358,9 @@ void SessionPrivate::socketDisconnected()
 void SessionPrivate::startSsl(KTcpSocket::SslVersion version)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-    QMetaObject::invokeMethod(m_thread, [this, version] {m_thread->startSsl(version); }, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(m_thread, [this, version] {
+        m_thread->startSsl(version);
+    }, Qt::QueuedConnection);
 #else
     QMetaObject::invokeMethod(m_thread, "startSsl", Qt::QueuedConnection,
                               Q_ARG(KTcpSocket::SslVersion, version));
@@ -398,7 +399,9 @@ void SessionPrivate::addJob(Job *job)
 
 void SessionPrivate::startNext()
 {
-    QTimer::singleShot(0, this, [this]() { doStartNext(); });
+    QTimer::singleShot(0, this, [this]() {
+        doStartNext();
+    });
 }
 
 void SessionPrivate::doStartNext()
@@ -483,11 +486,10 @@ void SessionPrivate::onSocketTimeout()
     socketDisconnected();
 }
 
-
 ServerResponse::ServerResponse(int code, const QByteArray &text, bool multiline)
-    : m_text(text),
-      m_code(code),
-      m_multiline(multiline)
+    : m_text(text)
+    , m_code(code)
+    , m_multiline(multiline)
 {
 }
 

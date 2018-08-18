@@ -27,9 +27,7 @@
 #include <ktcpsocket.h>
 
 class QFile;
-namespace KSmtp
-{
-
+namespace KSmtp {
 class ServerResponse;
 class Session;
 
@@ -82,7 +80,6 @@ private:
     quint16 m_port;
     bool m_useProxy;
 };
-
 }
 
 #endif // KSMTP_SESSIONTHREAD_H

@@ -24,9 +24,7 @@
 
 #include "job.h"
 
-namespace KSmtp
-{
-
+namespace KSmtp {
 class LoginJobPrivate;
 
 class KSMTP_EXPORT LoginJob : public Job
@@ -73,7 +71,6 @@ protected:
     void doStart() override;
     void handleResponse(const ServerResponse &r) override;
 };
-
 }
 
 #endif // KSMTP_LOGINJOB_H

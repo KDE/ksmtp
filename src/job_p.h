@@ -21,16 +21,20 @@
 
 #include "session.h"
 
-namespace KSmtp
-{
-
+namespace KSmtp {
 class SessionPrivate;
 
 class JobPrivate
 {
 public:
-    JobPrivate(Session *session, const QString &name) : m_session(session), m_name(name) { }
-    virtual ~JobPrivate() { }
+    JobPrivate(Session *session, const QString &name) : m_session(session)
+        , m_name(name)
+    {
+    }
+
+    virtual ~JobPrivate()
+    {
+    }
 
     inline SessionPrivate *sessionInternal()
     {
@@ -45,7 +49,6 @@ public:
     Session *m_session = nullptr;
     QString m_name;
 };
-
 }
 
 #endif //KSMTP_JOB_P_H
