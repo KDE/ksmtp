@@ -65,10 +65,17 @@ void Job::handleErrors(const ServerResponse &r)
 {
     if (r.isCode(4) || r.isCode(5)) {
         setError(KJob::UserDefinedError);
-        if (r.isCode(4)) {
-            setErrorText(i18n("Server time out"));
+        // https://www.ietf.org/rfc/rfc2821.txt
+        // We could just use r.text(), but that might not be in the user's language, so try and prepend a translated message.
+        const QString serverText = QString::fromUtf8(r.text());
+        if (r.code() == 421) {
+            setErrorText(i18n("Service not available")); // e.g. the server is shutting down
+        } else if (r.code() == 450 || r.code() == 550) {
+            setErrorText(i18n("Mailbox unavailable. The server said: %1", serverText));
+        } else if (r.code() == 452 || r.code() == 552) {
+            setErrorText(i18n("Insufficient storage space on server. The server said: %1", serverText));
         } else {
-            setErrorText(i18n("Server error"));
+            setErrorText(i18n("Server error: %1", serverText));
         }
         emitResult();
     }
