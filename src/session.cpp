@@ -263,14 +263,9 @@ void SessionPrivate::setState(Session::State s)
 
 void SessionPrivate::sendData(const QByteArray &data)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     QMetaObject::invokeMethod(m_thread, [this, data] {
         m_thread->sendData(data);
     }, Qt::QueuedConnection);
-#else
-    QMetaObject::invokeMethod(m_thread, "sendData",
-                              Qt::QueuedConnection, Q_ARG(QByteArray, data));
-#endif
 }
 
 void SessionPrivate::responseReceived(const ServerResponse &r)
@@ -357,14 +352,9 @@ void SessionPrivate::socketDisconnected()
 
 void SessionPrivate::startSsl(KTcpSocket::SslVersion version)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     QMetaObject::invokeMethod(m_thread, [this, version] {
         m_thread->startSsl(version);
     }, Qt::QueuedConnection);
-#else
-    QMetaObject::invokeMethod(m_thread, "startSsl", Qt::QueuedConnection,
-                              Q_ARG(KTcpSocket::SslVersion, version));
-#endif
 }
 
 KTcpSocket::SslVersion SessionPrivate::negotiatedEncryption() const
