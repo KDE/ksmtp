@@ -4,9 +4,9 @@ set(PIM_VERSION "5.10.40")
 project(KSMTP VERSION ${PIM_VERSION})
 
 # ECM setup
-set(KF5_VERSION "5.53.0")
+set(KF5_MIN_VERSION "5.53.0")
 
-find_package(ECM ${KF5_VERSION} CONFIG REQUIRED)
+find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
@@ -34,9 +34,9 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KSMTP
 ############ Find packages ############
 find_package(Qt5Network ${QT_REQUIRED_VERSION} REQUIRED)
 
-find_package(KF5CoreAddons ${KF5_VERSION} CONFIG REQUIRED)
-find_package(KF5I18n ${KF5_VERSION} CONFIG REQUIRED)
-find_package(KF5KIO ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5CoreAddons ${KF5_MIN_VERSION} CONFIG REQUIRED)
+find_package(KF5I18n ${KF5_MIN_VERSION} CONFIG REQUIRED)
+find_package(KF5KIO ${KF5_MIN_VERSION} CONFIG REQUIRED)
 
 find_package(Sasl2)
 set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
