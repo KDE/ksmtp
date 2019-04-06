@@ -1,0 +1,12 @@
+name: ksmtp
+description: SMTP library
+public_lib: true
+group: kdepim
+platforms:
+    - name: Linux
+irc: kontact
+
+libraries:
+ - qmake: KSMTP
+   cmake: "KPim::SMTP"
+   cmakename: KPimSMTP"
