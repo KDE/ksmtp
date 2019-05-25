@@ -46,7 +46,7 @@ public:
 
     /**
       Creates a new SMTP session to the specified host and port.
-      After creating the session, call setUseProxy() if necessary
+      After creating the session, call setUseNetworkProxy() if necessary
       and then either open() or openAndWait() to open the connection.
       @sa open(), openAndWait()
     */
