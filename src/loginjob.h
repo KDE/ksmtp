@@ -26,7 +26,9 @@
 
 namespace KSmtp {
 class LoginJobPrivate;
-
+/**
+ * @brief The LoginJob class
+ */
 class KSMTP_EXPORT LoginJob : public Job
 {
     Q_OBJECT

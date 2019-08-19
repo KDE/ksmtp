@@ -28,7 +28,9 @@
 namespace KSmtp {
 class SessionPrivate;
 class SessionThread;
-
+/**
+ * @brief The Session class
+ */
 class KSMTP_EXPORT Session : public QObject
 {
     Q_OBJECT

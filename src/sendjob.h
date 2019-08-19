@@ -26,7 +26,9 @@
 
 namespace KSmtp {
 class SendJobPrivate;
-
+/**
+ * @brief The SendJob class
+ */
 class KSMTP_EXPORT SendJob : public Job
 {
     Q_OBJECT

@@ -29,7 +29,9 @@ class Session;
 class SessionPrivate;
 class JobPrivate;
 class ServerResponse;
-
+/**
+ * @brief The Job class
+ */
 class KSMTP_EXPORT Job : public KJob
 {
     Q_OBJECT
