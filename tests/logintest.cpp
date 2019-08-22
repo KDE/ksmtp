@@ -21,7 +21,7 @@
 #include "session.h"
 #include "sessionuiproxy.h"
 
-#include <QCoreApplication>
+#include <QApplication>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
@@ -64,7 +64,7 @@ void login(KSmtp::Session *session, const QString &user, const QString &pass, bo
 
 int main(int argc, char **argv)
 {
-    QCoreApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QCommandLineParser parser;
     QCommandLineOption hostOption(QStringLiteral("host"), QString(), QStringLiteral("hostname"));
@@ -91,6 +91,7 @@ int main(int argc, char **argv)
 
     KSmtp::Session session(parser.value(hostOption),
                            parser.value(portOption).toUInt());
+    session.setUiProxy(SessionUiProxy::Ptr(new SessionUiProxy));
     QObject::connect(
         &session, &KSmtp::Session::stateChanged,
         [&](KSmtp::Session::State state) {
