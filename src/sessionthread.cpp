@@ -206,7 +206,7 @@ ServerResponse SessionThread::parseResponse(const QByteArray &resp)
     const bool multiline = (response.at(3) == '-');
 
     if (returnCode) {
-        response = response.mid(4); // Keep the text part
+        response.remove(0, 4); // Keep the text part
     }
 
     return ServerResponse(returnCode, response, multiline);
