@@ -52,7 +52,10 @@ configure_package_config_file(
 )
 
 add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp5\")
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
+if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
+   add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
+endif()
+
 add_definitions(-DQT_NO_FOREACH)
 
 
