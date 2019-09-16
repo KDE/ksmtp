@@ -143,13 +143,13 @@ void LoginJob::doStart()
     Q_D(LoginJob);
 
     const auto negotiatedEnc = d->sessionInternal()->negotiatedEncryption();
-    if (negotiatedEnc != KTcpSocket::UnknownSslVersion) {
+    if (negotiatedEnc != QSsl::UnknownProtocol) {
         // Socket already encrypted, pretend we did not want any
         d->m_encryptionMode = Unencrypted;
     }
 
     if (d->m_encryptionMode == SSLorTLS) {
-        d->sessionInternal()->startSsl(KTcpSocket::SecureProtocols);
+        d->sessionInternal()->startSsl(QSsl::SecureProtocols);
     } else if (d->m_encryptionMode == STARTTLS) {
         if (session()->allowsTls()) {
             sendCommand(QByteArrayLiteral("STARTTLS"));
@@ -175,7 +175,7 @@ void LoginJob::handleResponse(const ServerResponse &r)
 
     // Server accepts TLS connection
     if (r.isCode(220)) {
-        d->sessionInternal()->startSsl(KTcpSocket::SecureProtocols);
+        d->sessionInternal()->startSsl(QSsl::SecureProtocols);
         return;
     }
 

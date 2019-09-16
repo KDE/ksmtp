@@ -28,13 +28,14 @@
 #include <QFile>
 #include <QCoreApplication>
 #include <QNetworkProxy>
+#include <QSslCipher>
+
+#include <memory>
 
 using namespace KSmtp;
 
 SessionThread::SessionThread(const QString &hostName, quint16 port, Session *session)
     : QThread()
-    , m_socket(nullptr)
-    , m_logFile(nullptr)
     , m_parentSession(session)
     , m_hostName(hostName)
     , m_port(port)
@@ -48,19 +49,15 @@ SessionThread::SessionThread(const QString &hostName, quint16 port, Session *ses
         const QString filename = QStringLiteral("%1.%2.%3").arg(QString::fromUtf8(logfile))
                                  .arg(qApp->applicationPid())
                                  .arg(++sSessionCount);
-        m_logFile = new QFile(filename);
+        m_logFile = std::make_unique<QFile>(filename);
         if (!m_logFile->open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             qCWarning(KSMTP_LOG) << "Failed to open log file" << filename << ":" << m_logFile->errorString();
-            delete m_logFile;
-            m_logFile = nullptr;
+            m_logFile.reset();
         }
     }
 }
 
-SessionThread::~SessionThread()
-{
-    delete m_logFile;
-}
+SessionThread::~SessionThread() = default;
 
 QString SessionThread::hostName() const
 {
@@ -131,16 +128,15 @@ void SessionThread::reconnect()
 {
     QMutexLocker locker(&m_mutex);
 
-    if (m_socket->state() != KTcpSocket::ConnectedState
-        && m_socket->state() != KTcpSocket::ConnectingState) {
+    if (m_socket->state() != QAbstractSocket::ConnectedState && m_socket->state() != QAbstractSocket::ConnectingState) {
         if (!m_useProxy) {
-            qCDebug(KSMTP_LOG) << "using no proxy";
+            qCDebug(KSMTP_LOG) << "Not using any proxy to connect to the SMTP server.";
 
             QNetworkProxy proxy;
             proxy.setType(QNetworkProxy::NoProxy);
             m_socket->setProxy(proxy);
         } else {
-            qCDebug(KSMTP_LOG) << "using default system proxy";
+            qCDebug(KSMTP_LOG) << "Using the default system proxy to connect to the SMTP server.";
         }
 
         m_socket->connectToHost(hostName(), port());
@@ -149,18 +145,18 @@ void SessionThread::reconnect()
 
 void SessionThread::run()
 {
-    m_socket = new KTcpSocket;
+    m_socket = std::make_unique<QSslSocket>();
 
-    connect(m_socket, &KTcpSocket::readyRead,
+    connect(m_socket.get(), &QSslSocket::readyRead,
             this, &SessionThread::readResponse, Qt::QueuedConnection);
 
-    connect(m_socket, &KTcpSocket::disconnected,
+    connect(m_socket.get(), &QSslSocket::disconnected,
             m_parentSession->d, &SessionPrivate::socketDisconnected);
-    connect(m_socket, &KTcpSocket::connected,
+    connect(m_socket.get(), &QSslSocket::connected,
             m_parentSession->d, &SessionPrivate::socketConnected);
-    connect(m_socket, QOverload<KTcpSocket::Error>::of(&KTcpSocket::error),
-            this, [this](KTcpSocket::Error err) {
-        qCWarning(KSMTP_LOG) << "Socket error:" << err << m_socket->errorString();
+    connect(m_socket.get(), QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
+            this, [this](QAbstractSocket::SocketError err) {
+        qCWarning(KSMTP_LOG) << "SMTP Socket error:" << err << m_socket->errorString();
         Q_EMIT m_parentSession->connectionError(m_socket->errorString());
     });
     connect(this, &SessionThread::encryptionNegotiationResult,
@@ -171,7 +167,7 @@ void SessionThread::run()
 
     exec();
 
-    delete m_socket;
+    m_socket.reset();
 }
 
 void SessionThread::setUseNetworkProxy(bool useProxy)
@@ -212,34 +208,34 @@ ServerResponse SessionThread::parseResponse(const QByteArray &resp)
     return ServerResponse(returnCode, response, multiline);
 }
 
-void SessionThread::startSsl(KTcpSocket::SslVersion version)
+void SessionThread::startSsl(QSsl::SslProtocol protocol)
 {
     QMutexLocker locker(&m_mutex);
 
-    m_socket->setAdvertisedSslVersion(version);
-    m_socket->ignoreSslErrors();
-    connect(m_socket, &KTcpSocket::encrypted, this, &SessionThread::sslConnected);
+    m_socket->setProtocol(protocol);
+    m_socket->ignoreSslErrors(); // don't worry, we DO handle the errors ourselves below
+    connect(m_socket.get(), &QSslSocket::encrypted, this, &SessionThread::sslConnected);
     m_socket->startClientEncryption();
 }
 
 void SessionThread::sslConnected()
 {
     QMutexLocker locker(&m_mutex);
-    KSslCipher cipher = m_socket->sessionCipher();
+    QSslCipher cipher = m_socket->sessionCipher();
 
-    if (!m_socket->sslErrors().isEmpty() || m_socket->encryptionMode() != KTcpSocket::SslClientMode
+    if (!m_socket->sslErrors().isEmpty() || !m_socket->isEncrypted()
         || cipher.isNull() || cipher.usedBits() == 0) {
         qCDebug(KSMTP_LOG) << "Initial SSL handshake failed. cipher.isNull() is" << cipher.isNull()
                            << ", cipher.usedBits() is" << cipher.usedBits()
                            << ", the socket says:" <<  m_socket->errorString()
                            << "and the list of SSL errors contains"
                            << m_socket->sslErrors().count() << "items.";
-        KSslErrorUiData errorData(m_socket);
+        KSslErrorUiData errorData(m_socket.get());
         Q_EMIT sslError(errorData);
     } else {
-        qCDebug(KSMTP_LOG) << "TLS negotiation done.";
+        qCDebug(KSMTP_LOG) << "TLS negotiation done, the negotiated protocol is" << m_socket->sessionCipher().protocolString();
 
-        Q_EMIT encryptionNegotiationResult(true, m_socket->negotiatedSslVersion());
+        Q_EMIT encryptionNegotiationResult(true, m_socket->sessionProtocol());
     }
 }
 
@@ -257,12 +253,12 @@ void SessionThread::doHandleSslErrorResponse(bool ignoreError)
         return;
     }
     if (ignoreError) {
-        Q_EMIT encryptionNegotiationResult(true, m_socket->negotiatedSslVersion());
+        Q_EMIT encryptionNegotiationResult(true, m_socket->sessionProtocol());
     } else {
         //reconnect in unencrypted mode, so new commands can be issued
         m_socket->disconnectFromHost();
         m_socket->waitForDisconnected();
         m_socket->connectToHost(m_hostName, m_port);
-        Q_EMIT encryptionNegotiationResult(false, KTcpSocket::UnknownSslVersion);
+        Q_EMIT encryptionNegotiationResult(false, QSsl::UnknownProtocol);
     }
 }

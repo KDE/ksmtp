@@ -26,7 +26,7 @@
 #include <QTimer>
 #include <QStringList>
 
-#include <KTcpSocket>
+#include <QSslSocket>
 
 class KJob;
 class QEventLoop;
@@ -49,15 +49,15 @@ public:
     void addJob(Job *job);
     void sendData(const QByteArray &data);
     void setState(Session::State s);
-    void startSsl(KTcpSocket::SslVersion version);
+    void startSsl(QSsl::SslProtocol version);
 
-    KTcpSocket::SslVersion negotiatedEncryption() const;
+    QSsl::SslProtocol negotiatedEncryption() const;
 
 public Q_SLOTS:
     void handleSslError(const KSslErrorUiData &data);
 
     void socketDisconnected();
-    void encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version);
+    void encryptionNegotiationResult(bool encrypted, QSsl::SslProtocol version);
     void responseReceived(const ServerResponse &response);
     void socketConnected();
     void setAuthenticationMethods(const QList<QByteArray> &authMethods);
@@ -86,7 +86,7 @@ private:
     int m_socketTimerInterval = 0;
     QTimer m_socketTimer;
     QEventLoop *m_startLoop = nullptr;
-    KTcpSocket::SslVersion m_sslVersion;
+    QSsl::SslProtocol m_sslVersion;
 
     // Jobs
     bool m_jobRunning = false;

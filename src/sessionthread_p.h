@@ -49,11 +49,11 @@ public:
 public Q_SLOTS:
     void reconnect();
     void closeSocket();
-    void startSsl(KTcpSocket::SslVersion version);
+    void startSsl(QSsl::SslProtocol version);
     void sendData(const QByteArray &payload);
 
 Q_SIGNALS:
-    void encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version);
+    void encryptionNegotiationResult(bool encrypted, QSsl::SslProtocol protocol);
     void responseReceived(const ServerResponse &response);
     void sslError(const KSslErrorUiData &);
 
@@ -70,10 +70,10 @@ private Q_SLOTS:
 private:
     ServerResponse parseResponse(const QByteArray &response);
 
-    KTcpSocket *m_socket = nullptr;
+    std::unique_ptr<QSslSocket> m_socket;
     QMutex m_mutex;
     QQueue<QByteArray> m_dataQueue;
-    QFile *m_logFile = nullptr;
+    std::unique_ptr<QFile> m_logFile;
 
     Session *m_parentSession = nullptr;
     QString m_hostName;

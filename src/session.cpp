@@ -31,10 +31,11 @@
 #include <QUrl>
 #include <QEventLoop>
 #include <QPointer>
+#include <QSslSocket>
 
 using namespace KSmtp;
 
-Q_DECLARE_METATYPE(KTcpSocket::SslVersion)
+Q_DECLARE_METATYPE(QSsl::SslProtocol)
 Q_DECLARE_METATYPE(KSslErrorUiData)
 
 SessionPrivate::SessionPrivate(Session *session)
@@ -44,14 +45,14 @@ SessionPrivate::SessionPrivate(Session *session)
     , m_thread(nullptr)
     , m_socketTimerInterval(60000)
     , m_startLoop(nullptr)
-    , m_sslVersion(KTcpSocket::UnknownSslVersion)
+    , m_sslVersion(QSsl::UnknownProtocol)
     , m_jobRunning(false)
     , m_currentJob(nullptr)
     , m_ehloRejected(false)
     , m_size(0)
     , m_allowsTls(false)
 {
-    qRegisterMetaType<KTcpSocket::SslVersion>();
+    qRegisterMetaType<QSsl::SslProtocol>();
     qRegisterMetaType<KSslErrorUiData>();
 }
 
@@ -350,19 +351,19 @@ void SessionPrivate::socketDisconnected()
     m_queue.clear();
 }
 
-void SessionPrivate::startSsl(KTcpSocket::SslVersion version)
+void SessionPrivate::startSsl(QSsl::SslProtocol version)
 {
     QMetaObject::invokeMethod(m_thread, [this, version] {
         m_thread->startSsl(version);
     }, Qt::QueuedConnection);
 }
 
-KTcpSocket::SslVersion SessionPrivate::negotiatedEncryption() const
+QSsl::SslProtocol SessionPrivate::negotiatedEncryption() const
 {
     return m_sslVersion;
 }
 
-void SessionPrivate::encryptionNegotiationResult(bool encrypted, KTcpSocket::SslVersion version)
+void SessionPrivate::encryptionNegotiationResult(bool encrypted, QSsl::SslProtocol version)
 {
     if (encrypted) {
         // Get the updated auth methods
