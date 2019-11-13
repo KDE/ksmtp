@@ -23,8 +23,9 @@
 #include <QThread>
 #include <QMutex>
 #include <QQueue>
+#include <QSslSocket>
 
-#include <ktcpsocket.h>
+#include <ksslerroruidata.h>
 
 class QFile;
 namespace KSmtp {
