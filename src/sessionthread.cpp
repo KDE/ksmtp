@@ -154,7 +154,11 @@ void SessionThread::run()
             m_parentSession->d, &SessionPrivate::socketDisconnected);
     connect(m_socket.get(), &QSslSocket::connected,
             m_parentSession->d, &SessionPrivate::socketConnected);
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_socket.get(), QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
+#else
+    connect(m_socket.get(), QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::errorOccurred),
+#endif
             this, [this](QAbstractSocket::SocketError err) {
         qCWarning(KSMTP_LOG) << "SMTP Socket error:" << err << m_socket->errorString();
         Q_EMIT m_parentSession->connectionError(m_socket->errorString());
