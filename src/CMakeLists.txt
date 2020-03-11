@@ -7,14 +7,10 @@ set(ksmtp_SRCS
     sessionuiproxy.cpp
 )
 
-if (ECM_VERSION VERSION_LESS "5.68.0")
-    ecm_qt_declare_logging_category(ksmtp_SRCS HEADER ksmtp_debug.h IDENTIFIER KSMTP_LOG CATEGORY_NAME org.kde.pim.ksmtp)
-else()
-    ecm_qt_declare_logging_category(ksmtp_SRCS HEADER ksmtp_debug.h
+ecm_qt_declare_logging_category(ksmtp_SRCS HEADER ksmtp_debug.h
         IDENTIFIER KSMTP_LOG CATEGORY_NAME org.kde.pim.ksmtp
         DESCRIPTION "ksmtp (ksmtp)" EXPORT KSMTP
         )
-endif()
 
 add_library(KPimSMTP ${ksmtp_SRCS})
 
@@ -69,9 +65,7 @@ install(FILES
     ${KSMTP_CamelCase_HEADERS}
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim/KSMTP/KSMTP
 )
-if (NOT ECM_VERSION VERSION_LESS "5.68.0")
-   ecm_qt_install_logging_categories(EXPORT KSMTP FILE ksmtp.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
-endif()
+ecm_qt_install_logging_categories(EXPORT KSMTP FILE ksmtp.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
 ecm_generate_pri_file(BASE_NAME KSMTP LIB_NAME KPimSMTP DEPS "" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR}/KPim/KSMTP)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
