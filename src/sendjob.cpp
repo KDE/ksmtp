@@ -73,6 +73,7 @@ SendJob::SendJob(Session *session)
 void SendJob::setFrom(const QString &from)
 {
     Q_D(SendJob);
+    qDebug() <<"void SendJob::setFrom(const QString &from) "<<from;
     const auto start = from.indexOf(QLatin1Char('<'));
     if (start > -1) {
         const auto end = qMax(start, from.indexOf(QLatin1Char('>'), start));
@@ -80,6 +81,7 @@ void SendJob::setFrom(const QString &from)
     } else {
         d->m_returnPath = QStringLiteral("<%1>").arg(from);
     }
+    qDebug() << "d->m_returnPath  "<< d->m_returnPath;
 }
 
 void SendJob::setTo(const QStringList &to)
