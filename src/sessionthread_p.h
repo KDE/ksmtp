@@ -55,7 +55,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void encryptionNegotiationResult(bool encrypted, QSsl::SslProtocol protocol);
-    void responseReceived(const ServerResponse &response);
+    void responseReceived(const KSmtp::ServerResponse &response);
     void sslError(const KSslErrorUiData &);
 
 protected:
