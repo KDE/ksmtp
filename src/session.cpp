@@ -110,7 +110,7 @@ Session::Session(const QString &hostName, quint16 port, QObject *parent)
     : QObject(parent)
     , d(new SessionPrivate(this))
 {
-    qRegisterMetaType<ServerResponse>("ServerResponse");
+    qRegisterMetaType<KSmtp::ServerResponse>("KSmtp::ServerResponse");
 
     QHostAddress ip;
     QString saneHostName = hostName;
