@@ -58,7 +58,7 @@ public Q_SLOTS:
 
     void socketDisconnected();
     void encryptionNegotiationResult(bool encrypted, QSsl::SslProtocol version);
-    void responseReceived(const ServerResponse &response);
+    void responseReceived(const KSmtp::ServerResponse &response);
     void socketConnected();
     void setAuthenticationMethods(const QList<QByteArray> &authMethods);
 
