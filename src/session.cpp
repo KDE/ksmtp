@@ -31,15 +31,8 @@ SessionPrivate::SessionPrivate(Session *session)
     : QObject(session)
     , q(session)
     , m_state(Session::Disconnected)
-    , m_thread(nullptr)
     , m_socketTimerInterval(60000)
-    , m_startLoop(nullptr)
     , m_sslVersion(QSsl::UnknownProtocol)
-    , m_jobRunning(false)
-    , m_currentJob(nullptr)
-    , m_ehloRejected(false)
-    , m_size(0)
-    , m_allowsTls(false)
 {
     qRegisterMetaType<QSsl::SslProtocol>();
     qRegisterMetaType<KSslErrorUiData>();

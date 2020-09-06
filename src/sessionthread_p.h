@@ -68,7 +68,7 @@ private:
     Session *m_parentSession = nullptr;
     QString m_hostName;
     quint16 m_port;
-    bool m_useProxy;
+    bool m_useProxy = false;
 };
 }
 

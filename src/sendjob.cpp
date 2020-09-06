@@ -27,11 +27,10 @@ public:
     SendJobPrivate(SendJob *job, Session *session, const QString &name)
         : JobPrivate(session, name)
         , q(job)
-        , m_status(Idle)
     {
     }
 
-    SendJob *q = nullptr;
+    SendJob *const q;
 
     void sendNextRecipient();
     void addRecipients(const QStringList &rcpts);
@@ -48,7 +47,7 @@ public:
     QByteArray m_data;
 
     QStringList m_recipientsCopy;
-    Status m_status;
+    Status m_status = Idle;
 };
 }
 
