@@ -20,7 +20,7 @@ namespace KSmtp {
 class KSMTP_EXPORT SessionUiProxy
 {
 public:
-    typedef QSharedPointer<SessionUiProxy> Ptr;
+    using Ptr = QSharedPointer<SessionUiProxy>;
 
     virtual ~SessionUiProxy();
     /**
