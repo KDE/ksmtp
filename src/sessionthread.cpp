@@ -13,7 +13,6 @@
 #include "ksmtp_debug.h"
 
 #include <QTimer>
-#include <QUrl>
 #include <QFile>
 #include <QCoreApplication>
 #include <QNetworkProxy>
