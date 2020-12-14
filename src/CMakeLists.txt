@@ -13,7 +13,9 @@ ecm_qt_declare_logging_category(ksmtp_SRCS HEADER ksmtp_debug.h
         )
 
 add_library(KPimSMTP ${ksmtp_SRCS})
-
+if (COMPILE_WITH_CMAKE_SUPPORT)
+    set_target_properties(KPimSMTP PROPERTIES UNITY_BUILD ON)
+endif()
 generate_export_header(KPimSMTP BASE_NAME ksmtp)
 
 add_library(KPim::SMTP ALIAS KPimSMTP)
