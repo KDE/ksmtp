@@ -13,7 +13,8 @@
 
 #include <KJob>
 
-namespace KSmtp {
+namespace KSmtp
+{
 class Session;
 class SessionPrivate;
 class JobPrivate;

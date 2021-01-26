@@ -6,17 +6,17 @@
   SPDX-License-Identifier: LGPL-2.1-or-later
 */
 
-#include "sessionthread_p.h"
+#include "ksmtp_debug.h"
 #include "serverresponse_p.h"
 #include "session.h"
 #include "session_p.h"
-#include "ksmtp_debug.h"
+#include "sessionthread_p.h"
 
-#include <QTimer>
-#include <QFile>
 #include <QCoreApplication>
+#include <QFile>
 #include <QNetworkProxy>
 #include <QSslCipher>
+#include <QTimer>
 
 #include <memory>
 
@@ -34,9 +34,7 @@ SessionThread::SessionThread(const QString &hostName, quint16 port, Session *ses
     const auto logfile = qgetenv("KSMTP_SESSION_LOG");
     if (!logfile.isEmpty()) {
         static uint sSessionCount = 0;
-        const QString filename = QStringLiteral("%1.%2.%3").arg(QString::fromUtf8(logfile))
-                                 .arg(qApp->applicationPid())
-                                 .arg(++sSessionCount);
+        const QString filename = QStringLiteral("%1.%2.%3").arg(QString::fromUtf8(logfile)).arg(qApp->applicationPid()).arg(++sSessionCount);
         m_logFile = std::make_unique<QFile>(filename);
         if (!m_logFile->open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             qCWarning(KSMTP_LOG) << "Failed to open log file" << filename << ":" << m_logFile->errorString();
@@ -60,7 +58,7 @@ quint16 SessionThread::port() const
 void SessionThread::sendData(const QByteArray &payload)
 {
     QMutexLocker locker(&m_mutex);
-    //qCDebug(KSMTP_LOG) << "C:: " << payload;
+    // qCDebug(KSMTP_LOG) << "C:: " << payload;
     if (m_logFile) {
         m_logFile->write("C: " + payload + '\n');
         m_logFile->flush();
@@ -88,7 +86,7 @@ void SessionThread::readResponse()
     }
 
     const QByteArray data = m_socket->readLine();
-    //qCDebug(KSMTP_LOG) << "S:" << data;
+    // qCDebug(KSMTP_LOG) << "S:" << data;
     if (m_logFile) {
         m_logFile->write("S: " + data);
         m_logFile->flush();
@@ -135,27 +133,25 @@ void SessionThread::run()
 {
     m_socket = std::make_unique<QSslSocket>();
 
-    connect(m_socket.get(), &QSslSocket::readyRead,
-            this, &SessionThread::readResponse, Qt::QueuedConnection);
+    connect(m_socket.get(), &QSslSocket::readyRead, this, &SessionThread::readResponse, Qt::QueuedConnection);
 
-    connect(m_socket.get(), &QSslSocket::disconnected,
-            m_parentSession->d, &SessionPrivate::socketDisconnected);
-    connect(m_socket.get(), &QSslSocket::connected,
-            m_parentSession->d, &SessionPrivate::socketConnected);
+    connect(m_socket.get(), &QSslSocket::disconnected, m_parentSession->d, &SessionPrivate::socketDisconnected);
+    connect(m_socket.get(), &QSslSocket::connected, m_parentSession->d, &SessionPrivate::socketConnected);
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    connect(m_socket.get(), QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
+    connect(m_socket.get(),
+            QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
 #else
-    connect(m_socket.get(), QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::errorOccurred),
+    connect(m_socket.get(),
+            QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::errorOccurred),
 #endif
-            this, [this](QAbstractSocket::SocketError err) {
-        qCWarning(KSMTP_LOG) << "SMTP Socket error:" << err << m_socket->errorString();
-        Q_EMIT m_parentSession->connectionError(m_socket->errorString());
-    });
-    connect(this, &SessionThread::encryptionNegotiationResult,
-            m_parentSession->d, &SessionPrivate::encryptionNegotiationResult);
+            this,
+            [this](QAbstractSocket::SocketError err) {
+                qCWarning(KSMTP_LOG) << "SMTP Socket error:" << err << m_socket->errorString();
+                Q_EMIT m_parentSession->connectionError(m_socket->errorString());
+            });
+    connect(this, &SessionThread::encryptionNegotiationResult, m_parentSession->d, &SessionPrivate::encryptionNegotiationResult);
 
-    connect(this, &SessionThread::responseReceived,
-            m_parentSession->d, &SessionPrivate::responseReceived);
+    connect(this, &SessionThread::responseReceived, m_parentSession->d, &SessionPrivate::responseReceived);
 
     exec();
 
@@ -220,17 +216,14 @@ void SessionThread::sslConnected()
 #else
     if (!m_socket->sslHandshakeErrors().isEmpty()
 #endif
-        || !m_socket->isEncrypted()
-        || cipher.isNull() || cipher.usedBits() == 0) {
-        qCDebug(KSMTP_LOG) << "Initial SSL handshake failed. cipher.isNull() is" << cipher.isNull()
-                           << ", cipher.usedBits() is" << cipher.usedBits()
-                           << ", the socket says:" <<  m_socket->errorString()
-                           << "and the list of SSL errors contains"
-                      #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+        || !m_socket->isEncrypted() || cipher.isNull() || cipher.usedBits() == 0) {
+        qCDebug(KSMTP_LOG) << "Initial SSL handshake failed. cipher.isNull() is" << cipher.isNull() << ", cipher.usedBits() is" << cipher.usedBits()
+                           << ", the socket says:" << m_socket->errorString() << "and the list of SSL errors contains"
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
                            << m_socket->sslErrors().count()
-                      #else
+#else
                            << m_socket->sslHandshakeErrors().count()
-                      #endif
+#endif
                            << "items.";
         KSslErrorUiData errorData(m_socket.get());
         Q_EMIT sslError(errorData);
@@ -243,9 +236,12 @@ void SessionThread::sslConnected()
 
 void SessionThread::handleSslErrorResponse(bool ignoreError)
 {
-    QMetaObject::invokeMethod(this, [this, ignoreError] {
-        doHandleSslErrorResponse(ignoreError);
-    }, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(
+        this,
+        [this, ignoreError] {
+            doHandleSslErrorResponse(ignoreError);
+        },
+        Qt::QueuedConnection);
 }
 
 void SessionThread::doHandleSslErrorResponse(bool ignoreError)
@@ -257,7 +253,7 @@ void SessionThread::doHandleSslErrorResponse(bool ignoreError)
     if (ignoreError) {
         Q_EMIT encryptionNegotiationResult(true, m_socket->sessionProtocol());
     } else {
-        //reconnect in unencrypted mode, so new commands can be issued
+        // reconnect in unencrypted mode, so new commands can be issued
         m_socket->disconnectFromHost();
         m_socket->waitForDisconnected();
         m_socket->connectToHost(m_hostName, m_port);

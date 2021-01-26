@@ -10,13 +10,15 @@
 
 #include "session.h"
 
-namespace KSmtp {
+namespace KSmtp
+{
 class SessionPrivate;
 
 class JobPrivate
 {
 public:
-    JobPrivate(Session *session, const QString &name) : m_session(session)
+    JobPrivate(Session *session, const QString &name)
+        : m_session(session)
         , m_name(name)
     {
     }
@@ -40,4 +42,4 @@ public:
 };
 }
 
-#endif //KSMTP_JOB_P_H
+#endif // KSMTP_JOB_P_H

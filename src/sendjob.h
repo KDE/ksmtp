@@ -13,7 +13,8 @@
 
 #include "job.h"
 
-namespace KSmtp {
+namespace KSmtp
+{
 class SendJobPrivate;
 /**
  * @brief The SendJob class

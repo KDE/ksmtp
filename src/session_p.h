@@ -12,15 +12,16 @@
 
 #include <QObject>
 #include <QQueue>
-#include <QTimer>
 #include <QStringList>
+#include <QTimer>
 
 #include <QSslSocket>
 
 class KJob;
 class QEventLoop;
 
-namespace KSmtp {
+namespace KSmtp
+{
 class Job;
 class SessionThread;
 class ServerResponse;
@@ -59,7 +60,6 @@ private Q_SLOTS:
     void onSocketTimeout();
 
 private:
-
     void startHandshake();
     void startNext();
     void startSocketTimer();
@@ -91,4 +91,4 @@ private:
 };
 }
 
-#endif //KSMTP_SESSION_P_H
+#endif // KSMTP_SESSION_P_H

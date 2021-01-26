@@ -14,7 +14,8 @@
 
 #include <QObject>
 
-namespace KSmtp {
+namespace KSmtp
+{
 class SessionPrivate;
 class SessionThread;
 /**
@@ -27,11 +28,11 @@ class KSMTP_EXPORT Session : public QObject
 public:
     enum State {
         Disconnected = 0, /**< The Session is not connected to the server. */
-        Ready,            /**< (internal) */
-        Handshake,        /**< (internal) */
+        Ready, /**< (internal) */
+        Handshake, /**< (internal) */
         NotAuthenticated, /**< The Session is ready for login. @sa KSmtp::LoginJob */
-        Authenticated,    /**< The Session is ready to send email. @sa KSmtp::SendJob */
-        Quitting          /**< (internal) */
+        Authenticated, /**< The Session is ready to send email. @sa KSmtp::SendJob */
+        Quitting /**< (internal) */
     };
     Q_ENUM(State)
 

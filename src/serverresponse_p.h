@@ -10,7 +10,8 @@
 
 #include <QByteArray>
 
-namespace KSmtp {
+namespace KSmtp
+{
 class ServerResponse
 {
 public:
@@ -28,4 +29,4 @@ private:
 };
 }
 
-#endif //KSMTP_SERVERRESPONSE_P_H
+#endif // KSMTP_SERVERRESPONSE_P_H

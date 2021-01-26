@@ -13,7 +13,8 @@
 
 #include "job.h"
 
-namespace KSmtp {
+namespace KSmtp
+{
 class LoginJobPrivate;
 /**
  * @brief The LoginJob class
@@ -26,25 +27,13 @@ class KSMTP_EXPORT LoginJob : public Job
 public:
     enum EncryptionMode {
         Unencrypted,
-        SSLorTLS,   ///< Use SSL/TLS encryption
-        STARTTLS    ///< Use STARTTLS to upgrade an unencrypted connection to encrypted
+        SSLorTLS, ///< Use SSL/TLS encryption
+        STARTTLS ///< Use STARTTLS to upgrade an unencrypted connection to encrypted
     };
 
-    enum AuthMode {
-        UnknownAuth,
-        Plain,
-        Login,
-        CramMD5,
-        DigestMD5,
-        NTLM,
-        GSSAPI,
-        Anonymous,
-        XOAuth2
-    };
+    enum AuthMode { UnknownAuth, Plain, Login, CramMD5, DigestMD5, NTLM, GSSAPI, Anonymous, XOAuth2 };
 
-    enum LoginError {
-        TokenExpired = KJob::UserDefinedError + 1
-    };
+    enum LoginError { TokenExpired = KJob::UserDefinedError + 1 };
 
     explicit LoginJob(Session *session);
     ~LoginJob() override;

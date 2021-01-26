@@ -7,8 +7,8 @@
 */
 
 #include "loginjob.h"
-#include "ksmtp_debug.h"
 #include "job_p.h"
+#include "ksmtp_debug.h"
 #include "serverresponse_p.h"
 #include "session_p.h"
 
@@ -21,20 +21,20 @@ extern "C" {
 #include <sasl/sasl.h>
 }
 
-namespace {
-static const sasl_callback_t callbacks[] = {
-    { SASL_CB_ECHOPROMPT, nullptr, nullptr },
-    { SASL_CB_NOECHOPROMPT, nullptr, nullptr },
-    { SASL_CB_GETREALM, nullptr, nullptr },
-    { SASL_CB_USER, nullptr, nullptr },
-    { SASL_CB_AUTHNAME, nullptr, nullptr },
-    { SASL_CB_PASS, nullptr, nullptr },
-    { SASL_CB_CANON_USER, nullptr, nullptr },
-    { SASL_CB_LIST_END, nullptr, nullptr }
-};
+namespace
+{
+static const sasl_callback_t callbacks[] = {{SASL_CB_ECHOPROMPT, nullptr, nullptr},
+                                            {SASL_CB_NOECHOPROMPT, nullptr, nullptr},
+                                            {SASL_CB_GETREALM, nullptr, nullptr},
+                                            {SASL_CB_USER, nullptr, nullptr},
+                                            {SASL_CB_AUTHNAME, nullptr, nullptr},
+                                            {SASL_CB_PASS, nullptr, nullptr},
+                                            {SASL_CB_CANON_USER, nullptr, nullptr},
+                                            {SASL_CB_LIST_END, nullptr, nullptr}};
 }
 
-namespace KSmtp {
+namespace KSmtp
+{
 class LoginJobPrivate : public JobPrivate
 {
 public:
@@ -167,7 +167,7 @@ void LoginJob::handleResponse(const ServerResponse &r)
     }
 
     // Available authentication mechanisms
-    if (r.isCode(25) && r.text().startsWith("AUTH ")) { //krazy:exclude=strings
+    if (r.isCode(25) && r.text().startsWith("AUTH ")) { // krazy:exclude=strings
         d->sessionInternal()->setAuthenticationMethods(r.text().remove(0, QByteArray("AUTH ").count()).split(' '));
         d->authenticate();
         return;
@@ -176,8 +176,7 @@ void LoginJob::handleResponse(const ServerResponse &r)
     // Send account data
     if (r.isCode(334)) {
         if (d->m_actualAuthMode == Plain) {
-            const QByteArray challengeResponse = '\0' + d->m_userName.toUtf8()
-                                                 +'\0' + d->m_password.toUtf8();
+            const QByteArray challengeResponse = '\0' + d->m_userName.toUtf8() + '\0' + d->m_password.toUtf8();
             sendCommand(challengeResponse.toBase64());
         } else {
             if (!d->sasl_challenge(QByteArray::fromBase64(r.text()))) {
@@ -230,17 +229,15 @@ bool LoginJobPrivate::sasl_interact()
     while (interact->id != SASL_CB_LIST_END) {
         qCDebug(KSMTP_LOG) << "SASL_INTERACT Id" << interact->id;
         switch (interact->id) {
-        case SASL_CB_AUTHNAME:
-        {
-            //case SASL_CB_USER:
+        case SASL_CB_AUTHNAME: {
+            // case SASL_CB_USER:
             qCDebug(KSMTP_LOG) << "SASL_CB_[USER|AUTHNAME]: '" << m_userName << "'";
             const auto username = m_userName.toUtf8();
             interact->result = strdup(username.constData());
             interact->len = username.size();
             break;
         }
-        case SASL_CB_PASS:
-        {
+        case SASL_CB_PASS: {
             qCDebug(KSMTP_LOG) << "SASL_CB_PASS: [hidden]";
             const auto pass = m_password.toUtf8();
             interact->result = strdup(pass.constData());
@@ -280,8 +277,7 @@ bool LoginJobPrivate::sasl_challenge(const QByteArray &challenge)
     }
 
     Q_FOREVER {
-        result = sasl_client_step(m_saslConn, challenge.isEmpty() ? nullptr : challenge.constData(),
-                                  challenge.size(), &m_saslClient, &out, &outLen);
+        result = sasl_client_step(m_saslConn, challenge.isEmpty() ? nullptr : challenge.constData(), challenge.size(), &m_saslClient, &out, &outLen);
         if (result == SASL_INTERACT) {
             if (!sasl_interact()) {
                 q->setError(LoginJob::UserDefinedError);
@@ -319,8 +315,7 @@ bool LoginJobPrivate::authenticate()
         return false;
     }
 
-    int result = sasl_client_new("smtp", m_session->hostName().toUtf8().constData(),
-                                 nullptr, nullptr, callbacks, 0, &m_saslConn);
+    int result = sasl_client_new("smtp", m_session->hostName().toUtf8().constData(), nullptr, nullptr, callbacks, 0, &m_saslConn);
     if (result != SASL_OK) {
         const auto saslError = QString::fromUtf8(sasl_errdetail(m_saslConn));
         q->setError(LoginJob::UserDefinedError);
@@ -335,8 +330,7 @@ bool LoginJobPrivate::authenticate()
 
     Q_FOREVER {
         qCDebug(KSMTP_LOG) << "Trying authmod" << authMode;
-        result = sasl_client_start(m_saslConn, authMode.constData(),
-                                   &m_saslClient, &out, &outLen, &actualMech);
+        result = sasl_client_start(m_saslConn, authMode.constData(), &m_saslClient, &out, &outLen, &actualMech);
         if (result == SASL_INTERACT) {
             if (!sasl_interact()) {
                 sasl_dispose(&m_saslConn);

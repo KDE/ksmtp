@@ -8,56 +8,46 @@
 
 #include "smtptest.h"
 
-#include <QTest>
 #include "fakeserver.h"
-#include "session.h"
 #include "loginjob.h"
 #include "sendjob.h"
+#include "session.h"
+#include <QTest>
 
 void SmtpTest::testHello_data()
 {
-    QTest::addColumn<QList<QByteArray> >("scenario");
+    QTest::addColumn<QList<QByteArray>>("scenario");
     QTest::addColumn<QString>("hostname");
 
     QList<QByteArray> scenario;
-    scenario << FakeServer::greeting()
-             << "C: EHLO 127.0.0.1"
-             << "S: 250 Localhost ready to roll"
-             << FakeServer::bye();
+    scenario << FakeServer::greeting() << "C: EHLO 127.0.0.1"
+             << "S: 250 Localhost ready to roll" << FakeServer::bye();
     QTest::newRow("EHLO OK") << scenario << QStringLiteral("127.0.0.1");
 
     scenario.clear();
-    scenario << FakeServer::greeting()
-             << "C: EHLO 127.0.0.1"
+    scenario << FakeServer::greeting() << "C: EHLO 127.0.0.1"
              << "S: 500 Command was not recognized"
              << "C: HELO 127.0.0.1"
-             << "S: 250 Localhost ready to roll"
-             << FakeServer::bye();
+             << "S: 250 Localhost ready to roll" << FakeServer::bye();
     QTest::newRow("EHLO unknown") << scenario << QStringLiteral("127.0.0.1");
 
     scenario.clear();
-    scenario << FakeServer::greeting()
-             << "C: EHLO 127.0.0.1"
+    scenario << FakeServer::greeting() << "C: EHLO 127.0.0.1"
              << "S: 502 Command not implemented"
              << "C: HELO 127.0.0.1"
-             << "S: 250 Localhost ready to roll"
-             << FakeServer::bye();
+             << "S: 250 Localhost ready to roll" << FakeServer::bye();
     QTest::newRow("EHLO not implemented") << scenario << QStringLiteral("127.0.0.1");
 
     scenario.clear();
-    scenario << FakeServer::greeting()
-             << "C: EHLO 127.0.0.1"
+    scenario << FakeServer::greeting() << "C: EHLO 127.0.0.1"
              << "S: 502 Command not implemented"
              << "C: HELO 127.0.0.1"
-             << "S: 500 Command was not recognized"
-             << FakeServer::bye();
+             << "S: 500 Command was not recognized" << FakeServer::bye();
     QTest::newRow("ERROR") << scenario << QStringLiteral("127.0.0.1");
 
     scenario.clear();
-    scenario << FakeServer::greeting()
-             << "C: EHLO random.stranger"
-             << "S: 250 random.stranger ready to roll"
-             << FakeServer::bye();
+    scenario << FakeServer::greeting() << "C: EHLO random.stranger"
+             << "S: 250 random.stranger ready to roll" << FakeServer::bye();
     QTest::newRow("EHLO hostname") << scenario << QStringLiteral("random.stranger");
 }
 
@@ -86,53 +76,45 @@ void SmtpTest::testHello()
 
 void SmtpTest::testLoginJob_data()
 {
-    QTest::addColumn<QList<QByteArray> >("scenario");
+    QTest::addColumn<QList<QByteArray>>("scenario");
     QTest::addColumn<QString>("authMode");
     QTest::addColumn<int>("errorCode");
 
     QList<QByteArray> scenario;
-    scenario << FakeServer::greetingAndEhlo()
-             << "S: 250 AUTH PLAIN LOGIN"
+    scenario << FakeServer::greetingAndEhlo() << "S: 250 AUTH PLAIN LOGIN"
              << "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
-             << "S: 235 Authenticated"
-             << FakeServer::bye();
+             << "S: 235 Authenticated" << FakeServer::bye();
     QTest::newRow("Plain auth ok") << scenario << "Plain" << 0;
 
     scenario.clear();
-    scenario << FakeServer::greetingAndEhlo()
-             << "S: 250 AUTH PLAIN LOGIN"
+    scenario << FakeServer::greetingAndEhlo() << "S: 250 AUTH PLAIN LOGIN"
              << "C: AUTH LOGIN"
-             << "S: 334 VXNlcm5hbWU6"   // "Username:".toBase64()
-             << "C: bG9naW4="           // "login".toBase64()
-             << "S: 334 UGFzc3dvcmQ6"   // "Password:".toBase64()
-             << "C: cGFzc3dvcmQ="       // "password".toBase64()
-             << "S: 235 Authenticated"
-             << FakeServer::bye();
+             << "S: 334 VXNlcm5hbWU6" // "Username:".toBase64()
+             << "C: bG9naW4=" // "login".toBase64()
+             << "S: 334 UGFzc3dvcmQ6" // "Password:".toBase64()
+             << "C: cGFzc3dvcmQ=" // "password".toBase64()
+             << "S: 235 Authenticated" << FakeServer::bye();
     QTest::newRow("Login auth ok") << scenario << "Login" << 0;
 
     scenario.clear();
-    scenario << FakeServer::greetingAndEhlo()
-             << "S: 250 AUTH PLAIN"
+    scenario << FakeServer::greetingAndEhlo() << "S: 250 AUTH PLAIN"
              << "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
-             << "S: 235 Authenticated"
-             << FakeServer::bye();
+             << "S: 235 Authenticated" << FakeServer::bye();
     QTest::newRow("Login not supported") << scenario << "Login" << 0;
 
     scenario.clear();
     scenario << FakeServer::greetingAndEhlo(false)
-        // The login job won't even try to send AUTH, because it does not
-        // have any mechanisms to use
-        //<< "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
-        //<< "S: 235 Authenticated"
+             // The login job won't even try to send AUTH, because it does not
+             // have any mechanisms to use
+             //<< "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
+             //<< "S: 235 Authenticated"
              << FakeServer::bye();
     QTest::newRow("Auth not supported") << scenario << "Login" << 100;
 
     scenario.clear();
-    scenario << FakeServer::greetingAndEhlo()
-             << "S: 250 AUTH PLAIN"
+    scenario << FakeServer::greetingAndEhlo() << "S: 250 AUTH PLAIN"
              << "C: AUTH PLAIN AGxvZ2luAHBhc3N3b3Jk" // [\0 + "login" + \0 + "password"].toBase64()
-             << "S: 535 Authorization failed"
-             << FakeServer::bye();
+             << "S: 535 Authorization failed" << FakeServer::bye();
     QTest::newRow("Wrong password") << scenario << "Plain" << 100;
 }
 
@@ -179,19 +161,16 @@ void SmtpTest::testLoginJob()
 
 void SmtpTest::testSendJob_data()
 {
-    QTest::addColumn<QList<QByteArray> >("scenario");
+    QTest::addColumn<QList<QByteArray>>("scenario");
     QTest::addColumn<int>("errorCode");
 
     QList<QByteArray> scenario;
-    scenario << FakeServer::greetingAndEhlo(false)
-             << "C: MAIL FROM:<foo@bar.com>"
-             << "S: 530 Not allowed"
-             << FakeServer::bye();
+    scenario << FakeServer::greetingAndEhlo(false) << "C: MAIL FROM:<foo@bar.com>"
+             << "S: 530 Not allowed" << FakeServer::bye();
     QTest::newRow("Send not allowed") << scenario << 100;
 
     scenario.clear();
-    scenario << FakeServer::greetingAndEhlo(false)
-             << "C: MAIL FROM:<foo@bar.com>"
+    scenario << FakeServer::greetingAndEhlo(false) << "C: MAIL FROM:<foo@bar.com>"
              << "S: 250 ok"
              << "C: RCPT TO:<bar@foo.com>"
              << "S: 250 ok"
@@ -203,12 +182,11 @@ void SmtpTest::testSendJob_data()
              << "C: .." // Single dot becomes two
              << "C: .." // Single dot becomes two
              << "C: ..." // Two dots become three
-             << "C: ..Foo"  // .Foo becomes ..Foo
+             << "C: ..Foo" // .Foo becomes ..Foo
              << "C: End"
              << "C: "
              << "C: ."
-             << "S: 250 Ok transfer done"
-             << FakeServer::bye();
+             << "S: 250 Ok transfer done" << FakeServer::bye();
     QTest::newRow("ok") << scenario << 0;
 
     scenario.clear();

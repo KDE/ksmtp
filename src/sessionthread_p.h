@@ -9,15 +9,16 @@
 #ifndef KSMTP_SESSIONTHREAD_P_H
 #define KSMTP_SESSIONTHREAD_P_H
 
-#include <QThread>
 #include <QMutex>
 #include <QQueue>
 #include <QSslSocket>
+#include <QThread>
 
 #include <ksslerroruidata.h>
 
 class QFile;
-namespace KSmtp {
+namespace KSmtp
+{
 class ServerResponse;
 class Session;
 

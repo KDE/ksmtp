@@ -31,7 +31,7 @@ private Q_SLOTS:
     void testSendJob();
     void testSendJob_data();
 
-    //TODO: (CL) Check if SendJob parses properly the data it gets before sending
+    // TODO: (CL) Check if SendJob parses properly the data it gets before sending
 };
 
 #endif // KSMTP_SMTPTEST_H

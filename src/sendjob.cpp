@@ -8,21 +8,17 @@
 
 #include "sendjob.h"
 #include "job_p.h"
-#include "serverresponse_p.h"
 #include "ksmtp_debug.h"
+#include "serverresponse_p.h"
 
 #include <KLocalizedString>
 
-namespace KSmtp {
+namespace KSmtp
+{
 class SendJobPrivate : public JobPrivate
 {
 public:
-    enum Status {
-        Idle,
-        SendingReturnPath,
-        SendingRecipients,
-        SendingData
-    };
+    enum Status { Idle, SendingReturnPath, SendingRecipients, SendingData };
 
     SendJobPrivate(SendJob *job, Session *session, const QString &name)
         : JobPrivate(session, name)
@@ -61,7 +57,7 @@ SendJob::SendJob(Session *session)
 void SendJob::setFrom(const QString &from)
 {
     Q_D(SendJob);
-    qDebug() <<"void SendJob::setFrom(const QString &from) "<<from;
+    qDebug() << "void SendJob::setFrom(const QString &from) " << from;
     const auto start = from.indexOf(QLatin1Char('<'));
     if (start > -1) {
         const auto end = qMax(start, from.indexOf(QLatin1Char('>'), start));
@@ -69,7 +65,7 @@ void SendJob::setFrom(const QString &from)
     } else {
         d->m_returnPath = QStringLiteral("<%1>").arg(from);
     }
-    qDebug() << "d->m_returnPath  "<< d->m_returnPath;
+    qDebug() << "d->m_returnPath  " << d->m_returnPath;
 }
 
 void SendJob::setTo(const QStringList &to)
@@ -131,7 +127,7 @@ void SendJob::handleResponse(const ServerResponse &r)
 
     switch (d->m_status) {
     case SendJobPrivate::Idle:
-        //TODO: anything to do here?
+        // TODO: anything to do here?
         break;
 
     case SendJobPrivate::SendingReturnPath:

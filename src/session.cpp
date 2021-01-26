@@ -7,20 +7,20 @@
 */
 
 #include "session.h"
-#include "session_p.h"
-#include "sessionthread_p.h"
 #include "job.h"
-#include "serverresponse_p.h"
+#include "ksmtp_debug.h"
 #include "loginjob.h"
 #include "sendjob.h"
-#include "ksmtp_debug.h"
+#include "serverresponse_p.h"
+#include "session_p.h"
+#include "sessionthread_p.h"
 
+#include <QEventLoop>
 #include <QHostAddress>
 #include <QHostInfo>
-#include <QUrl>
-#include <QEventLoop>
 #include <QPointer>
 #include <QSslSocket>
+#include <QUrl>
 
 using namespace KSmtp;
 
@@ -97,14 +97,13 @@ Session::Session(const QString &hostName, quint16 port, QObject *parent)
     QHostAddress ip;
     QString saneHostName = hostName;
     if (ip.setAddress(hostName)) {
-        //saneHostName = QStringLiteral("[%1]").arg(hostName);
+        // saneHostName = QStringLiteral("[%1]").arg(hostName);
     }
 
     d->m_thread = new SessionThread(saneHostName, port, this);
     d->m_thread->start();
 
-    connect(d->m_thread, &SessionThread::sslError,
-            d, &SessionPrivate::handleSslError);
+    connect(d->m_thread, &SessionThread::sslError, d, &SessionPrivate::handleSslError);
 }
 
 Session::~Session()
@@ -218,8 +217,7 @@ void Session::quitAndWait()
     }
 
     QEventLoop loop;
-    connect(this, &Session::stateChanged,
-            this, [&](Session::State state) {
+    connect(this, &Session::stateChanged, this, [&](Session::State state) {
         if (state == Session::Disconnected) {
             loop.quit();
         }
@@ -246,14 +244,17 @@ void SessionPrivate::setState(Session::State s)
 
 void SessionPrivate::sendData(const QByteArray &data)
 {
-    QMetaObject::invokeMethod(m_thread, [this, data] {
-        m_thread->sendData(data);
-    }, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(
+        m_thread,
+        [this, data] {
+            m_thread->sendData(data);
+        },
+        Qt::QueuedConnection);
 }
 
 void SessionPrivate::responseReceived(const ServerResponse &r)
 {
-    //qCDebug(KSMTP_LOG) << "S:: [" << r.code() << "]" << (r.isMultiline() ? "-" : " ") << r.text();
+    // qCDebug(KSMTP_LOG) << "S:: [" << r.code() << "]" << (r.isMultiline() ? "-" : " ") << r.text();
 
     if (m_state == Session::Quitting) {
         m_thread->closeSocket();
@@ -271,11 +272,11 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
                 return;
             }
         } else if (r.isCode(25)) {
-            if (r.text().startsWith("SIZE ")) { //krazy:exclude=strings
+            if (r.text().startsWith("SIZE ")) { // krazy:exclude=strings
                 m_size = r.text().remove(0, QByteArray("SIZE ").count()).toInt();
             } else if (r.text() == "STARTTLS") {
                 m_allowsTls = true;
-            } else if (r.text().startsWith("AUTH ")) { //krazy:exclude=strings
+            } else if (r.text().startsWith("AUTH ")) { // krazy:exclude=strings
                 setAuthenticationMethods(r.text().remove(0, QByteArray("AUTH ").count()).split(' '));
             }
 
@@ -335,9 +336,12 @@ void SessionPrivate::socketDisconnected()
 
 void SessionPrivate::startSsl(QSsl::SslProtocol version)
 {
-    QMetaObject::invokeMethod(m_thread, [this, version] {
-        m_thread->startSsl(version);
-    }, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(
+        m_thread,
+        [this, version] {
+            m_thread->startSsl(version);
+        },
+        Qt::QueuedConnection);
 }
 
 QSsl::SslProtocol SessionPrivate::negotiatedEncryption() const
@@ -358,7 +362,7 @@ void SessionPrivate::encryptionNegotiationResult(bool encrypted, QSsl::SslProtoc
 void SessionPrivate::addJob(Job *job)
 {
     m_queue.append(job);
-    //Q_EMIT q->jobQueueSizeChanged( q->jobQueueSize() );
+    // Q_EMIT q->jobQueueSizeChanged( q->jobQueueSize() );
 
     connect(job, &KJob::result, this, &SessionPrivate::jobDone);
     connect(job, &KJob::destroyed, this, &SessionPrivate::jobDestroyed);
@@ -412,7 +416,7 @@ void SessionPrivate::jobDone(KJob *job)
 
     m_jobRunning = false;
     m_currentJob = nullptr;
-    //Q_EMIT q->jobQueueSizeChanged( q->jobQueueSize() );
+    // Q_EMIT q->jobQueueSizeChanged( q->jobQueueSize() );
     startNext();
 }
 
