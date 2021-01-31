@@ -32,7 +32,7 @@ PUBLIC
 PRIVATE
     KF5::I18n
     KF5::KIOCore
-    Qt5::Network
+    Qt::Network
     Sasl2::Sasl2
     ${extra_LIBS}
 )
