@@ -138,7 +138,7 @@ void SmtpTest::testLoginJob()
     session.setCustomHostname(QStringLiteral("127.0.0.1"));
     session.openAndWait();
 
-    auto *login = new KSmtp::LoginJob(&session);
+    auto login = new KSmtp::LoginJob(&session);
     login->setPreferedAuthMode(mode);
     login->setUserName(QStringLiteral("login"));
     login->setPassword(QStringLiteral("password"));
@@ -204,7 +204,7 @@ void SmtpTest::testSendJob()
     session.setCustomHostname(QStringLiteral("127.0.0.1"));
     session.openAndWait();
 
-    auto *send = new KSmtp::SendJob(&session);
+    auto send = new KSmtp::SendJob(&session);
     send->setData("From: foo@bar.com\r\nTo: bar@foo.com\r\nHello world.\r\n.\r\n.\r\n..\r\n.Foo\r\nEnd");
     send->setFrom(QStringLiteral("foo@bar.com"));
     send->setTo({QStringLiteral("bar@foo.com")});
