@@ -5,8 +5,7 @@
   SPDX-License-Identifier: LGPL-2.1-or-later
 */
 
-#ifndef KSMTP_SESSION_P_H
-#define KSMTP_SESSION_P_H
+#pragma once
 
 #include "session.h"
 
@@ -91,4 +90,3 @@ private:
 };
 }
 
-#endif // KSMTP_SESSION_P_H

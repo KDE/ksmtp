@@ -6,8 +6,7 @@
   SPDX-License-Identifier: LGPL-2.1-or-later
 */
 
-#ifndef KSMTP_JOB_H
-#define KSMTP_JOB_H
+#pragma once
 
 #include "ksmtp_export.h"
 
@@ -49,4 +48,3 @@ protected:
 };
 }
 
-#endif

@@ -6,8 +6,7 @@
   SPDX-License-Identifier: LGPL-2.1-or-later
 */
 
-#ifndef KSMTP_SENDJOB_H
-#define KSMTP_SENDJOB_H
+#pragma once
 
 #include "ksmtp_export.h"
 
@@ -64,4 +63,3 @@ protected:
 };
 }
 
-#endif // KSMTP_SENDJOB_H

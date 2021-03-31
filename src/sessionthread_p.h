@@ -6,8 +6,7 @@
   SPDX-License-Identifier: LGPL-2.1-or-later
 */
 
-#ifndef KSMTP_SESSIONTHREAD_P_H
-#define KSMTP_SESSIONTHREAD_P_H
+#pragma once
 
 #include <QMutex>
 #include <QQueue>
@@ -73,4 +72,3 @@ private:
 };
 }
 
-#endif // KSMTP_SESSIONTHREAD_H

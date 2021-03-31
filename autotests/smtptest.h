@@ -6,8 +6,7 @@
   SPDX-License-Identifier: LGPL-2.1-or-later
 */
 
-#ifndef KSMTP_SMTPTEST_H
-#define KSMTP_SMTPTEST_H
+#pragma once
 
 #include "QObject"
 
@@ -34,4 +33,3 @@ private Q_SLOTS:
     // TODO: (CL) Check if SendJob parses properly the data it gets before sending
 };
 
-#endif // KSMTP_SMTPTEST_H

@@ -5,8 +5,7 @@
   SPDX-License-Identifier: LGPL-2.1-or-later
 */
 
-#ifndef KSMTP_SERVERRESPONSE_P_H
-#define KSMTP_SERVERRESPONSE_P_H
+#pragma once
 
 #include <QByteArray>
 
@@ -29,4 +28,3 @@ private:
 };
 }
 
-#endif // KSMTP_SERVERRESPONSE_P_H
