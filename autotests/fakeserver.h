@@ -9,10 +9,9 @@
 #pragma once
 
 #include <QMutex>
-#include <QTcpServer>
-#include <QTcpSocket>
 #include <QThread>
-
+class QTcpServer;
+class QTcpSocket;
 Q_DECLARE_METATYPE(QList<QByteArray>)
 
 class FakeServer : public QThread
