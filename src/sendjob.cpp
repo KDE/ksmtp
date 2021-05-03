@@ -32,11 +32,11 @@ public:
     void addRecipients(const QStringList &rcpts);
     bool prepare();
 
-    typedef struct {
+    using MessagePart = struct {
         QString contentType;
         QString name;
         QByteArray content;
-    } MessagePart;
+    };
 
     QString m_returnPath;
     QStringList m_recipients;
