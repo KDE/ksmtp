@@ -1,4 +1,7 @@
-set(ksmtp_SRCS
+
+add_library(KPimSMTP)
+add_library(KPim::SMTP ALIAS KPimSMTP)
+target_sources(KPimSMTP PRIVATE
     job.cpp
     loginjob.cpp
     sendjob.cpp
@@ -7,18 +10,16 @@ set(ksmtp_SRCS
     sessionuiproxy.cpp
 )
 
-ecm_qt_declare_logging_category(ksmtp_SRCS HEADER ksmtp_debug.h
+ecm_qt_declare_logging_category(KPimSMTP HEADER ksmtp_debug.h
         IDENTIFIER KSMTP_LOG CATEGORY_NAME org.kde.pim.ksmtp
         DESCRIPTION "ksmtp (ksmtp)" EXPORT KSMTP
         )
 
-add_library(KPimSMTP ${ksmtp_SRCS})
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPimSMTP PROPERTIES UNITY_BUILD ON)
 endif()
-generate_export_header(KPimSMTP BASE_NAME ksmtp)
 
-add_library(KPim::SMTP ALIAS KPimSMTP)
+generate_export_header(KPimSMTP BASE_NAME ksmtp)
 target_include_directories(KPimSMTP INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim/KSMTP;${KDE_INSTALL_INCLUDEDIR}/KPim/KSMTP/ksmtp>")
 
 if (WIN32)
