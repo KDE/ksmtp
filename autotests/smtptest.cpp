@@ -148,7 +148,7 @@ void SmtpTest::testLoginJob()
     QVERIFY2(login->error() == errorCode, "Unexpected LoginJob error code");
 
     // Checking session state:
-    QEXPECT_FAIL("Auth not supported", "Expected failure if not authentication method suported", Continue);
+    QEXPECT_FAIL("Auth not supported", "Expected failure if not authentication method supported", Continue);
     QEXPECT_FAIL("Wrong password", "Expected failure if wrong password", Continue);
     QVERIFY2(session.state() == KSmtp::Session::Authenticated, "Authentication failed");
 
