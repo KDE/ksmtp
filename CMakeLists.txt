@@ -26,7 +26,7 @@ include(ECMQtDeclareLoggingCategory)
 
 
 set(KSMTP_LIB_VERSION ${PIM_VERSION})
-set(QT_REQUIRED_VERSION "5.15.0")
+set(QT_REQUIRED_VERSION "5.15.2")
 ecm_setup_version(PROJECT VARIABLE_PREFIX KSMTP
     VERSION_HEADER ${KSMTP_BINARY_DIR}/ksmtp_version.h
     PACKAGE_VERSION_FILE ${KSMTP_BINARY_DIR}/KPimSMTPConfigVersion.cmake
@@ -54,7 +54,7 @@ configure_package_config_file(
 )
 
 add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp5\")
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00)
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f02)
 add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055600)
 
 
