@@ -15,7 +15,6 @@
 #include "session_p.h"
 #include "sessionthread_p.h"
 
-#include <QEventLoop>
 #include <QHostAddress>
 #include <QHostInfo>
 #include <QPointer>
@@ -191,15 +190,6 @@ void Session::open()
     d->startSocketTimer();
 }
 
-void Session::openAndWait()
-{
-    QEventLoop loop(nullptr);
-    d->m_startLoop = &loop;
-    open();
-    d->m_startLoop->exec();
-    d->m_startLoop = nullptr;
-}
-
 void Session::quit()
 {
     if (d->m_state == Session::Disconnected) {
@@ -210,23 +200,6 @@ void Session::quit()
     d->sendData("QUIT");
 }
 
-void Session::quitAndWait()
-{
-    if (d->m_state == Session::Disconnected) {
-        return;
-    }
-
-    QEventLoop loop;
-    connect(this, &Session::stateChanged, this, [&](Session::State state) {
-        if (state == Session::Disconnected) {
-            loop.quit();
-        }
-    });
-    d->setState(Quitting);
-    d->sendData("QUIT");
-    loop.exec();
-}
-
 void SessionPrivate::setState(Session::State s)
 {
     if (m_state == s) {
@@ -235,11 +208,6 @@ void SessionPrivate::setState(Session::State s)
 
     m_state = s;
     Q_EMIT q->stateChanged(m_state);
-
-    // After a handshake success or failure, exit the startup event loop if any
-    if (m_startLoop && (m_state == Session::NotAuthenticated || m_state == Session::Disconnected)) {
-        m_startLoop->quit();
-    }
 }
 
 void SessionPrivate::sendData(const QByteArray &data)

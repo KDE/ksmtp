@@ -61,14 +61,25 @@ void SmtpTest::testHello()
     fakeServer.startAndWait();
     KSmtp::Session session(QStringLiteral("127.0.0.1"), 5989);
     session.setCustomHostname(hostname);
-    session.openAndWait();
+    QEventLoop loop;
+    connect(&session, &KSmtp::Session::stateChanged, this, [&loop](auto state) {
+        qDebug() << state;
+        if (state == KSmtp::Session::NotAuthenticated || state == KSmtp::Session::Disconnected) {
+            loop.quit();
+        }
+    });
+    session.open();
+    loop.exec();
 
     qDebug() << "### Session state is:" << session.state();
 
     QEXPECT_FAIL("ERROR", "Expected failure if HELO command not recognized", Continue);
     QVERIFY2(session.state() == KSmtp::Session::NotAuthenticated, "Handshake failed");
 
-    session.quitAndWait();
+    session.quit();
+    if (session.state() != KSmtp::Session::Disconnected) {
+        loop.exec();
+    }
 
     QVERIFY(fakeServer.isAllScenarioDone());
     fakeServer.quit();
@@ -136,7 +147,14 @@ void SmtpTest::testLoginJob()
     fakeServer.startAndWait();
     KSmtp::Session session(QStringLiteral("127.0.0.1"), 5989);
     session.setCustomHostname(QStringLiteral("127.0.0.1"));
-    session.openAndWait();
+    QEventLoop loop;
+    connect(&session, &KSmtp::Session::stateChanged, this, [&loop](auto state) {
+        if (state == KSmtp::Session::NotAuthenticated || state == KSmtp::Session::Disconnected) {
+            loop.quit();
+        }
+    });
+    session.open();
+    loop.exec();
 
     auto login = new KSmtp::LoginJob(&session);
     login->setPreferedAuthMode(mode);
@@ -152,7 +170,8 @@ void SmtpTest::testLoginJob()
     QEXPECT_FAIL("Wrong password", "Expected failure if wrong password", Continue);
     QVERIFY2(session.state() == KSmtp::Session::Authenticated, "Authentication failed");
 
-    session.quitAndWait();
+    session.quit();
+    loop.exec();
 
     QVERIFY(fakeServer.isAllScenarioDone());
 
@@ -202,7 +221,14 @@ void SmtpTest::testSendJob()
     fakeServer.startAndWait();
     KSmtp::Session session(QStringLiteral("127.0.0.1"), 5989);
     session.setCustomHostname(QStringLiteral("127.0.0.1"));
-    session.openAndWait();
+    QEventLoop loop;
+    connect(&session, &KSmtp::Session::stateChanged, this, [&loop](auto state) {
+        if (state == KSmtp::Session::NotAuthenticated || state == KSmtp::Session::Disconnected) {
+            loop.quit();
+        }
+    });
+    session.open();
+    loop.exec();
 
     auto send = new KSmtp::SendJob(&session);
     send->setData("From: foo@bar.com\r\nTo: bar@foo.com\r\nHello world.\r\n.\r\n.\r\n..\r\n.Foo\r\nEnd");
@@ -213,7 +239,8 @@ void SmtpTest::testSendJob()
     // Checking job error code:
     QVERIFY2(send->error() == errorCode, qPrintable(QStringLiteral("Unexpected LoginJob error: ") + send->errorString()));
 
-    session.quitAndWait();
+    session.quit();
+    loop.exec();
 
     QVERIFY(fakeServer.isAllScenarioDone());
     fakeServer.quit();

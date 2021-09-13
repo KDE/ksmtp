@@ -38,8 +38,8 @@ public:
     /**
       Creates a new SMTP session to the specified host and port.
       After creating the session, call setUseNetworkProxy() if necessary
-      and then either open() or openAndWait() to open the connection.
-      @sa open(), openAndWait()
+      and then either open() to open the connection.
+      @sa open()
     */
     explicit Session(const QString &hostName, quint16 port, QObject *parent = nullptr);
     ~Session() override;
@@ -104,42 +104,19 @@ public:
       You should connect to stateChanged() before calling this method, and wait until the session's
       state is NotAuthenticated (Session is ready for a LoginJob) or Disconnected (connecting to the
       server failed)
-
-      @sa openAndWait()
     */
     void open();
-
-    /**
-      Opens the connection to the server and blocks the execution until the Session is in the
-      NotAuthenticated state (ready for a LoginJob) or Disconnected (connecting to the server failed)
-
-      @sa open()
-    */
-    void openAndWait();
 
     /**
       Requests the server to quit the connection.
 
       This sends a "QUIT" command to the server and will not close the connection until
       it receives a response. That means you should not delete this object right after
-      calling close, instead wait for stateChanged() to change to Disconnected, or use
-      quitAndWait().
+      calling close, instead wait for stateChanged() to change to Disconnected.
 
       See RFC 821, Chapter 4.1.1, "QUIT".
-
-      @sa quitAndWait()
     */
     void quit();
-
-    /**
-      Requests the server to quit the connection and blocks the execution until the
-      server replies and closes the connection.
-
-      See RFC 821, Chapter 4.1.1, "QUIT".
-
-      @sa quit()
-    */
-    void quitAndWait();
 
 Q_SIGNALS:
     void stateChanged(KSmtp::Session::State state);

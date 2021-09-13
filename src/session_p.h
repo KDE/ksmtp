@@ -17,7 +17,6 @@
 #include <QSslSocket>
 
 class KJob;
-class QEventLoop;
 
 namespace KSmtp
 {
@@ -73,7 +72,6 @@ private:
     SessionUiProxy::Ptr m_uiProxy;
     int m_socketTimerInterval = 0;
     QTimer m_socketTimer;
-    QEventLoop *m_startLoop = nullptr;
     QSsl::SslProtocol m_sslVersion;
 
     // Jobs
