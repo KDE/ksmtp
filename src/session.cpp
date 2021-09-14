@@ -302,14 +302,9 @@ void SessionPrivate::socketDisconnected()
     m_queue.clear();
 }
 
-void SessionPrivate::startSsl(QSsl::SslProtocol version)
+void SessionPrivate::startSsl()
 {
-    QMetaObject::invokeMethod(
-        m_thread,
-        [this, version] {
-            m_thread->startSsl(version);
-        },
-        Qt::QueuedConnection);
+    QMetaObject::invokeMethod(m_thread, &SessionThread::startSsl, Qt::QueuedConnection);
 }
 
 QSsl::SslProtocol SessionPrivate::negotiatedEncryption() const

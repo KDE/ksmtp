@@ -39,7 +39,7 @@ public:
 public Q_SLOTS:
     void reconnect();
     void closeSocket();
-    void startSsl(QSsl::SslProtocol version);
+    void startSsl();
     void sendData(const QByteArray &payload);
 
 Q_SIGNALS:

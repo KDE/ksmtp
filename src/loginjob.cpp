@@ -136,7 +136,7 @@ void LoginJob::doStart()
     }
 
     if (d->m_encryptionMode == SSLorTLS) {
-        d->sessionInternal()->startSsl(QSsl::SecureProtocols);
+        d->sessionInternal()->startSsl();
     } else if (d->m_encryptionMode == STARTTLS) {
         if (session()->allowsTls()) {
             sendCommand(QByteArrayLiteral("STARTTLS"));
@@ -162,7 +162,7 @@ void LoginJob::handleResponse(const ServerResponse &r)
 
     // Server accepts TLS connection
     if (r.isCode(220)) {
-        d->sessionInternal()->startSsl(QSsl::SecureProtocols);
+        d->sessionInternal()->startSsl();
         return;
     }
 

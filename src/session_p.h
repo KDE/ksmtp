@@ -37,7 +37,7 @@ public:
     void addJob(Job *job);
     void sendData(const QByteArray &data);
     void setState(Session::State s);
-    void startSsl(QSsl::SslProtocol version);
+    void startSsl();
 
     QSsl::SslProtocol negotiatedEncryption() const;
 

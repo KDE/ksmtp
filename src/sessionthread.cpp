@@ -188,11 +188,10 @@ ServerResponse SessionThread::parseResponse(const QByteArray &resp)
     return ServerResponse(returnCode, response, multiline);
 }
 
-void SessionThread::startSsl(QSsl::SslProtocol protocol)
+void SessionThread::startSsl()
 {
     QMutexLocker locker(&m_mutex);
 
-    m_socket->setProtocol(protocol);
     m_socket->ignoreSslErrors(); // don't worry, we DO handle the errors ourselves below
     connect(m_socket.get(), &QSslSocket::encrypted, this, &SessionThread::sslConnected);
     m_socket->startClientEncryption();
