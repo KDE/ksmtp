@@ -134,6 +134,7 @@ void SessionThread::run()
     m_socket = std::make_unique<QSslSocket>();
 
     connect(m_socket.get(), &QSslSocket::readyRead, this, &SessionThread::readResponse, Qt::QueuedConnection);
+    connect(m_socket.get(), &QSslSocket::encrypted, this, &SessionThread::sslConnected);
 
     connect(m_socket.get(), &QSslSocket::disconnected, m_parentSession->d, &SessionPrivate::socketDisconnected);
     connect(m_socket.get(), &QSslSocket::connected, m_parentSession->d, &SessionPrivate::socketConnected);
@@ -193,7 +194,6 @@ void SessionThread::startSsl()
     QMutexLocker locker(&m_mutex);
 
     m_socket->ignoreSslErrors(); // don't worry, we DO handle the errors ourselves below
-    connect(m_socket.get(), &QSslSocket::encrypted, this, &SessionThread::sslConnected);
     m_socket->startClientEncryption();
 }
 
