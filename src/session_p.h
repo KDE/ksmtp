@@ -68,6 +68,7 @@ private:
 
     // Smtp session
     Session::State m_state = Session::Disconnected;
+    Session::EncryptionMode m_encryptionMode = Session::Unencrypted;
     SessionThread *m_thread = nullptr;
     SessionUiProxy::Ptr m_uiProxy;
     int m_socketTimerInterval = 60000;

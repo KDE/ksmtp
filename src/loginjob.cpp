@@ -42,7 +42,6 @@ public:
         : JobPrivate(session, name)
         , m_preferedAuthMode(LoginJob::Login)
         , m_actualAuthMode(LoginJob::UnknownAuth)
-        , m_encryptionMode(LoginJob::Unencrypted)
         , q(job)
     {
     }
@@ -65,7 +64,6 @@ public:
     QString m_password;
     LoginJob::AuthMode m_preferedAuthMode;
     LoginJob::AuthMode m_actualAuthMode;
-    LoginJob::EncryptionMode m_encryptionMode;
 
     sasl_conn_t *m_saslConn = nullptr;
     sasl_interact_t *m_saslClient = nullptr;
@@ -114,40 +112,25 @@ LoginJob::AuthMode LoginJob::usedAuthMode() const
     return d_func()->m_actualAuthMode;
 }
 
-void LoginJob::setEncryptionMode(EncryptionMode mode)
-{
-    Q_D(LoginJob);
-    d->m_encryptionMode = mode;
-}
-
-LoginJob::EncryptionMode LoginJob::encryptionMode() const
-{
-    return d_func()->m_encryptionMode;
-}
-
 void LoginJob::doStart()
 {
     Q_D(LoginJob);
 
     const auto negotiatedEnc = d->sessionInternal()->negotiatedEncryption();
-    if (negotiatedEnc != QSsl::UnknownProtocol) {
-        // Socket already encrypted, pretend we did not want any
-        d->m_encryptionMode = Unencrypted;
-    }
-
-    if (d->m_encryptionMode == SSLorTLS) {
+    if (negotiatedEnc != QSsl::UnknownProtocol || d->m_session->encryptionMode() == Session::Unencrypted) {
+        // Socket already encrypted, or no encryption requested: continue with authentication
+        if (!d->authenticate()) {
+            emitResult();
+        }
+    } else if (d->m_session->encryptionMode() == Session::TLS) {
         d->sessionInternal()->startSsl();
-    } else if (d->m_encryptionMode == STARTTLS) {
+    } else if (d->m_session->encryptionMode() == Session::STARTTLS) {
         if (session()->allowsTls()) {
             sendCommand(QByteArrayLiteral("STARTTLS"));
         } else {
             qCWarning(KSMTP_LOG) << "STARTTLS not supported by the server!";
             setError(KJob::UserDefinedError);
             setErrorText(i18n("STARTTLS is not supported by the server, try using SSL/TLS instead."));
-            emitResult();
-        }
-    } else {
-        if (!d->authenticate()) {
             emitResult();
         }
     }

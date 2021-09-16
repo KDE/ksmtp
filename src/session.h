@@ -35,6 +35,14 @@ public:
     };
     Q_ENUM(State)
 
+    /** Transport encryption for a session. */
+    enum EncryptionMode {
+        Unencrypted, ///< Use no encryption.
+        TLS, ///< Use TLS encryption on the socket.
+        STARTTLS ///< Use STARTTLS to upgrade an unencrypted connection to encrypted after the initial handshake.
+    };
+    Q_ENUM(EncryptionMode)
+
     /**
       Creates a new SMTP session to the specified host and port.
       After creating the session, call setUseNetworkProxy() if necessary
@@ -67,6 +75,14 @@ public:
     Q_REQUIRED_RESULT quint16 port() const;
 
     Q_REQUIRED_RESULT State state() const;
+
+    /** Returns the requested encryption mode for this session. */
+    Q_REQUIRED_RESULT EncryptionMode encryptionMode() const;
+
+    /** Sets the encryption mode for this session.
+     *  Has to be called before @c open().
+     */
+    void setEncryptionMode(EncryptionMode mode);
 
     /**
       Returns true if the SMTP server has indicated that it allows TLS connections, false otherwise.
@@ -104,6 +120,10 @@ public:
       You should connect to stateChanged() before calling this method, and wait until the session's
       state is NotAuthenticated (Session is ready for a LoginJob) or Disconnected (connecting to the
       server failed)
+
+      Make sure to call @c setEncryptionMode() before.
+
+      @see setEncryptionMode
     */
     void open();
 

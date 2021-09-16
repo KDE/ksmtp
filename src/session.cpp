@@ -136,6 +136,16 @@ Session::State Session::state() const
     return d->m_state;
 }
 
+Session::EncryptionMode Session::encryptionMode() const
+{
+    return d->m_encryptionMode;
+}
+
+void Session::setEncryptionMode(Session::EncryptionMode mode)
+{
+    d->m_encryptionMode = mode;
+}
+
 bool Session::allowsTls() const
 {
     return d->m_allowsTls;
@@ -272,7 +282,7 @@ void SessionPrivate::socketConnected()
     bool useSsl = false;
     if (!m_queue.isEmpty()) {
         if (auto login = qobject_cast<LoginJob *>(m_queue.first())) {
-            useSsl = login->encryptionMode() == LoginJob::SSLorTLS;
+            useSsl = m_encryptionMode == Session::TLS;
         }
     }
 

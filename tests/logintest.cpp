@@ -26,16 +26,11 @@ public:
     }
 };
 
-void login(KSmtp::Session *session, const QString &user, const QString &pass, bool ssltls, bool starttls)
+void login(KSmtp::Session *session, const QString &user, const QString &pass)
 {
     auto login = new KSmtp::LoginJob(session);
     login->setUserName(user);
     login->setPassword(pass);
-    if (ssltls) {
-        login->setEncryptionMode(KSmtp::LoginJob::SSLorTLS);
-    } else if (starttls) {
-        login->setEncryptionMode(KSmtp::LoginJob::STARTTLS);
-    }
     QObject::connect(login, &KJob::result, [](KJob *job) {
         if (job->error()) {
             std::cout << "Login error: " << job->errorString().toStdString() << std::endl;
@@ -76,6 +71,11 @@ int main(int argc, char **argv)
 
     KSmtp::Session session(parser.value(hostOption), parser.value(portOption).toUInt());
     session.setUiProxy(SessionUiProxy::Ptr(new SessionUiProxy));
+    if (parser.isSet(sslTlsOption)) {
+        session.setEncryptionMode(KSmtp::Session::TLS);
+    } else if (parser.isSet(startTlsOption)) {
+        session.setEncryptionMode(KSmtp::Session::STARTTLS);
+    }
     QObject::connect(&session, &KSmtp::Session::stateChanged, [&](KSmtp::Session::State state) {
         switch (state) {
         case KSmtp::Session::Disconnected:
@@ -87,7 +87,7 @@ int main(int argc, char **argv)
         case KSmtp::Session::Ready:
             std::cout << "Session in Ready state" << std::endl;
             std::cout << std::endl;
-            login(&session, parser.value(userOption), parser.value(passOption), parser.isSet(sslTlsOption), parser.isSet(startTlsOption));
+            login(&session, parser.value(userOption), parser.value(passOption));
             break;
         case KSmtp::Session::Quitting:
             // Internal (avoid compile warning)

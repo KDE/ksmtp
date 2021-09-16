@@ -24,12 +24,6 @@ class KSMTP_EXPORT LoginJob : public Job
     Q_DECLARE_PRIVATE(LoginJob)
 
 public:
-    enum EncryptionMode {
-        Unencrypted,
-        SSLorTLS, ///< Use SSL/TLS encryption
-        STARTTLS ///< Use STARTTLS to upgrade an unencrypted connection to encrypted
-    };
-
     enum AuthMode { UnknownAuth, Plain, Login, CramMD5, DigestMD5, NTLM, GSSAPI, Anonymous, XOAuth2 };
 
     enum LoginError { TokenExpired = KJob::UserDefinedError + 1 };
@@ -42,9 +36,6 @@ public:
 
     void setPreferedAuthMode(AuthMode mode);
     Q_REQUIRED_RESULT AuthMode usedAuthMode() const;
-
-    void setEncryptionMode(EncryptionMode mode);
-    Q_REQUIRED_RESULT EncryptionMode encryptionMode() const;
 
 protected:
     void doStart() override;
