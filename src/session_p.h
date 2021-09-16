@@ -67,12 +67,12 @@ private:
     Session *const q;
 
     // Smtp session
-    Session::State m_state;
+    Session::State m_state = Session::Disconnected;
     SessionThread *m_thread = nullptr;
     SessionUiProxy::Ptr m_uiProxy;
-    int m_socketTimerInterval = 0;
+    int m_socketTimerInterval = 60000;
     QTimer m_socketTimer;
-    QSsl::SslProtocol m_sslVersion;
+    QSsl::SslProtocol m_sslVersion = QSsl::UnknownProtocol;
 
     // Jobs
     bool m_jobRunning = false;

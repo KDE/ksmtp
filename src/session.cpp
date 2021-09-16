@@ -29,9 +29,6 @@ Q_DECLARE_METATYPE(KSslErrorUiData)
 SessionPrivate::SessionPrivate(Session *session)
     : QObject(session)
     , q(session)
-    , m_state(Session::Disconnected)
-    , m_socketTimerInterval(60000)
-    , m_sslVersion(QSsl::UnknownProtocol)
 {
     qRegisterMetaType<QSsl::SslProtocol>();
     qRegisterMetaType<KSslErrorUiData>();
