@@ -115,22 +115,12 @@ LoginJob::AuthMode LoginJob::usedAuthMode() const
 void LoginJob::doStart()
 {
     Q_D(LoginJob);
+    if (d->sessionInternal()->negotiatedEncryption() == QSsl::UnknownProtocol && d->m_session->encryptionMode() != Session::Unencrypted) {
+        qFatal("LoginJob started despite session not being encrypted!");
+    }
 
-    const auto negotiatedEnc = d->sessionInternal()->negotiatedEncryption();
-    if (negotiatedEnc != QSsl::UnknownProtocol || d->m_session->encryptionMode() == Session::Unencrypted) {
-        // Socket already encrypted, or no encryption requested: continue with authentication
-        if (!d->authenticate()) {
-            emitResult();
-        }
-    } else if (d->m_session->encryptionMode() == Session::STARTTLS) {
-        if (session()->allowsTls()) {
-            sendCommand(QByteArrayLiteral("STARTTLS"));
-        } else {
-            qCWarning(KSMTP_LOG) << "STARTTLS not supported by the server!";
-            setError(KJob::UserDefinedError);
-            setErrorText(i18n("STARTTLS is not supported by the server, try using SSL/TLS instead."));
-            emitResult();
-        }
+    if (!d->authenticate()) {
+        emitResult();
     }
 }
 
@@ -140,19 +130,6 @@ void LoginJob::handleResponse(const ServerResponse &r)
 
     // Handle server errors
     handleErrors(r);
-
-    // Server accepts TLS connection
-    if (r.isCode(220)) {
-        d->sessionInternal()->startSsl();
-        return;
-    }
-
-    // Available authentication mechanisms
-    if (r.isCode(25) && r.text().startsWith("AUTH ")) { // krazy:exclude=strings
-        d->sessionInternal()->setAuthenticationMethods(r.text().remove(0, QByteArray("AUTH ").count()).split(' '));
-        d->authenticate();
-        return;
-    }
 
     // Send account data
     if (r.isCode(334)) {

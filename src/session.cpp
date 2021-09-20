@@ -258,9 +258,22 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
             }
 
             if (!r.isMultiline()) {
-                setState(Session::NotAuthenticated);
-                startNext();
+                if (m_encryptionMode == Session::STARTTLS && m_sslVersion == QSsl::UnknownProtocol) {
+                    if (m_allowsTls) {
+                        m_starttlsSent = true;
+                        sendData(QByteArrayLiteral("STARTTLS"));
+                    } else {
+                        qCWarning(KSMTP_LOG) << "STARTTLS not supported by the server!";
+                        q->quit();
+                    }
+                } else {
+                    setState(Session::NotAuthenticated);
+                    startNext();
+                }
             }
+        } else if (r.isCode(220) && m_starttlsSent) { // STARTTLS accepted
+            m_starttlsSent = false;
+            startSsl();
         }
     }
 

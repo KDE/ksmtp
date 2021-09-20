@@ -84,6 +84,7 @@ private:
     bool m_ehloRejected = false;
     int m_size = 0;
     bool m_allowsTls = false;
+    bool m_starttlsSent = false;
     QStringList m_authModes;
     QString m_customHostname;
 };
