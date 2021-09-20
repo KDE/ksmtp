@@ -193,6 +193,7 @@ QString Session::customHostname() const
 
 void Session::open()
 {
+    d->m_sslVersion = QSsl::UnknownProtocol;
     d->m_thread->setConnectWithTls(d->m_encryptionMode == Session::TLS);
     QTimer::singleShot(0, d->m_thread, &SessionThread::reconnect);
     d->startSocketTimer();
@@ -278,6 +279,7 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
 void SessionPrivate::socketConnected()
 {
     stopSocketTimer();
+    m_sslVersion = QSsl::UnknownProtocol;
     setState(Session::Ready);
 }
 
