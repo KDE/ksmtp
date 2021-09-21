@@ -259,7 +259,7 @@ bool LoginJobPrivate::sasl_challenge(const QByteArray &challenge)
         }
     }
 
-    Q_FOREVER {
+    for (;;) {
         result = sasl_client_step(m_saslConn, challenge.isEmpty() ? nullptr : challenge.constData(), challenge.size(), &m_saslClient, &out, &outLen);
         if (result == SASL_INTERACT) {
             if (!sasl_interact()) {
@@ -311,7 +311,7 @@ bool LoginJobPrivate::authenticate()
     const char *actualMech = nullptr;
     const auto authMode = authCommand(m_actualAuthMode);
 
-    Q_FOREVER {
+    for (;;) {
         qCDebug(KSMTP_LOG) << "Trying authmod" << authMode;
         result = sasl_client_start(m_saslConn, authMode.constData(), &m_saslClient, &out, &outLen, &actualMech);
         if (result == SASL_INTERACT) {
