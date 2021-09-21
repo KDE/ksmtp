@@ -33,6 +33,7 @@ public:
     Q_REQUIRED_RESULT quint16 port() const;
 
     void setUseNetworkProxy(bool useProxy);
+    void setConnectWithTls(bool useTls);
 
     void handleSslErrorResponse(bool ignoreError);
 
@@ -69,6 +70,7 @@ private:
     QString m_hostName;
     quint16 m_port;
     bool m_useProxy = false;
+    bool m_useTls = false;
 };
 }
 

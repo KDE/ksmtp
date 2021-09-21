@@ -27,7 +27,6 @@ SessionThread::SessionThread(const QString &hostName, quint16 port, Session *ses
     , m_parentSession(session)
     , m_hostName(hostName)
     , m_port(port)
-    , m_useProxy(false)
 {
     moveToThread(this);
 
@@ -125,7 +124,11 @@ void SessionThread::reconnect()
             qCDebug(KSMTP_LOG) << "Using the default system proxy to connect to the SMTP server.";
         }
 
-        m_socket->connectToHost(hostName(), port());
+        if (m_useTls) {
+            m_socket->connectToHostEncrypted(hostName(), port());
+        } else {
+            m_socket->connectToHost(hostName(), port());
+        }
     }
 }
 
@@ -154,6 +157,12 @@ void SessionThread::run()
 void SessionThread::setUseNetworkProxy(bool useProxy)
 {
     m_useProxy = useProxy;
+}
+
+void SessionThread::setConnectWithTls(bool useTls)
+{
+    QMutexLocker locker(&m_mutex);
+    m_useTls = useTls;
 }
 
 ServerResponse SessionThread::parseResponse(const QByteArray &resp)

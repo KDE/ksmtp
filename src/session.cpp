@@ -193,6 +193,7 @@ QString Session::customHostname() const
 
 void Session::open()
 {
+    d->m_thread->setConnectWithTls(d->m_encryptionMode == Session::TLS);
     QTimer::singleShot(0, d->m_thread, &SessionThread::reconnect);
     d->startSocketTimer();
 }
@@ -278,17 +279,6 @@ void SessionPrivate::socketConnected()
 {
     stopSocketTimer();
     setState(Session::Ready);
-
-    bool useSsl = false;
-    if (!m_queue.isEmpty()) {
-        if (qobject_cast<LoginJob *>(m_queue.first())) {
-            useSsl = m_encryptionMode == Session::TLS;
-        }
-    }
-
-    if (q->state() == Session::Ready && useSsl) {
-        startNext();
-    }
 }
 
 void SessionPrivate::socketDisconnected()

@@ -122,8 +122,6 @@ void LoginJob::doStart()
         if (!d->authenticate()) {
             emitResult();
         }
-    } else if (d->m_session->encryptionMode() == Session::TLS) {
-        d->sessionInternal()->startSsl();
     } else if (d->m_session->encryptionMode() == Session::STARTTLS) {
         if (session()->allowsTls()) {
             sendCommand(QByteArrayLiteral("STARTTLS"));
