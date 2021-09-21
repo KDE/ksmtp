@@ -281,7 +281,7 @@ void SessionPrivate::socketConnected()
 
     bool useSsl = false;
     if (!m_queue.isEmpty()) {
-        if (auto login = qobject_cast<LoginJob *>(m_queue.first())) {
+        if (qobject_cast<LoginJob *>(m_queue.first())) {
             useSsl = m_encryptionMode == Session::TLS;
         }
     }
