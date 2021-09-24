@@ -231,7 +231,7 @@ void SessionPrivate::sendData(const QByteArray &data)
 
 void SessionPrivate::responseReceived(const ServerResponse &r)
 {
-    // qCDebug(KSMTP_LOG) << "S:: [" << r.code() << "]" << (r.isMultiline() ? "-" : " ") << r.text();
+    qCDebug(KSMTP_LOG) << "S:: [" << r.code() << "]" << (r.isMultiline() ? "-" : " ") << r.text();
 
     if (m_state == Session::Quitting) {
         m_thread->closeSocket();

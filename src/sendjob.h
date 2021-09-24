@@ -57,6 +57,11 @@ public:
      */
     Q_REQUIRED_RESULT int size() const;
 
+    /**
+     * Set Delivery Status Notification.
+     */
+    void setDeliveryStatusNotification(bool b);
+
 protected:
     void doStart() override;
     void handleResponse(const ServerResponse &r) override;

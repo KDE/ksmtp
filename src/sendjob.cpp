@@ -44,6 +44,7 @@ public:
 
     QStringList m_recipientsCopy;
     Status m_status = Idle;
+    bool m_dsn = false;
 };
 }
 
@@ -171,7 +172,7 @@ void SendJob::handleResponse(const ServerResponse &r)
 
 void SendJobPrivate::sendNextRecipient()
 {
-    q->sendCommand("RCPT TO:<" + m_recipientsCopy.takeFirst().toUtf8() + '>');
+    q->sendCommand("RCPT TO:<" + m_recipientsCopy.takeFirst().toUtf8() + '>' + (m_dsn ? " NOTIFY=success,failure" : ""));
 }
 
 void SendJobPrivate::addRecipients(const QStringList &rcpts)
@@ -213,4 +214,10 @@ int SendJob::size() const
     Q_D(const SendJob);
 
     return d->m_data.size();
+}
+
+void SendJob::setDeliveryStatusNotification(bool enabled)
+{
+    Q_D(SendJob);
+    d->m_dsn = enabled;
 }
