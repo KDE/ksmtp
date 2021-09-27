@@ -141,7 +141,7 @@ void SessionThread::run()
 
     connect(m_socket.get(), &QSslSocket::disconnected, m_parentSession->d, &SessionPrivate::socketDisconnected);
     connect(m_socket.get(), &QSslSocket::connected, m_parentSession->d, &SessionPrivate::socketConnected);
-    connect(m_socket.get(), qOverload<QAbstractSocket::SocketError>(&QAbstractSocket::errorOccurred), this, [this](QAbstractSocket::SocketError err) {
+    connect(m_socket.get(), &QAbstractSocket::errorOccurred, this, [this](QAbstractSocket::SocketError err) {
         qCWarning(KSMTP_LOG) << "SMTP Socket error:" << err << m_socket->errorString();
         Q_EMIT m_parentSession->connectionError(m_socket->errorString());
     });
