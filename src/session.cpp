@@ -427,12 +427,6 @@ void SessionPrivate::stopSocketTimer()
     disconnect(&m_socketTimer, &QTimer::timeout, this, &SessionPrivate::onSocketTimeout);
 }
 
-void SessionPrivate::restartSocketTimer()
-{
-    stopSocketTimer();
-    startSocketTimer();
-}
-
 void SessionPrivate::onSocketTimeout()
 {
     socketDisconnected();

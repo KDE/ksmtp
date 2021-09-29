@@ -62,7 +62,6 @@ private:
     void startNext();
     void startSocketTimer();
     void stopSocketTimer();
-    void restartSocketTimer();
 
     Session *const q;
 
