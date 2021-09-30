@@ -245,10 +245,11 @@ void SessionThread::doHandleSslErrorResponse(bool ignoreError)
     if (ignoreError) {
         Q_EMIT encryptionNegotiationResult(true, m_socket->sessionProtocol());
     } else {
-        // reconnect in unencrypted mode, so new commands can be issued
+        const auto sslErrors = m_socket->sslHandshakeErrors();
+        QStringList errorMsgs;
+        errorMsgs.reserve(sslErrors.size());
+        std::transform(sslErrors.begin(), sslErrors.end(), std::back_inserter(errorMsgs), std::mem_fn(&QSslError::errorString));
+        Q_EMIT m_parentSession->connectionError(errorMsgs.join(QLatin1Char('\n')));
         m_socket->disconnectFromHost();
-        m_socket->waitForDisconnected();
-        m_socket->connectToHost(m_hostName, m_port);
-        Q_EMIT encryptionNegotiationResult(false, QSsl::UnknownProtocol);
     }
 }
