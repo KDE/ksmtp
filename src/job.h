@@ -44,7 +44,7 @@ protected:
     explicit Job(Session *session);
     explicit Job(JobPrivate &dd);
 
-    JobPrivate *const d_ptr;
+    std::unique_ptr<JobPrivate> const d_ptr;
 };
 }
 

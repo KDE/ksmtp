@@ -27,10 +27,7 @@ Job::Job(JobPrivate &dd)
 {
 }
 
-Job::~Job()
-{
-    delete d_ptr;
-}
+Job::~Job() = default;
 
 Session *Job::session() const
 {
