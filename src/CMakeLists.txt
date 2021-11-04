@@ -8,6 +8,15 @@ target_sources(KPimSMTP PRIVATE
     session.cpp
     sessionthread.cpp
     sessionuiproxy.cpp
+    loginjob.h
+    sessionthread_p.h
+    session_p.h
+    job.h
+    serverresponse_p.h
+    session.h
+    sessionuiproxy.h
+    job_p.h
+    sendjob.h
 )
 
 ecm_qt_declare_logging_category(KPimSMTP HEADER ksmtp_debug.h
