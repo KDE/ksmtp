@@ -246,9 +246,7 @@ void SmtpTest::testSendJob()
     fakeServer.quit();
 }
 
-SmtpTest::SmtpTest()
-{
-}
+SmtpTest::SmtpTest() = default;
 
 void SmtpTest::initTestCase()
 {

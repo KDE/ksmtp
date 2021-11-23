@@ -102,9 +102,7 @@ Session::Session(const QString &hostName, quint16 port, QObject *parent)
     connect(d->m_thread, &SessionThread::sslError, d, &SessionPrivate::handleSslError);
 }
 
-Session::~Session()
-{
-}
+Session::~Session() = default;
 
 void Session::setUseNetworkProxy(bool useProxy)
 {

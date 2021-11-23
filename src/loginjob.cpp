@@ -46,9 +46,7 @@ public:
     {
     }
 
-    ~LoginJobPrivate() override
-    {
-    }
+    ~LoginJobPrivate() override = default;
 
     bool sasl_interact();
     bool sasl_init();
@@ -80,9 +78,7 @@ LoginJob::LoginJob(Session *session)
 {
 }
 
-LoginJob::~LoginJob()
-{
-}
+LoginJob::~LoginJob() = default;
 
 void LoginJob::setUserName(const QString &userName)
 {

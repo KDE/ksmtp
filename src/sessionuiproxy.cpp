@@ -6,6 +6,4 @@
 
 #include "sessionuiproxy.h"
 
-KSmtp::SessionUiProxy::~SessionUiProxy()
-{
-}
+KSmtp::SessionUiProxy::~SessionUiProxy() = default;

@@ -22,9 +22,7 @@ public:
     {
     }
 
-    virtual ~JobPrivate()
-    {
-    }
+    virtual ~JobPrivate() = default;
 
     inline SessionPrivate *sessionInternal()
     {
