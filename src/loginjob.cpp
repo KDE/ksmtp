@@ -57,8 +57,8 @@ public:
     bool authenticate();
     bool selectAuthentication();
 
-    LoginJob::AuthMode authModeFromCommand(const QByteArray &mech) const;
-    QByteArray authCommand(LoginJob::AuthMode mode) const;
+    Q_REQUIRED_RESULT LoginJob::AuthMode authModeFromCommand(const QByteArray &mech) const;
+    Q_REQUIRED_RESULT QByteArray authCommand(LoginJob::AuthMode mode) const;
 
     QString m_userName;
     QString m_password;
