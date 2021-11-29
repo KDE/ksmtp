@@ -1,4 +1,5 @@
-
+# SPDX-FileCopyrightText: none
+# SPDX-License-Identifier: BSD-3-Clause
 add_library(KPimSMTP)
 add_library(KPim::SMTP ALIAS KPimSMTP)
 target_sources(KPimSMTP PRIVATE
