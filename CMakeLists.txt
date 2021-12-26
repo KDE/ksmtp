@@ -45,8 +45,10 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KSMTP
 
 
 ############ Find packages ############
-find_package(Qt5Network ${QT_REQUIRED_VERSION} REQUIRED)
-
+find_package(Qt${QT_MAJOR_VERSION}Network ${QT_REQUIRED_VERSION} REQUIRED)
+if (QT_MAJOR_VERSION STREQUAL "6")
+    find_package(Qt6Core5Compat)
+endif()
 find_package(KF5CoreAddons ${KF5_MIN_VERSION} CONFIG REQUIRED)
 find_package(KF5I18n ${KF5_MIN_VERSION} CONFIG REQUIRED)
 find_package(KF5KIO ${KF5_MIN_VERSION} CONFIG REQUIRED)
