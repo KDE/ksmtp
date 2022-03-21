@@ -67,4 +67,3 @@ protected:
     void handleResponse(const ServerResponse &r) override;
 };
 }
-

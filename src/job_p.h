@@ -38,4 +38,3 @@ public:
     QString m_name;
 };
 }
-

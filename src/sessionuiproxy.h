@@ -49,4 +49,3 @@ public:
     virtual bool ignoreSslError(const KSslErrorUiData &errorData) = 0;
 };
 }
-

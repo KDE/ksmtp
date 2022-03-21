@@ -88,4 +88,3 @@ private:
     QString m_customHostname;
 };
 }
-

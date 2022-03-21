@@ -32,4 +32,3 @@ private Q_SLOTS:
 
     // TODO: (CL) Check if SendJob parses properly the data it gets before sending
 };
-

@@ -47,4 +47,3 @@ protected:
     std::unique_ptr<JobPrivate> const d_ptr;
 };
 }
-

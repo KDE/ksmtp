@@ -73,4 +73,3 @@ private:
     bool m_useTls = false;
 };
 }
-

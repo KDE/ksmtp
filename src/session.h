@@ -150,4 +150,3 @@ private:
     SessionPrivate *const d;
 };
 }
-
