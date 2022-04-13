@@ -39,7 +39,7 @@ public:
     void setState(Session::State s);
     void startSsl();
 
-    QSsl::SslProtocol negotiatedEncryption() const;
+    Q_REQUIRED_RESULT QSsl::SslProtocol negotiatedEncryption() const;
 
 public Q_SLOTS:
     void handleSslError(const KSslErrorUiData &data);

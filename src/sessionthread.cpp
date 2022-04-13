@@ -170,8 +170,8 @@ ServerResponse SessionThread::parseResponse(const QByteArray &resp)
     QByteArray response(resp);
 
     // Remove useless CRLF
-    int indexOfCR = response.indexOf("\r");
-    int indexOfLF = response.indexOf("\n");
+    const int indexOfCR = response.indexOf("\r");
+    const int indexOfLF = response.indexOf("\n");
 
     if (indexOfCR > 0) {
         response.truncate(indexOfCR);
@@ -181,7 +181,7 @@ ServerResponse SessionThread::parseResponse(const QByteArray &resp)
     }
 
     // Server response code
-    QByteArray code = response.left(3);
+    const QByteArray code = response.left(3);
     bool ok = false;
     const int returnCode = code.toInt(&ok);
     if (!ok) {

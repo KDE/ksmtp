@@ -15,11 +15,11 @@ class ServerResponse
 {
 public:
     explicit ServerResponse(int code = 0, const QByteArray &text = QByteArray(), bool multiline = false);
-    int code() const;
-    QByteArray text() const;
-    bool isCode(int other) const;
+    Q_REQUIRED_RESULT int code() const;
+    Q_REQUIRED_RESULT QByteArray text() const;
+    Q_REQUIRED_RESULT bool isCode(int other) const;
 
-    bool isMultiline() const;
+    Q_REQUIRED_RESULT bool isMultiline() const;
 
 private:
     QByteArray m_text;
