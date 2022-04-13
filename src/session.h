@@ -94,6 +94,11 @@ public:
     Q_REQUIRED_RESULT bool allowsTls() const;
 
     /**
+      Returns true if the SMTP server has indicated that it allows DSN support, false otherwise.
+    */
+    Q_REQUIRED_RESULT bool allowsDns() const;
+
+    /**
       @todo: return parsed auth modes, instead of strings.
     */
     Q_REQUIRED_RESULT QStringList availableAuthModes() const;

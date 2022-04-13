@@ -170,7 +170,9 @@ void SendJob::handleResponse(const ServerResponse &r)
 
 void SendJobPrivate::sendNextRecipient()
 {
-    q->sendCommand("RCPT TO:<" + m_recipientsCopy.takeFirst().toUtf8() + '>' + (m_dsn ? " NOTIFY=success,failure" : ""));
+    const bool dnsSupport = m_session->allowsDns() ? m_dsn : false;
+    // qDebug() << " void SendJobPrivate::sendNextRecipient()" << m_session->allowsDns() << " dnsSupport " << dnsSupport;
+    q->sendCommand("RCPT TO:<" + m_recipientsCopy.takeFirst().toUtf8() + '>' + (dnsSupport ? " NOTIFY=success,failure" : ""));
 }
 
 void SendJobPrivate::addRecipients(const QStringList &rcpts)
