@@ -58,7 +58,6 @@ SendJob::SendJob(Session *session)
 void SendJob::setFrom(const QString &from)
 {
     Q_D(SendJob);
-    qDebug() << "void SendJob::setFrom(const QString &from) " << from;
     const auto start = from.indexOf(QLatin1Char('<'));
     if (start > -1) {
         const auto end = qMax(start, from.indexOf(QLatin1Char('>'), start));
@@ -66,7 +65,6 @@ void SendJob::setFrom(const QString &from)
     } else {
         d->m_returnPath = QStringLiteral("<%1>").arg(from);
     }
-    qDebug() << "d->m_returnPath  " << d->m_returnPath;
 }
 
 void SendJob::setTo(const QStringList &to)
@@ -107,7 +105,7 @@ void SendJob::doStart()
         return;
     }
 
-    int sizeLimit = session()->sizeLimit();
+    const int sizeLimit = session()->sizeLimit();
     if (sizeLimit > 0 && size() > sizeLimit) {
         setError(KJob::UserDefinedError);
         setErrorText(i18n("Could not send the message because it exceeds the maximum allowed size of %1 bytes. (Message size: %2 bytes.)", sizeLimit, size()));
@@ -172,7 +170,9 @@ void SendJob::handleResponse(const ServerResponse &r)
 
 void SendJobPrivate::sendNextRecipient()
 {
-    q->sendCommand("RCPT TO:<" + m_recipientsCopy.takeFirst().toUtf8() + '>' + (m_dsn ? " NOTIFY=success,failure" : ""));
+    const bool dnsSupport = m_session->allowsDns() ? m_dsn : false;
+    // qDebug() << " void SendJobPrivate::sendNextRecipient()" << m_session->allowsDns() << " dnsSupport " << dnsSupport;
+    q->sendCommand("RCPT TO:<" + m_recipientsCopy.takeFirst().toUtf8() + '>' + (dnsSupport ? " NOTIFY=success,failure" : ""));
 }
 
 void SendJobPrivate::addRecipients(const QStringList &rcpts)
