@@ -149,9 +149,9 @@ bool Session::allowsTls() const
     return d->m_allowsTls;
 }
 
-bool Session::allowsDns() const
+bool Session::allowsDsn() const
 {
-    return d->m_allowsDns;
+    return d->m_allowsDsn;
 }
 
 QStringList Session::availableAuthModes() const
@@ -259,7 +259,7 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
             } else if (r.text().startsWith("AUTH ")) { // krazy:exclude=strings
                 setAuthenticationMethods(r.text().remove(0, QByteArray("AUTH ").count()).split(' '));
             } else if (r.text() == "DSN") {
-                m_allowsDns = true;
+                m_allowsDsn = true;
             }
 
             if (!r.isMultiline()) {

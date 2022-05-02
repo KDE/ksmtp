@@ -94,9 +94,9 @@ public:
     Q_REQUIRED_RESULT bool allowsTls() const;
 
     /**
-      Returns true if the SMTP server has indicated that it allows DSN support, false otherwise.
+      Returns true if the SMTP server has indicated that it allows Delivery Status Notification (DSN) support, false otherwise.
     */
-    Q_REQUIRED_RESULT bool allowsDns() const;
+    Q_REQUIRED_RESULT bool allowsDsn() const;
 
     /**
       @todo: return parsed auth modes, instead of strings.

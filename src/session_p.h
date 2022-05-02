@@ -84,7 +84,7 @@ private:
     int m_size = 0;
     bool m_allowsTls = false;
     bool m_starttlsSent = false;
-    bool m_allowsDns = false;
+    bool m_allowsDsn = false;
     QStringList m_authModes;
     QString m_customHostname;
 };
