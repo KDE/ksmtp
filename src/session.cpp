@@ -18,7 +18,6 @@
 #include <QHostAddress>
 #include <QHostInfo>
 #include <QPointer>
-#include <QSslSocket>
 #include <QUrl>
 
 using namespace KSmtp;
