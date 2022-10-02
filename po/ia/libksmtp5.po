@@ -1,0 +1,97 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the ksmtp package.
+#
+# giovanni <g.sora@tiscali.it>, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: ksmtp\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-14 00:45+0000\n"
+"PO-Revision-Date: 2020-02-12 14:05+0100\n"
+"Last-Translator: giovanni <g.sora@tiscali.it>\n"
+"Language-Team: Interlingua <kde-i18n-it@kde.org>\n"
+"Language: ia\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 18.12.3\n"
+
+#: job.cpp:58
+#, kde-format
+msgid "Service not available"
+msgstr "Servicio non disponibile"
+
+#: job.cpp:60
+#, kde-format
+msgid "Mailbox unavailable. The server said: %1"
+msgstr "Cassetta de e-posta non disponibile. Le servitor diceva: %1"
+
+#: job.cpp:62
+#, kde-format
+msgid "Insufficient storage space on server. The server said: %1"
+msgstr ""
+"Spatio de immagazinage insufficiente sur le servitor. Le servitor diceva: %1"
+
+#: job.cpp:64
+#, kde-format
+msgid "Server error: %1"
+msgstr "Error de servitor: %1"
+
+#: job.cpp:73
+#, kde-format
+msgid "Connection to server lost."
+msgstr "Connexion a servitor perdite."
+
+#: loginjob.cpp:77
+#, kde-format
+msgid "Login"
+msgstr "Accesso de identification"
+
+#: loginjob.cpp:163
+#, kde-format
+msgid ""
+"Could not authenticate to the SMTP server because no matching authentication "
+"method has been found"
+msgstr ""
+"Non pote authenticar se al servitor SMTP proque necun methodo de "
+"authentication coincidente ha essite trovate"
+
+#: loginjob.cpp:224
+#, kde-format
+msgid "Token expired"
+msgstr "Indicio (token) expirava"
+
+#: loginjob.cpp:268
+#, kde-format
+msgid "Login failed, cannot initialize the SASL library"
+msgstr ""
+"Accesso de authentication falleva, nonpote initializar le bibliotheca de SASL"
+
+#: sendjob.cpp:54
+#, kde-format
+msgid "SendJob"
+msgstr "SendJob (Invia  carga)"
+
+#: sendjob.cpp:103
+#, kde-format
+msgid ""
+"Could not send the message because either the sender or recipient field is "
+"missing or invalid"
+msgstr ""
+"Non pote inviar le message proque o le campo de mittente o de recipiente es "
+"mancante o invalide"
+
+#: sendjob.cpp:111
+#, kde-format
+msgid ""
+"Could not send the message because it exceeds the maximum allowed size of %1 "
+"bytes. (Message size: %2 bytes.)"
+msgstr ""
+"Non pote inviar le message proque illo excede le grandor maxime permittite "
+"de %1 bytes. (Grandor de message: %2 bytes)"
+
+#~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
+#~ msgstr ""
+#~ "STARTTLS  non es supportate per le servitor, essaya usante SSL/TLS plus "
+#~ "tosto."

@@ -1,0 +1,100 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Marce Villarino <mvillarino@kde-espana.es>, 2013.
+# Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2017.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-14 00:45+0000\n"
+"PO-Revision-Date: 2018-10-21 18:58+0100\n"
+"Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
+"Language-Team: Galician <kde-i18n-doc@kde.org>\n"
+"Language: gl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: job.cpp:58
+#, kde-format
+msgid "Service not available"
+msgstr "Servizo non dispoñíbel"
+
+#: job.cpp:60
+#, kde-format
+msgid "Mailbox unavailable. The server said: %1"
+msgstr "Caixa de correo non dispoñíbel. O servidor dixo: %1"
+
+#: job.cpp:62
+#, kde-format
+msgid "Insufficient storage space on server. The server said: %1"
+msgstr "Espazo de almacenamento insuficiente no servidor. O servidor dixo: %1"
+
+#: job.cpp:64
+#, kde-format
+msgid "Server error: %1"
+msgstr "Erro do servidor: %1"
+
+#: job.cpp:73
+#, kde-format
+msgid "Connection to server lost."
+msgstr "Perdeuse a conexión co servidor."
+
+#: loginjob.cpp:77
+#, kde-format
+msgid "Login"
+msgstr "Identificación"
+
+#: loginjob.cpp:163
+#, kde-format
+msgid ""
+"Could not authenticate to the SMTP server because no matching authentication "
+"method has been found"
+msgstr ""
+"Non se puido autenticar co servidor de SMTP porque non se atopou ningún "
+"método de autenticación correspondente."
+
+#: loginjob.cpp:224
+#, kde-format
+msgid "Token expired"
+msgstr "O código caducou"
+
+#: loginjob.cpp:268
+#, kde-format
+msgid "Login failed, cannot initialize the SASL library"
+msgstr "O acceso fallou, non se pode inicializar a biblioteca SASL."
+
+#: sendjob.cpp:54
+#, kde-format
+msgid "SendJob"
+msgstr "Tarefa de envío"
+
+#: sendjob.cpp:103
+#, kde-format
+msgid ""
+"Could not send the message because either the sender or recipient field is "
+"missing or invalid"
+msgstr ""
+"Non se puido enviar a mensaxe porque faltan ou son incorrectos os campos do "
+"remitente ou do destinatario."
+
+#: sendjob.cpp:111
+#, kde-format
+msgid ""
+"Could not send the message because it exceeds the maximum allowed size of %1 "
+"bytes. (Message size: %2 bytes.)"
+msgstr ""
+"Non se puido enviar a mensaxe porque supera o tamaño límite de %1 bytes. O "
+"tamaño da mensaxe é de %2 bytes."
+
+#~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
+#~ msgstr "O servidor non é compatíbel con STARTTLS, probe a usar SSL/TLS."
+
+#~ msgid "Server time out"
+#~ msgstr "O servidor superou o tempo límite"
+
+#~ msgid "Job"
+#~ msgstr "Tarefa"

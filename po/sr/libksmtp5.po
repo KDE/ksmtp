@@ -1,0 +1,98 @@
+# Translation of libksmtp5.po into Serbian.
+# Chusslove Illich <caslav.ilic@gmx.net>, 2017.
+msgid ""
+msgstr ""
+"Project-Id-Version: libksmtp5\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2020-05-10 03:46+0200\n"
+"PO-Revision-Date: 2017-08-05 19:10+0200\n"
+"Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
+"Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+"X-Environment: kde\n"
+
+#: job.cpp:72
+#, kde-format
+msgid "Service not available"
+msgstr ""
+
+#: job.cpp:74
+#, kde-format
+msgid "Mailbox unavailable. The server said: %1"
+msgstr ""
+
+#: job.cpp:76
+#, kde-format
+msgid "Insufficient storage space on server. The server said: %1"
+msgstr ""
+
+#: job.cpp:78
+#, fuzzy, kde-format
+#| msgid "Server error"
+msgid "Server error: %1"
+msgstr "Грешка сервера"
+
+#: job.cpp:87
+#, kde-format
+msgid "Connection to server lost."
+msgstr "Веза са сервером изгубљена."
+
+#: loginjob.cpp:94
+#, kde-format
+msgid "Login"
+msgstr "Пријављивање"
+
+#: loginjob.cpp:159
+#, kde-format
+msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
+msgstr ""
+
+#: loginjob.cpp:223
+#, kde-format
+msgid ""
+"Could not authenticate to the SMTP server because no matching authentication "
+"method has been found"
+msgstr ""
+"Не могу да се аутентификујем на СМТП серверу зато што није нађен ниједан "
+"поклапајући метод аутентификације."
+
+#: loginjob.cpp:286
+#, kde-format
+msgid "Token expired"
+msgstr ""
+
+#: loginjob.cpp:331
+#, kde-format
+msgid "Login failed, cannot initialize the SASL library"
+msgstr "Пријављивање пропало, не могу да припремим САСЛ библиотеку"
+
+# rewrite-msgid: /Job//
+#: sendjob.cpp:69
+#, kde-format
+msgid "SendJob"
+msgstr "Слање"
+
+#: sendjob.cpp:120
+#, kde-format
+msgid ""
+"Could not send the message because either the sender or recipient field is "
+"missing or invalid"
+msgstr ""
+"Не могу да пошаљем поруку зато што је или поље пошиљаоца или примаоца празно "
+"или лоше."
+
+#: sendjob.cpp:128
+#, kde-format
+msgid ""
+"Could not send the message because it exceeds the maximum allowed size of %1 "
+"bytes. (Message size: %2 bytes.)"
+msgstr ""
+"Не могу да пошаљем поруку зато што премашује највећу дозвољену величину од "
+"%1 B. (Величина поруке: %2 B.)"

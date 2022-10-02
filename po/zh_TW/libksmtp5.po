@@ -1,0 +1,84 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the ksmtp package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ksmtp\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-14 00:45+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: job.cpp:58
+#, kde-format
+msgid "Service not available"
+msgstr ""
+
+#: job.cpp:60
+#, kde-format
+msgid "Mailbox unavailable. The server said: %1"
+msgstr ""
+
+#: job.cpp:62
+#, kde-format
+msgid "Insufficient storage space on server. The server said: %1"
+msgstr ""
+
+#: job.cpp:64
+#, kde-format
+msgid "Server error: %1"
+msgstr ""
+
+#: job.cpp:73
+#, kde-format
+msgid "Connection to server lost."
+msgstr ""
+
+#: loginjob.cpp:77
+#, kde-format
+msgid "Login"
+msgstr ""
+
+#: loginjob.cpp:163
+#, kde-format
+msgid ""
+"Could not authenticate to the SMTP server because no matching authentication "
+"method has been found"
+msgstr ""
+
+#: loginjob.cpp:224
+#, kde-format
+msgid "Token expired"
+msgstr ""
+
+#: loginjob.cpp:268
+#, kde-format
+msgid "Login failed, cannot initialize the SASL library"
+msgstr ""
+
+#: sendjob.cpp:54
+#, kde-format
+msgid "SendJob"
+msgstr ""
+
+#: sendjob.cpp:103
+#, kde-format
+msgid ""
+"Could not send the message because either the sender or recipient field is "
+"missing or invalid"
+msgstr ""
+
+#: sendjob.cpp:111
+#, kde-format
+msgid ""
+"Could not send the message because it exceeds the maximum allowed size of %1 "
+"bytes. (Message size: %2 bytes.)"
+msgstr ""

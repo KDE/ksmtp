@@ -1,0 +1,99 @@
+# Torbjörn Klatt <torbjoern.k@googlemail.com>, 2011.
+# Burkhard Lück <lueck@hube-lueck.de>, 2017, 2018.
+msgid ""
+msgstr ""
+"Project-Id-Version: libksmtp\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-14 00:45+0000\n"
+"PO-Revision-Date: 2018-11-20 08:34+0100\n"
+"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: job.cpp:58
+#, kde-format
+msgid "Service not available"
+msgstr "Dienst nicht verfügbar"
+
+#: job.cpp:60
+#, kde-format
+msgid "Mailbox unavailable. The server said: %1"
+msgstr "Postfach nicht erreichbar. Servermeldung: %1"
+
+#: job.cpp:62
+#, kde-format
+msgid "Insufficient storage space on server. The server said: %1"
+msgstr "Unzureichender Speicherplatz auf dem Server. Servermeldung: %1"
+
+#: job.cpp:64
+#, kde-format
+msgid "Server error: %1"
+msgstr "Serverfehler: %1"
+
+#: job.cpp:73
+#, kde-format
+msgid "Connection to server lost."
+msgstr "Die Verbindung zum Server ist abgebrochen."
+
+#: loginjob.cpp:77
+#, kde-format
+msgid "Login"
+msgstr "Anmeldung"
+
+#: loginjob.cpp:163
+#, kde-format
+msgid ""
+"Could not authenticate to the SMTP server because no matching authentication "
+"method has been found"
+msgstr ""
+"Es kann nicht am SMTP-Server authentifiziert werden, da keine passende "
+"Authentifizierungsmethode gefunden wurde."
+
+#: loginjob.cpp:224
+#, kde-format
+msgid "Token expired"
+msgstr "Token ist abgelaufen"
+
+#: loginjob.cpp:268
+#, kde-format
+msgid "Login failed, cannot initialize the SASL library"
+msgstr ""
+"Anmeldung fehlgeschlagen, die SASL-Bibliothek kann nicht initialisiert werden"
+
+#: sendjob.cpp:54
+#, kde-format
+msgid "SendJob"
+msgstr "Senden-Auftrag"
+
+#: sendjob.cpp:103
+#, kde-format
+msgid ""
+"Could not send the message because either the sender or recipient field is "
+"missing or invalid"
+msgstr ""
+"Die Nachricht kann nicht gesendet werden, da entweder der Absender oder "
+"Empfänger fehlt oder ungültig ist."
+
+#: sendjob.cpp:111
+#, kde-format
+msgid ""
+"Could not send the message because it exceeds the maximum allowed size of %1 "
+"bytes. (Message size: %2 bytes.)"
+msgstr ""
+"Die Nachricht kann nicht gesendet werden, da sie die maximal erlaubte Größe "
+"von %1 Byte überschreitet. (Nachrichtengröße: %2 Byte.)"
+
+#~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
+#~ msgstr ""
+#~ "STARTTLS wird vom Server nicht unterstützt, benutzen Sie stattdessen SSL/"
+#~ "TLS."
+
+#~ msgid "Server time out"
+#~ msgstr "Server antwortet nicht "
+
+#~ msgid "Job"
+#~ msgstr "Auftrag"

@@ -1,0 +1,99 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Stefan Asserhall <stefan.asserhall@bredband.net>, 2011, 2017, 2018.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-14 00:45+0000\n"
+"PO-Revision-Date: 2018-09-18 20:16+0100\n"
+"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
+"Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 2.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: job.cpp:58
+#, kde-format
+msgid "Service not available"
+msgstr "Tjänst ej tillgänglig"
+
+#: job.cpp:60
+#, kde-format
+msgid "Mailbox unavailable. The server said: %1"
+msgstr "Brevlåda ej tillgänglig. Servern svarade: %1"
+
+#: job.cpp:62
+#, kde-format
+msgid "Insufficient storage space on server. The server said: %1"
+msgstr "Otillräckligt lagringsutrymme på servern. Servern svarade: %1"
+
+#: job.cpp:64
+#, kde-format
+msgid "Server error: %1"
+msgstr "Serverfel: %1"
+
+#: job.cpp:73
+#, kde-format
+msgid "Connection to server lost."
+msgstr "Anslutningen till servern förlorad."
+
+#: loginjob.cpp:77
+#, kde-format
+msgid "Login"
+msgstr "Inloggning"
+
+#: loginjob.cpp:163
+#, kde-format
+msgid ""
+"Could not authenticate to the SMTP server because no matching authentication "
+"method has been found"
+msgstr ""
+"Kunde inte erhålla behörighet av SMTP-servern eftersom ingen matchande metod "
+"för behörighetskontroll hittades"
+
+#: loginjob.cpp:224
+#, kde-format
+msgid "Token expired"
+msgstr "Symbol utgången"
+
+#: loginjob.cpp:268
+#, kde-format
+msgid "Login failed, cannot initialize the SASL library"
+msgstr "Inloggning misslyckades, kan inte initiera SASL-biblioteket"
+
+#: sendjob.cpp:54
+#, kde-format
+msgid "SendJob"
+msgstr "Sändningsjobb"
+
+#: sendjob.cpp:103
+#, kde-format
+msgid ""
+"Could not send the message because either the sender or recipient field is "
+"missing or invalid"
+msgstr ""
+"Kunde inte skicka brevet eftersom antingen fältet för avsändare eller "
+"mottagare saknas eller är ogiltigt"
+
+#: sendjob.cpp:111
+#, kde-format
+msgid ""
+"Could not send the message because it exceeds the maximum allowed size of %1 "
+"bytes. (Message size: %2 bytes.)"
+msgstr ""
+"Kunde inte skicka brevet eftersom det överskrider den största tillåtna "
+"storleken %1 byte (brevstorlek: %2 byte)."
+
+#~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
+#~ msgstr "STARTTLS stöds inte av servern. Försök använda SSL/TLS istället."
+
+#~ msgid "Server time out"
+#~ msgstr "Tidsgräns har gått ut för servern"
+
+#~ msgid "Job"
+#~ msgstr "Jobb"

@@ -1,0 +1,99 @@
+# translation of libksmtp.po to Slovak
+# Roman Paholik <wizzardsk@gmail.com>, 2012, 2013, 2017.
+# Matej Mrenica <matejm98mthw@gmail.com>, 2019.
+msgid ""
+msgstr ""
+"Project-Id-Version: libksmtp\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-14 00:45+0000\n"
+"PO-Revision-Date: 2019-08-04 10:11+0200\n"
+"Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
+"Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 19.07.90\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: job.cpp:58
+#, kde-format
+msgid "Service not available"
+msgstr "Služba nie je k dispozícii"
+
+#: job.cpp:60
+#, kde-format
+msgid "Mailbox unavailable. The server said: %1"
+msgstr "Poštová schránka nie je k dispozícii. Server hlási: %1"
+
+#: job.cpp:62
+#, kde-format
+msgid "Insufficient storage space on server. The server said: %1"
+msgstr "Nedostatočný úložný priestor na serveri. Server hlási: %1"
+
+#: job.cpp:64
+#, kde-format
+msgid "Server error: %1"
+msgstr "Chyba servera: %1"
+
+#: job.cpp:73
+#, kde-format
+msgid "Connection to server lost."
+msgstr "Spojenie k serveru bolo stratené."
+
+#: loginjob.cpp:77
+#, kde-format
+msgid "Login"
+msgstr "Prihlásenie"
+
+#: loginjob.cpp:163
+#, kde-format
+msgid ""
+"Could not authenticate to the SMTP server because no matching authentication "
+"method has been found"
+msgstr ""
+"Nemôžem overiť cez SMTP server pretože nebola nájdená vyhovujúca overovacia "
+"metóda"
+
+#: loginjob.cpp:224
+#, kde-format
+msgid "Token expired"
+msgstr "Platnosť tokenu vypršala"
+
+#: loginjob.cpp:268
+#, kde-format
+msgid "Login failed, cannot initialize the SASL library"
+msgstr "Prihlásenie zlyhalo, nemôžem inicializovať knižnicu SASL"
+
+#: sendjob.cpp:54
+#, kde-format
+msgid "SendJob"
+msgstr "Poslať úlohu"
+
+#: sendjob.cpp:103
+#, kde-format
+msgid ""
+"Could not send the message because either the sender or recipient field is "
+"missing or invalid"
+msgstr ""
+"Nemôžem poslať správu pretože pole odosielateľa alebo prijímateľa chýba "
+"alebo je neplatné"
+
+#: sendjob.cpp:111
+#, kde-format
+msgid ""
+"Could not send the message because it exceeds the maximum allowed size of %1 "
+"bytes. (Message size: %2 bytes.)"
+msgstr ""
+"Nemôžem poslať správu pretože presahuje maximálnu povolenú veľkosť %1 "
+"bajtov. (Veľkosť správy: %2 bajtov.)"
+
+#~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
+#~ msgstr ""
+#~ "STARTTLS nie je podporovaný serverom, skúste namiesto toho použiť SSL/TLS."
+
+#~ msgid "Server time out"
+#~ msgstr "Časový limit servera"
+
+#~ msgid "Job"
+#~ msgstr "Úloha"
