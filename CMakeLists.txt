@@ -38,6 +38,9 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt 
 
 set(KSMTP_LIB_VERSION ${PIM_VERSION})
 set(QT_REQUIRED_VERSION "5.15.2")
+if (QT_MAJOR_VERSION STREQUAL "6")
+    set(QT_REQUIRED_VERSION "6.4.0")
+endif()
 ecm_setup_version(PROJECT VARIABLE_PREFIX KSMTP
     VERSION_HEADER ${KSMTP_BINARY_DIR}/ksmtp_version.h
     PACKAGE_VERSION_FILE ${KSMTP_BINARY_DIR}/KPimSMTPConfigVersion.cmake
