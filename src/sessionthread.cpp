@@ -125,6 +125,7 @@ void SessionThread::reconnect()
         }
 
         if (m_useTls) {
+            QTimer::singleShot(0, this, &SessionThread::startSsl);
             m_socket->connectToHostEncrypted(hostName(), port());
         } else {
             m_socket->connectToHost(hostName(), port());
