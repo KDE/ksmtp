@@ -39,10 +39,10 @@ endif()
 
 target_link_libraries(KPimSMTP
 PUBLIC
-    KF5::CoreAddons
+    KF${KF_MAJOR_VERSION}::CoreAddons
 PRIVATE
-    KF5::I18n
-    KF5::KIOCore
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::KIOCore
     Qt::Network
     Sasl2::Sasl2
     ${extra_LIBS}
