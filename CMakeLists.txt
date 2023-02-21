@@ -96,7 +96,7 @@ install(FILES
 )
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}SMTPConfigVersion.cmake"
-    RENAME "KPimConfigVersion.cmake"
+    RENAME "KPimSMTPConfigVersion.cmake"
     DESTINATION "${CMAKECONFIG_INSTALL_DIR_SMTP}"
     COMPONENT Devel
 )
