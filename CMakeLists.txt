@@ -77,7 +77,7 @@ configure_package_config_file(
 add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp5\")
 ecm_set_disabled_deprecation_versions(QT 6.4  KF 5.103.0)
 
-
+if (QT_MAJOR_VERSION STREQUAL "5")
 ##
 # TODO: Backwards compatiblity. Remove in next major version
 ##
@@ -105,7 +105,7 @@ install(EXPORT KPim${KF_MAJOR_VERSION}SMTPTargets
     FILE KPim${KF_MAJOR_VERSION}SMTPTargets.cmake
     NAMESPACE KPim::
 )
-
+endif()
 
 
 option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
