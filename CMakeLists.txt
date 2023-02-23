@@ -126,7 +126,7 @@ endif ()
 
 ########### Install Files ############
 install(FILES
-    "${KSMTP_BINARY_DIR}/KPimSMTPConfig.cmake"
+    "${KSMTP_BINARY_DIR}/KPim${KF_MAJOR_VERSION}SMTPConfig.cmake"
     "${KSMTP_BINARY_DIR}/KPim${KF_MAJOR_VERSION}SMTPConfigVersion.cmake"
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
     COMPONENT Devel
