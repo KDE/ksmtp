@@ -141,12 +141,12 @@ install(FILES
 
 if (BUILD_QCH)
     ecm_install_qch_export(
-        TARGETS KPimSMTP_QCH
-        FILE KPimSMTPQchTargets.cmake
+        TARGETS KPim${KF_MAJOR_VERSION}SMTP_QCH
+        FILE KPim${KF_MAJOR_VERSION}SMTPQchTargets.cmake
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel
     )
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPimSMTPQchTargets.cmake\")")
+    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim${KF_MAJOR_VERSION}SMPTQchTargets.cmake\")")
 endif()
 
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
