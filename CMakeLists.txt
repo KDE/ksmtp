@@ -35,6 +35,8 @@ include(ECMAddQch)
 
 option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
+option(BUILD_WITH_COMPAT_LIBS "Generate compat cmake file (Set at false will allow to co-install lib)" ON)
+
 
 set(KSMTP_LIB_VERSION ${PIM_VERSION})
 set(QT_REQUIRED_VERSION "5.15.2")
@@ -77,6 +79,7 @@ configure_package_config_file(
 add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp5\")
 ecm_set_disabled_deprecation_versions(QT 6.4  KF 5.103.0)
 
+if (BUILD_WITH_COMPAT_LIBS)
 if (QT_MAJOR_VERSION STREQUAL "5")
 ##
 # TODO: Backwards compatiblity. Remove in next major version
@@ -105,6 +108,7 @@ install(EXPORT KPim${KF_MAJOR_VERSION}SMTPTargets
     FILE KPim${KF_MAJOR_VERSION}SMTPTargets.cmake
     NAMESPACE KPim::
 )
+endif()
 endif()
 
 
