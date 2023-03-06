@@ -77,7 +77,7 @@ configure_package_config_file(
 )
 
 add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp5\")
-ecm_set_disabled_deprecation_versions(QT 6.4  KF 5.103.0)
+ecm_set_disabled_deprecation_versions(QT 6.4  KF 5.104.0)
 
 if (BUILD_WITH_COMPAT_LIBS)
 if (QT_MAJOR_VERSION STREQUAL "5")
