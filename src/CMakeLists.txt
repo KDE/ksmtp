@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 add_library(KPim${KF_MAJOR_VERSION}SMTP)
 add_library(KPim${KF_MAJOR_VERSION}::SMTP ALIAS KPim${KF_MAJOR_VERSION}SMTP)
-add_library(KPim${KF_MAJOR_VERSION}::SMTP ALIAS KPim${KF_MAJOR_VERSION}SMTP)
 target_sources(KPim${KF_MAJOR_VERSION}SMTP PRIVATE
     job.cpp
     loginjob.cpp
