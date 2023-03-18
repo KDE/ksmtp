@@ -82,13 +82,14 @@ ecm_qt_install_logging_categories(EXPORT KSMTP FILE ksmtp.categories DESTINATION
 
 if (BUILD_QCH)
     ecm_add_qch(
-        KPimSMTP_QCH
-        NAME KPimSMTP
-        BASE_NAME KPimSMTP
+        KPim${KF_MAJOR_VERSION}SMTP_QCH
+        NAME KPim${KF_MAJOR_VERSION}SMTP
+        BASE_NAME KPim${KF_MAJOR_VERSION}SMTP
         VERSION ${PIM_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
             ${KSMTP_HEADERS}
+	    ${KSMTP_CamelCase_HEADERS}
         #MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
         #IMAGE_DIRS "${CMAKE_SOURCE_DIR}/docs/pics"
         LINK_QCHS
