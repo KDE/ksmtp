@@ -68,6 +68,15 @@ set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
 
 ########### CMake Config Files ############
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim${KF_MAJOR_VERSION}SMTP")
+if (BUILD_QCH)
+    ecm_install_qch_export(
+        TARGETS KPim${KF_MAJOR_VERSION}SMTP_QCH
+        FILE KPim${KF_MAJOR_VERSION}SMTPQchTargets.cmake
+        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+        COMPONENT Devel
+    )
+    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim${KF_MAJOR_VERSION}SMTPQchTargets.cmake\")")
+endif()
 
 configure_package_config_file(
     "${KSMTP_SOURCE_DIR}/KPimSMTPConfig.cmake.in"
@@ -108,16 +117,6 @@ install(FILES
     ${KSMTP_BINARY_DIR}/ksmtp_version.h
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION} COMPONENT Devel
 )
-
-if (BUILD_QCH)
-    ecm_install_qch_export(
-        TARGETS KPim${KF_MAJOR_VERSION}SMTP_QCH
-        FILE KPim${KF_MAJOR_VERSION}SMTPQchTargets.cmake
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-        COMPONENT Devel
-    )
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim${KF_MAJOR_VERSION}SMPTQchTargets.cmake\")")
-endif()
 
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 ki18n_install(po)
