@@ -67,6 +67,22 @@ find_package(Sasl2)
 set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
 
 ########### CMake Config Files ############
+
+
+add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp5\")
+ecm_set_disabled_deprecation_versions(QT 6.4  KF 5.104.0)
+
+option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
+
+set(COMPILE_WITH_UNITY_CMAKE_SUPPORT OFF)
+if (USE_UNITY_CMAKE_SUPPORT)
+    set(COMPILE_WITH_UNITY_CMAKE_SUPPORT ON)
+endif()
+
+
+########### Targets ###########
+add_subdirectory(src)
+
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim${KF_MAJOR_VERSION}SMTP")
 if (BUILD_QCH)
     ecm_install_qch_export(
@@ -83,20 +99,6 @@ configure_package_config_file(
     "${KSMTP_BINARY_DIR}/KPim${KF_MAJOR_VERSION}SMTPConfig.cmake"
     INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
 )
-
-add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp5\")
-ecm_set_disabled_deprecation_versions(QT 6.4  KF 5.104.0)
-
-option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
-
-set(COMPILE_WITH_UNITY_CMAKE_SUPPORT OFF)
-if (USE_UNITY_CMAKE_SUPPORT)
-    set(COMPILE_WITH_UNITY_CMAKE_SUPPORT ON)
-endif()
-
-
-########### Targets ###########
-add_subdirectory(src)
 
 if (BUILD_TESTING)
     add_subdirectory(autotests)
