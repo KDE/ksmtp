@@ -9,5 +9,5 @@ irc: kontact
 
 libraries:
  - qmake: KSMTP
-   cmake: "KPim::SMTP"
-cmakename: KPimSMTP"
+   cmake: "KPim6::SMTP"
+cmakename: KPim6SMTP"
