@@ -252,19 +252,11 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
             }
         } else if (r.isCode(25)) {
             if (r.text().startsWith("SIZE ")) { // krazy:exclude=strings
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                m_size = r.text().remove(0, QByteArray("SIZE ").count()).toInt();
-#else
                 m_size = r.text().remove(0, QByteArray("SIZE ").size()).toInt();
-#endif
             } else if (r.text() == "STARTTLS") {
                 m_allowsTls = true;
             } else if (r.text().startsWith("AUTH ")) { // krazy:exclude=strings
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                setAuthenticationMethods(r.text().remove(0, QByteArray("AUTH ").count()).split(' '));
-#else
                 setAuthenticationMethods(r.text().remove(0, QByteArray("AUTH ").size()).split(' '));
-#endif
             } else if (r.text() == "DSN") {
                 m_allowsDsn = true;
             }
