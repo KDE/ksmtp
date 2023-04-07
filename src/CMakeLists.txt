@@ -29,7 +29,12 @@ if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPim6SMTP PROPERTIES UNITY_BUILD ON)
 endif()
 
-generate_export_header(KPim6SMTP BASE_NAME ksmtp)
+ecm_generate_export_header(KPim6SMTP
+    BASE_NAME ksmtp
+    VERSION ${KSMTP_VERSION}
+    DEPRECATED_BASE_VERSION 0
+    USE_VERSION_HEADER
+)
 target_include_directories(KPim6SMTP INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP;${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP/ksmtp>")
 
 if (WIN32)

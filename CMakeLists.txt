@@ -16,7 +16,7 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 
-include(GenerateExportHeader)
+include(ECMGenerateExportHeader)
 include(ECMGenerateHeaders)
 include(ECMGeneratePriFile)
 
@@ -40,7 +40,7 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt 
 set(KSMTP_LIB_VERSION ${PIM_VERSION})
 
 ecm_setup_version(PROJECT VARIABLE_PREFIX KSMTP
-    VERSION_HEADER ${KSMTP_BINARY_DIR}/ksmtp_version.h
+    VERSION_HEADER ${KSMTP_BINARY_DIR}/src/ksmtp_version.h
     PACKAGE_VERSION_FILE ${KSMTP_BINARY_DIR}/KPim6SMTPConfigVersion.cmake
     SOVERSION 6
 )
@@ -106,7 +106,7 @@ install(FILES
 install(EXPORT KPim6SMTPTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KPim6SMTPTargets.cmake NAMESPACE KPim6::)
 
 install(FILES
-    ${KSMTP_BINARY_DIR}/ksmtp_version.h
+    ${KSMTP_BINARY_DIR}/src/ksmtp_version.h
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP COMPONENT Devel
 )
 
