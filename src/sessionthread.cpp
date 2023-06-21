@@ -251,3 +251,5 @@ void SessionThread::doHandleSslErrorResponse(bool ignoreError)
         m_socket->disconnectFromHost();
     }
 }
+
+#include "moc_sessionthread_p.cpp"

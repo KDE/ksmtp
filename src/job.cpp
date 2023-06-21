@@ -73,3 +73,5 @@ void Job::connectionLost()
     setErrorText(i18n("Connection to server lost."));
     emitResult();
 }
+
+#include "moc_job.cpp"

@@ -257,3 +257,5 @@ void SmtpTest::cleanupTestCase()
 }
 
 QTEST_MAIN(SmtpTest)
+
+#include "moc_smtptest.cpp"

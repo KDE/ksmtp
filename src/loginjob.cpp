@@ -363,3 +363,5 @@ QByteArray LoginJobPrivate::authCommand(LoginJob::AuthMode mode) const
     }
     return {};
 }
+
+#include "moc_loginjob.cpp"

@@ -479,3 +479,7 @@ bool ServerResponse::isCode(int other) const
 
     return m_code / div == other;
 }
+
+#include "moc_session_p.cpp"
+
+#include "moc_session.cpp"

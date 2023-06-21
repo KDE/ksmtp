@@ -221,3 +221,5 @@ void SendJob::setDeliveryStatusNotification(bool enabled)
     Q_D(SendJob);
     d->m_dsn = enabled;
 }
+
+#include "moc_sendjob.cpp"
