@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the ksmtp package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ksmtp\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-14 00:45+0000\n"
+"PO-Revision-Date: 2023-09-27 18:59+0530\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
+"Language: sa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#: job.cpp:58
+#, kde-format
+msgid "Service not available"
+msgstr "सेवा उपलब्धा नास्ति"
+
+#: job.cpp:60
+#, kde-format
+msgid "Mailbox unavailable. The server said: %1"
+msgstr "सन्देशपेटिका अनुपलब्धः अस्ति। वितारकः अवदत् : %1"
+
+#: job.cpp:62
+#, kde-format
+msgid "Insufficient storage space on server. The server said: %1"
+msgstr "वितारके अपर्याप्तं भण्डारणस्थानं। वितारकः अवदत् : %1"
+
+#: job.cpp:64
+#, kde-format
+msgid "Server error: %1"
+msgstr "वितारक त्रुटिः: %1"
+
+#: job.cpp:73
+#, kde-format
+msgid "Connection to server lost."
+msgstr "वितारकेन सह सम्पर्कः नष्टः।."
+
+#: loginjob.cpp:77
+#, kde-format
+msgid "Login"
+msgstr "सम्प्रवेश"
+
+#: loginjob.cpp:163
+#, kde-format
+msgid ""
+"Could not authenticate to the SMTP server because no matching authentication "
+"method has been found"
+msgstr ""
+"SMTP वितारकं प्रति प्रमाणीकरणं कर्तुं न शक्तवान् यतः कोऽपि मेलप्रमाणीकरणविधिः न प्राप्ता"
+
+#: loginjob.cpp:224
+#, kde-format
+msgid "Token expired"
+msgstr "स्तोकस्य अवधिः समाप्तः"
+
+#: loginjob.cpp:268
+#, kde-format
+msgid "Login failed, cannot initialize the SASL library"
+msgstr "प्रवेशः विफलः, SASL पुस्तकालयस्य आरम्भं कर्तुं न शक्नोति"
+
+#: sendjob.cpp:54
+#, kde-format
+msgid "SendJob"
+msgstr "प्रेषणकार्यम्"
+
+#: sendjob.cpp:103
+#, kde-format
+msgid ""
+"Could not send the message because either the sender or recipient field is "
+"missing or invalid"
+msgstr "सन्देशं प्रेषयितुं न शक्तवान् यतः प्रेषकक्षेत्रं वा ग्राहकं वा क्षेत्रं लुप्तं अथवा अमान्यं अस्ति"
+
+#: sendjob.cpp:111
+#, kde-format
+msgid ""
+"Could not send the message because it exceeds the maximum allowed size of %1 "
+"bytes. (Message size: %2 bytes.)"
+msgstr ""
+"सन्देशं प्रेषयितुं न शक्तवान् यतः सः %1 बाइट् इत्यस्य अधिकतमं अनुमतं आकारं अतिक्रमयति । "
+"(सन्देशस्य आकारः : %2 बाइट् ।)"
