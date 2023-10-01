@@ -54,7 +54,7 @@ msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
 "method has been found"
 msgstr ""
-"Non se puido autenticar co servidor de SMTP porque non se atopou ningún "
+"Non foi posíbel autenticar co servidor de SMTP porque non se atopou ningún "
 "método de autenticación correspondente."
 
 #: loginjob.cpp:224
@@ -78,8 +78,8 @@ msgid ""
 "Could not send the message because either the sender or recipient field is "
 "missing or invalid"
 msgstr ""
-"Non se puido enviar a mensaxe porque faltan ou son incorrectos os campos do "
-"remitente ou do destinatario."
+"Non foi posíbel enviar a mensaxe porque faltan ou son incorrectos os campos "
+"do remitente ou do destinatario."
 
 #: sendjob.cpp:111
 #, kde-format
@@ -87,8 +87,8 @@ msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "
 "bytes. (Message size: %2 bytes.)"
 msgstr ""
-"Non se puido enviar a mensaxe porque supera o tamaño límite de %1 bytes. O "
-"tamaño da mensaxe é de %2 bytes."
+"Non foi posíbel enviar a mensaxe porque supera o tamaño límite de %1 bytes. "
+"O tamaño da mensaxe é de %2 bytes."
 
 #~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
 #~ msgstr "O servidor non é compatíbel con STARTTLS, probe a usar SSL/TLS."
