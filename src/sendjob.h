@@ -55,7 +55,7 @@ public:
     /**
      * Returns size of the encoded message data.
      */
-    Q_REQUIRED_RESULT int size() const;
+    [[nodiscard]] int size() const;
 
     /**
      * Set Delivery Status Notification.

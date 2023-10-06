@@ -48,15 +48,15 @@ public:
 
     ~LoginJobPrivate() override = default;
 
-    Q_REQUIRED_RESULT bool sasl_interact();
-    Q_REQUIRED_RESULT bool sasl_init();
-    Q_REQUIRED_RESULT bool sasl_challenge(const QByteArray &data);
+    [[nodiscard]] bool sasl_interact();
+    [[nodiscard]] bool sasl_init();
+    [[nodiscard]] bool sasl_challenge(const QByteArray &data);
 
-    Q_REQUIRED_RESULT bool authenticate();
-    Q_REQUIRED_RESULT bool selectAuthentication();
+    [[nodiscard]] bool authenticate();
+    [[nodiscard]] bool selectAuthentication();
 
-    Q_REQUIRED_RESULT LoginJob::AuthMode authModeFromCommand(const QByteArray &mech) const;
-    Q_REQUIRED_RESULT QByteArray authCommand(LoginJob::AuthMode mode) const;
+    [[nodiscard]] LoginJob::AuthMode authModeFromCommand(const QByteArray &mech) const;
+    [[nodiscard]] QByteArray authCommand(LoginJob::AuthMode mode) const;
 
     QString m_userName;
     QString m_password;

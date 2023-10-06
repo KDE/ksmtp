@@ -35,7 +35,7 @@ public:
     void setPassword(const QString &password);
 
     void setPreferedAuthMode(AuthMode mode);
-    Q_REQUIRED_RESULT AuthMode usedAuthMode() const;
+    [[nodiscard]] AuthMode usedAuthMode() const;
 
 protected:
     void doStart() override;

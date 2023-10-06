@@ -53,7 +53,7 @@ public:
     ~Session() override;
 
     void setUiProxy(const SessionUiProxy::Ptr &uiProxy);
-    Q_REQUIRED_RESULT SessionUiProxy::Ptr uiProxy() const;
+    [[nodiscard]] SessionUiProxy::Ptr uiProxy() const;
 
     /**
       Sets whether the SMTP network connection should use the system proxy settings
@@ -66,18 +66,18 @@ public:
       Returns the host name that has been provided in the Session's constructor
       @sa port()
     */
-    Q_REQUIRED_RESULT QString hostName() const;
+    [[nodiscard]] QString hostName() const;
 
     /**
       Returns the port number that has been provided in the Session's constructor
       @sa hostName()
     */
-    Q_REQUIRED_RESULT quint16 port() const;
+    [[nodiscard]] quint16 port() const;
 
-    Q_REQUIRED_RESULT State state() const;
+    [[nodiscard]] State state() const;
 
     /** Returns the requested encryption mode for this session. */
-    Q_REQUIRED_RESULT EncryptionMode encryptionMode() const;
+    [[nodiscard]] EncryptionMode encryptionMode() const;
 
     /** Sets the encryption mode for this session.
      *  Has to be called before @c open().
@@ -91,33 +91,33 @@ public:
 
       @sa KSmtp::LoginJob::setUseTls()
     */
-    Q_REQUIRED_RESULT bool allowsTls() const;
+    [[nodiscard]] bool allowsTls() const;
 
     /**
       Returns true if the SMTP server has indicated that it allows Delivery Status Notification (DSN) support, false otherwise.
     */
-    Q_REQUIRED_RESULT bool allowsDsn() const;
+    [[nodiscard]] bool allowsDsn() const;
 
     /**
       @todo: return parsed auth modes, instead of strings.
     */
-    Q_REQUIRED_RESULT QStringList availableAuthModes() const;
+    [[nodiscard]] QStringList availableAuthModes() const;
 
     /**
       Returns the maximum message size in bytes that the server accepts.
       You can use SendJob::size() to get the size of the message that you are trying to send
       @sa KSmtp::SendJob::size()
     */
-    Q_REQUIRED_RESULT int sizeLimit() const;
+    [[nodiscard]] int sizeLimit() const;
 
-    Q_REQUIRED_RESULT int socketTimeout() const;
+    [[nodiscard]] int socketTimeout() const;
     void setSocketTimeout(int ms);
 
     /**
      * Custom hostname to send in EHLO/HELO command
      */
     void setCustomHostname(const QString &hostname);
-    Q_REQUIRED_RESULT QString customHostname() const;
+    [[nodiscard]] QString customHostname() const;
 
     /**
       Opens the connection to the server.

@@ -29,8 +29,8 @@ public:
     explicit SessionThread(const QString &hostName, quint16 port, Session *session);
     ~SessionThread() override;
 
-    Q_REQUIRED_RESULT QString hostName() const;
-    Q_REQUIRED_RESULT quint16 port() const;
+    [[nodiscard]] QString hostName() const;
+    [[nodiscard]] quint16 port() const;
 
     void setUseNetworkProxy(bool useProxy);
     void setConnectWithTls(bool useTls);
