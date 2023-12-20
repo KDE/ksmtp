@@ -57,7 +57,7 @@ set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
 ########### CMake Config Files ############
 
 
-add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp5\")
+add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp6\")
 ecm_set_disabled_deprecation_versions(QT 6.6.0 KF 5.246.0)
 
 option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
