@@ -219,7 +219,7 @@ bool LoginJobPrivate::sasl_challenge(const QByteArray &challenge)
         QJsonDocument doc = QJsonDocument::fromJson(challenge);
         if (!doc.isNull() && doc.isObject()) {
             const auto obj = doc.object();
-            if (obj.value(QLatin1String("status")).toString() == QLatin1String("400")) {
+            if (obj.value(QLatin1StringView("status")).toString() == QLatin1String("400")) {
                 q->setError(LoginJob::TokenExpired);
                 q->setErrorText(i18n("Token expired"));
                 // https://developers.google.com/gmail/imap/xoauth2-protocol#error_response_2

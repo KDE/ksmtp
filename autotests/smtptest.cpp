@@ -136,9 +136,9 @@ void SmtpTest::testLoginJob()
     QFETCH(int, errorCode);
 
     KSmtp::LoginJob::AuthMode mode = KSmtp::LoginJob::UnknownAuth;
-    if (authMode == QLatin1String("Plain")) {
+    if (authMode == QLatin1StringView("Plain")) {
         mode = KSmtp::LoginJob::Plain;
-    } else if (authMode == QLatin1String("Login")) {
+    } else if (authMode == QLatin1StringView("Login")) {
         mode = KSmtp::LoginJob::Login;
     }
 
