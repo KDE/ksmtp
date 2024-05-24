@@ -31,7 +31,7 @@ void login(KSmtp::Session *session, const QString &user, const QString &pass)
     auto login = new KSmtp::LoginJob(session);
     login->setUserName(user);
     login->setPassword(pass);
-    QObject::connect(login, &KJob::result, [](KJob *job) {
+    QObject::connect(login, &KJob::result, login, [](KJob *job) {
         if (job->error()) {
             std::cout << "Login error: " << job->errorString().toStdString() << std::endl;
             qApp->quit();
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     } else if (parser.isSet(startTlsOption)) {
         session.setEncryptionMode(KSmtp::Session::STARTTLS);
     }
-    QObject::connect(&session, &KSmtp::Session::stateChanged, [&](KSmtp::Session::State state) {
+    QObject::connect(&session, &KSmtp::Session::stateChanged, &session, [&](KSmtp::Session::State state) {
         switch (state) {
         case KSmtp::Session::Disconnected:
             std::cout << "Session in Disconnected state" << std::endl;

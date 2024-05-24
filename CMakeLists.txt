@@ -57,7 +57,7 @@ set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
 
 ########### CMake Config Files ############
 
-
+add_definitions(-DQT_NO_CONTEXTLESS_CONNECT)
 add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp6\")
 ecm_set_disabled_deprecation_versions(QT 6.7.0 KF 6.3.0)
 
