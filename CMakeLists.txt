@@ -64,7 +64,7 @@ ecm_set_disabled_deprecation_versions(QT 6.7.0 KF 6.4.0)
 option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
 
 set(COMPILE_WITH_UNITY_CMAKE_SUPPORT OFF)
-if (USE_UNITY_CMAKE_SUPPORT)
+if(USE_UNITY_CMAKE_SUPPORT)
     set(COMPILE_WITH_UNITY_CMAKE_SUPPORT ON)
 endif()
 
@@ -73,13 +73,13 @@ endif()
 add_subdirectory(src)
 
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim6SMTP")
-if (BUILD_QCH)
+if(BUILD_QCH)
     ecm_install_qch_export(
         TARGETS KPim6SMTP_QCH
         FILE KPim6SMTPQchTargets.cmake
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel
-    )
+)
     set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim6SMTPQchTargets.cmake\")")
 endif()
 
@@ -89,10 +89,10 @@ configure_package_config_file(
     INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
 )
 
-if (BUILD_TESTING)
+if(BUILD_TESTING)
     add_subdirectory(autotests)
     add_subdirectory(tests)
-endif ()
+endif()
 
 ########### Install Files ############
 install(FILES

@@ -23,9 +23,9 @@ target_sources(KPim6SMTP PRIVATE
 ecm_qt_declare_logging_category(KPim6SMTP HEADER ksmtp_debug.h
         IDENTIFIER KSMTP_LOG CATEGORY_NAME org.kde.pim.ksmtp
         DESCRIPTION "ksmtp (ksmtp)" EXPORT KSMTP
-        )
+)
 
-if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
+if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPim6SMTP PROPERTIES UNITY_BUILD ON)
 endif()
 
@@ -37,7 +37,7 @@ ecm_generate_export_header(KPim6SMTP
 )
 target_include_directories(KPim6SMTP INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP;${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP/ksmtp>")
 
-if (WIN32)
+if(WIN32)
     set(extra_LIBS ws2_32)
 endif()
 
@@ -85,7 +85,7 @@ install(FILES
 )
 ecm_qt_install_logging_categories(EXPORT KSMTP FILE ksmtp.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
-if (BUILD_QCH)
+if(BUILD_QCH)
     ecm_add_qch(
         KPim6SMTP_QCH
         NAME KPim6SMTP
@@ -94,7 +94,7 @@ if (BUILD_QCH)
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
             ${KSMTP_HEADERS}
-	    ${KSMTP_CamelCase_HEADERS}
+            ${KSMTP_CamelCase_HEADERS}
         #MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
         #IMAGE_DIRS "${CMAKE_SOURCE_DIR}/docs/pics"
         LINK_QCHS
@@ -108,6 +108,6 @@ if (BUILD_QCH)
         TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
         COMPONENT Devel
-    )
+)
 endif()
 
