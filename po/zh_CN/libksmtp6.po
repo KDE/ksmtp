@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/ksmtp/libksmtp6.pot\n"
-"X-Crowdin-File-ID: 48998\n"
+"X-Crowdin-File: /kf6-stable/messages/ksmtp/libksmtp6.pot\n"
+"X-Crowdin-File-ID: 52220\n"
 
 #: job.cpp:58
 #, kde-format
