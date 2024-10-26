@@ -18,7 +18,12 @@ namespace KSmtp
 class SendJobPrivate : public JobPrivate
 {
 public:
-    enum Status { Idle, SendingReturnPath, SendingRecipients, SendingData };
+    enum Status {
+        Idle,
+        SendingReturnPath,
+        SendingRecipients,
+        SendingData
+    };
 
     SendJobPrivate(SendJob *job, Session *session, const QString &name)
         : JobPrivate(session, name)

@@ -24,9 +24,21 @@ class KSMTP_EXPORT LoginJob : public Job
     Q_DECLARE_PRIVATE(LoginJob)
 
 public:
-    enum AuthMode { UnknownAuth, Plain, Login, CramMD5, DigestMD5, NTLM, GSSAPI, Anonymous, XOAuth2 };
+    enum AuthMode {
+        UnknownAuth,
+        Plain,
+        Login,
+        CramMD5,
+        DigestMD5,
+        NTLM,
+        GSSAPI,
+        Anonymous,
+        XOAuth2
+    };
 
-    enum LoginError { TokenExpired = KJob::UserDefinedError + 1 };
+    enum LoginError {
+        TokenExpired = KJob::UserDefinedError + 1
+    };
 
     explicit LoginJob(Session *session);
     ~LoginJob() override;
