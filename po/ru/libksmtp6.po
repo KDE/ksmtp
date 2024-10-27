@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-14 00:45+0000\n"
+"POT-Creation-Date: 2024-10-27 00:41+0000\n"
 "PO-Revision-Date: 2020-04-22 17:23+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -68,12 +68,12 @@ msgstr "Истёк срок действия токена"
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Ошибка входа: не удалось инициализировать библиотеку SASL"
 
-#: sendjob.cpp:54
+#: sendjob.cpp:59
 #, kde-format
 msgid "SendJob"
 msgstr "Отправка писем"
 
-#: sendjob.cpp:103
+#: sendjob.cpp:108
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -82,7 +82,7 @@ msgstr ""
 "Не удалось отправить сообщение: поле данных отправителя или получателя не "
 "заполнено или содержит некорректные данные"
 
-#: sendjob.cpp:111
+#: sendjob.cpp:116
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-14 00:45+0000\n"
+"POT-Creation-Date: 2024-10-27 00:41+0000\n"
 "PO-Revision-Date: 2021-12-19 18:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -65,19 +65,19 @@ msgstr "انتهت صلاحية الرمز"
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "فشل الولوج، تعذّر تمهيد مكتبة SASL"
 
-#: sendjob.cpp:54
+#: sendjob.cpp:59
 #, kde-format
 msgid "SendJob"
 msgstr "إرسال مهمّة"
 
-#: sendjob.cpp:103
+#: sendjob.cpp:108
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
 "missing or invalid"
 msgstr "تعذّر إرسال الرّسالة بسبب نقص أو عدم صلاحيّة حقل المرسل أو المستلم"
 
-#: sendjob.cpp:111
+#: sendjob.cpp:116
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "
