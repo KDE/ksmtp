@@ -5,6 +5,9 @@ group: kdepim
 type: functional
 platforms:
     - name: Linux
+    - name: FreeBSD
+    - name: macOS
+    - name: Windows    
 irc: kontact
 
 libraries:
