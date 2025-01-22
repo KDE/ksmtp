@@ -7,9 +7,9 @@ platforms:
     - name: Linux
     - name: FreeBSD
     - name: macOS
-    - name: Windows    
+    - name: Windows
 irc: kontact
 
 libraries:
- - cmake: "KPim6::SMTP"
+    - cmake: "KPim6::SMTP"
 cmakename: KPim6SMTP"
