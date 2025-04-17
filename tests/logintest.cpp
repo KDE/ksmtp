@@ -26,7 +26,7 @@ public:
     }
 };
 
-void login(KSmtp::Session *session, const QString &user, const QString &pass)
+static void login(KSmtp::Session *session, const QString &user, const QString &pass)
 {
     auto login = new KSmtp::LoginJob(session);
     login->setUserName(user);

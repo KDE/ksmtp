@@ -23,8 +23,7 @@
 using namespace KSmtp;
 
 SessionThread::SessionThread(const QString &hostName, quint16 port, Session *session)
-    : QThread()
-    , m_parentSession(session)
+    : m_parentSession(session)
     , m_hostName(hostName)
     , m_port(port)
 {

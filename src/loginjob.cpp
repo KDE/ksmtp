@@ -40,8 +40,6 @@ class LoginJobPrivate : public JobPrivate
 public:
     LoginJobPrivate(LoginJob *job, Session *session, const QString &name)
         : JobPrivate(session, name)
-        , m_preferedAuthMode(LoginJob::Login)
-        , m_actualAuthMode(LoginJob::UnknownAuth)
         , q(job)
     {
     }
@@ -60,8 +58,8 @@ public:
 
     QString m_userName;
     QString m_password;
-    LoginJob::AuthMode m_preferedAuthMode;
-    LoginJob::AuthMode m_actualAuthMode;
+    LoginJob::AuthMode m_preferedAuthMode{LoginJob::Login};
+    LoginJob::AuthMode m_actualAuthMode{LoginJob::UnknownAuth};
 
     sasl_conn_t *m_saslConn = nullptr;
     sasl_interact_t *m_saslClient = nullptr;
