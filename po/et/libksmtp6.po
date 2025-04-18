@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:41+0000\n"
+"POT-Creation-Date: 2025-04-18 00:42+0000\n"
 "PO-Revision-Date: 2019-11-17 00:56+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -42,12 +42,12 @@ msgstr "Serveri tõrge: %1"
 msgid "Connection to server lost."
 msgstr "Ühendus serveriga katkes."
 
-#: loginjob.cpp:77
+#: loginjob.cpp:75
 #, kde-format
 msgid "Login"
 msgstr "Sisselogimine"
 
-#: loginjob.cpp:163
+#: loginjob.cpp:161
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -55,12 +55,12 @@ msgid ""
 msgstr ""
 "Autentimine SMTP serveris nurjus, sest ei leitud sobivat autentimisviisi"
 
-#: loginjob.cpp:224
+#: loginjob.cpp:222
 #, kde-format
 msgid "Token expired"
 msgstr "Pääsmik on aegunud"
 
-#: loginjob.cpp:268
+#: loginjob.cpp:266
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Sisselogimine nurjus, SASL teeki ei õnnestunud initsialiseerida"

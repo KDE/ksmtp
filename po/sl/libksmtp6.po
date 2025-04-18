@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:41+0000\n"
+"POT-Creation-Date: 2025-04-18 00:42+0000\n"
 "PO-Revision-Date: 2020-01-23 16:40+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -47,12 +47,12 @@ msgstr "Napaka strežnika: %1"
 msgid "Connection to server lost."
 msgstr "Povezava s strežnikom je bila prekinjena."
 
-#: loginjob.cpp:77
+#: loginjob.cpp:75
 #, kde-format
 msgid "Login"
 msgstr "Prijava"
 
-#: loginjob.cpp:163
+#: loginjob.cpp:161
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -61,12 +61,12 @@ msgstr ""
 "Ni se bilo mogoče overiti strežniku SMTP, ker ni bilo najdenega nobenega "
 "načina za overitev"
 
-#: loginjob.cpp:224
+#: loginjob.cpp:222
 #, kde-format
 msgid "Token expired"
 msgstr "Žeton je pretekel"
 
-#: loginjob.cpp:268
+#: loginjob.cpp:266
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Prijava ni uspela, saj ni mogoče inicializirati knjižnice SASL"

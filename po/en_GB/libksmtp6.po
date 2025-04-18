@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:41+0000\n"
+"POT-Creation-Date: 2025-04-18 00:42+0000\n"
 "PO-Revision-Date: 2018-10-27 17:55+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -42,12 +42,12 @@ msgstr "Server error: %1"
 msgid "Connection to server lost."
 msgstr "Connection to server lost."
 
-#: loginjob.cpp:77
+#: loginjob.cpp:75
 #, kde-format
 msgid "Login"
 msgstr "Login"
 
-#: loginjob.cpp:163
+#: loginjob.cpp:161
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -56,12 +56,12 @@ msgstr ""
 "Could not authenticate to the SMTP server because no matching authentication "
 "method has been found"
 
-#: loginjob.cpp:224
+#: loginjob.cpp:222
 #, kde-format
 msgid "Token expired"
 msgstr "Token expired"
 
-#: loginjob.cpp:268
+#: loginjob.cpp:266
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Login failed, cannot initialise the SASL library"

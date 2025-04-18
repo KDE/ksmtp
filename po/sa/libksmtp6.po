@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:41+0000\n"
+"POT-Creation-Date: 2025-04-18 00:42+0000\n"
 "PO-Revision-Date: 2023-09-27 18:59+0530\n"
 "Last-Translator: \n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -43,12 +43,12 @@ msgstr "वितारक त्रुटिः: %1"
 msgid "Connection to server lost."
 msgstr "वितारकेन सह सम्पर्कः नष्टः।."
 
-#: loginjob.cpp:77
+#: loginjob.cpp:75
 #, kde-format
 msgid "Login"
 msgstr "सम्प्रवेश"
 
-#: loginjob.cpp:163
+#: loginjob.cpp:161
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -56,12 +56,12 @@ msgid ""
 msgstr ""
 "SMTP वितारकं प्रति प्रमाणीकरणं कर्तुं न शक्तवान् यतः कोऽपि मेलप्रमाणीकरणविधिः न प्राप्ता"
 
-#: loginjob.cpp:224
+#: loginjob.cpp:222
 #, kde-format
 msgid "Token expired"
 msgstr "स्तोकस्य अवधिः समाप्तः"
 
-#: loginjob.cpp:268
+#: loginjob.cpp:266
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "प्रवेशः विफलः, SASL पुस्तकालयस्य आरम्भं कर्तुं न शक्नोति"

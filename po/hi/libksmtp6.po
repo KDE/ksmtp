@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:41+0000\n"
+"POT-Creation-Date: 2025-04-18 00:42+0000\n"
 "PO-Revision-Date: 2021-06-27 15:18+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -43,12 +43,12 @@ msgstr "सर्वर त्रुटि: %1"
 msgid "Connection to server lost."
 msgstr "सर्वर से कनेक्शन टूटा।"
 
-#: loginjob.cpp:77
+#: loginjob.cpp:75
 #, kde-format
 msgid "Login"
 msgstr "लॉगइन"
 
-#: loginjob.cpp:163
+#: loginjob.cpp:161
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -56,12 +56,12 @@ msgid ""
 msgstr ""
 "एसएमटीपी सर्वर में प्रमाणित नहीं कर सके क्योंकि कोई अनूकूल प्रमाणिकरण विधि नहीं मिली"
 
-#: loginjob.cpp:224
+#: loginjob.cpp:222
 #, kde-format
 msgid "Token expired"
 msgstr "टोकन की समय सीमा समाप्त हो चुकी है"
 
-#: loginjob.cpp:268
+#: loginjob.cpp:266
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "लॉगइन असफल, एसएएसएल लाइब्ररी को आयोजित नहीं कर सके"

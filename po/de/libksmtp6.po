@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libksmtp6\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:41+0000\n"
+"POT-Creation-Date: 2025-04-18 00:42+0000\n"
 "PO-Revision-Date: 2018-11-20 08:34+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -39,12 +39,12 @@ msgstr "Serverfehler: %1"
 msgid "Connection to server lost."
 msgstr "Die Verbindung zum Server ist abgebrochen."
 
-#: loginjob.cpp:77
+#: loginjob.cpp:75
 #, kde-format
 msgid "Login"
 msgstr "Anmeldung"
 
-#: loginjob.cpp:163
+#: loginjob.cpp:161
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -53,12 +53,12 @@ msgstr ""
 "Es kann nicht am SMTP-Server authentifiziert werden, da keine passende "
 "Authentifizierungsmethode gefunden wurde."
 
-#: loginjob.cpp:224
+#: loginjob.cpp:222
 #, kde-format
 msgid "Token expired"
 msgstr "Token ist abgelaufen"
 
-#: loginjob.cpp:268
+#: loginjob.cpp:266
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr ""

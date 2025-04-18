@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libksmtp5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:41+0000\n"
+"POT-Creation-Date: 2025-04-18 00:42+0000\n"
 "PO-Revision-Date: 2023-02-08 20:10+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -42,12 +42,12 @@ msgstr "Sunucu hatası: %1"
 msgid "Connection to server lost."
 msgstr "Sunucuya yapılan bağlantı koptu."
 
-#: loginjob.cpp:77
+#: loginjob.cpp:75
 #, kde-format
 msgid "Login"
 msgstr "Oturum Aç"
 
-#: loginjob.cpp:163
+#: loginjob.cpp:161
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -56,12 +56,12 @@ msgstr ""
 "SMTP sunucusunda kimlik doğrulama yapılamadı; çünkü eşleşen bir kimlik "
 "doğrulama yöntemi bulunamadı"
 
-#: loginjob.cpp:224
+#: loginjob.cpp:222
 #, kde-format
 msgid "Token expired"
 msgstr "Jetonun süresi doldu"
 
-#: loginjob.cpp:268
+#: loginjob.cpp:266
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Oturum açma başarısız, SASL kitaplığı başlatılamıyor"
