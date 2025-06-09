@@ -17,7 +17,7 @@
  * void MyClass::login()
  * {
  *   m_session = new KSmtp::Session("smtp.example.com", 587, KSmtp::Session::StartAndWait, this);
- * 
+ *
  *   // Start authentication
  *   KSmtp::LoginJob* login = new KSmtp::LoginJob(m_session);
  *   login->setUseTls(true);
@@ -33,7 +33,7 @@
  *     ... // handle error
  *     return;
  *   }
- * 
+ *
  *   // Create a new KMime::Message
  *   KMime::Message::Ptr msg(new KMime::Message());
  *   msg->from()->fromUnicodeString("sender@example.com", "utf-8");
