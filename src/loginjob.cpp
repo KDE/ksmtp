@@ -7,6 +7,8 @@
 */
 
 #include "loginjob.h"
+using namespace Qt::Literals::StringLiterals;
+
 #include "job_p.h"
 #include "ksmtp_debug.h"
 #include "serverresponse_p.h"

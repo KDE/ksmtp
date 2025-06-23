@@ -63,12 +63,12 @@ SendJob::SendJob(Session *session)
 void SendJob::setFrom(const QString &from)
 {
     Q_D(SendJob);
-    const auto start = from.indexOf(QLatin1Char('<'));
+    const auto start = from.indexOf(u'<');
     if (start > -1) {
-        const auto end = qMax(start, from.indexOf(QLatin1Char('>'), start));
-        d->m_returnPath = QStringLiteral("<%1>").arg(from.mid(start + 1, end - start - 1));
+        const auto end = qMax(start, from.indexOf(u'>', start));
+        d->m_returnPath = u"<%1>"_s.arg(from.mid(start + 1, end - start - 1));
     } else {
-        d->m_returnPath = QStringLiteral("<%1>").arg(from);
+        d->m_returnPath = u"<%1>"_s.arg(from);
     }
 }
 
@@ -187,9 +187,9 @@ void SendJobPrivate::addRecipients(const QStringList &rcpts)
             continue;
         }
 
-        const int start = rcpt.indexOf(QLatin1Char('<'));
+        const int start = rcpt.indexOf(u'<');
         if (start > -1) {
-            const int end = qMax(start, rcpt.indexOf(QLatin1Char('>'), start));
+            const int end = qMax(start, rcpt.indexOf(u'>', start));
             m_recipients.push_back(rcpt.mid(start + 1, end - start - 1));
         } else {
             m_recipients.push_back(rcpt);

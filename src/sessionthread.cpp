@@ -32,7 +32,7 @@ SessionThread::SessionThread(const QString &hostName, quint16 port, Session *ses
     const auto logfile = qgetenv("KSMTP_SESSION_LOG");
     if (!logfile.isEmpty()) {
         static uint sSessionCount = 0;
-        const QString filename = QStringLiteral("%1.%2.%3").arg(QString::fromUtf8(logfile)).arg(qApp->applicationPid()).arg(++sSessionCount);
+        const QString filename = u"%1.%2.%3"_s.arg(QString::fromUtf8(logfile)).arg(qApp->applicationPid()).arg(++sSessionCount);
         m_logFile = std::make_unique<QFile>(filename);
         if (!m_logFile->open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             qCWarning(KSMTP_LOG) << "Failed to open log file" << filename << ":" << m_logFile->errorString();
@@ -246,7 +246,7 @@ void SessionThread::doHandleSslErrorResponse(bool ignoreError)
         QStringList errorMsgs;
         errorMsgs.reserve(sslErrors.size());
         std::transform(sslErrors.begin(), sslErrors.end(), std::back_inserter(errorMsgs), std::mem_fn(&QSslError::errorString));
-        Q_EMIT m_parentSession->connectionError(errorMsgs.join(QLatin1Char('\n')));
+        Q_EMIT m_parentSession->connectionError(errorMsgs.join(u'\n'));
         m_socket->disconnectFromHost();
     }
 }

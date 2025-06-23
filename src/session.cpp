@@ -67,9 +67,9 @@ void SessionPrivate::startHandshake()
         // FIXME: QHostInfo::fromName can get a FQDN, but does a DNS lookup
         hostname = QHostInfo::localHostName();
         if (hostname.isEmpty()) {
-            hostname = QStringLiteral("localhost.invalid");
-        } else if (!hostname.contains(QLatin1Char('.'))) {
-            hostname += QStringLiteral(".localnet");
+            hostname = u"localhost.invalid"_s;
+        } else if (!hostname.contains(u'.')) {
+            hostname += u".localnet"_s;
         }
     }
 
@@ -92,7 +92,7 @@ Session::Session(const QString &hostName, quint16 port, QObject *parent)
     QHostAddress ip;
     QString saneHostName = hostName;
     if (ip.setAddress(hostName)) {
-        // saneHostName = QStringLiteral("[%1]").arg(hostName);
+        // saneHostName = u"[%1]"_s.arg(hostName);
     }
 
     d->m_thread = new SessionThread(saneHostName, port, this);

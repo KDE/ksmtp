@@ -7,6 +7,8 @@
 */
 
 #include "job.h"
+using namespace Qt::Literals::StringLiterals;
+
 #include "job_p.h"
 #include "serverresponse_p.h"
 #include "session_p.h"
@@ -17,7 +19,7 @@ using namespace KSmtp;
 
 Job::Job(Session *session)
     : KJob(session)
-    , d_ptr(new JobPrivate(session, QStringLiteral("Job")))
+    , d_ptr(new JobPrivate(session, u"Job"_s))
 {
 }
 
