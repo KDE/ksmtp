@@ -10,7 +10,6 @@
 #include "session.h"
 using namespace Qt::Literals::StringLiterals;
 
-
 namespace KSmtp
 {
 class SessionPrivate;
