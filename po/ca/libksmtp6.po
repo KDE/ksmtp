@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-18 00:42+0000\n"
+"POT-Creation-Date: 2025-06-24 00:43+0000\n"
 "PO-Revision-Date: 2023-08-07 22:13+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -21,38 +21,38 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Generator: Lokalize 23.04.3\n"
 
-#: job.cpp:58
+#: job.cpp:60
 #, kde-format
 msgid "Service not available"
 msgstr "El servei no està disponible"
 
-#: job.cpp:60
+#: job.cpp:62
 #, kde-format
 msgid "Mailbox unavailable. The server said: %1"
 msgstr "Bústia de correu no disponible. El servidor ha informat: «%1»"
 
-#: job.cpp:62
+#: job.cpp:64
 #, kde-format
 msgid "Insufficient storage space on server. The server said: %1"
 msgstr ""
 "Espai d'emmagatzematge insuficient al servidor. El servidor ha informat: «%1»"
 
-#: job.cpp:64
+#: job.cpp:66
 #, kde-format
 msgid "Server error: %1"
 msgstr "Error del servidor: %1"
 
-#: job.cpp:73
+#: job.cpp:75
 #, kde-format
 msgid "Connection to server lost."
 msgstr "S'ha perdut la connexió amb el servidor."
 
-#: loginjob.cpp:75
+#: loginjob.cpp:77
 #, kde-format
 msgid "Login"
 msgstr "Inici de sessió"
 
-#: loginjob.cpp:161
+#: loginjob.cpp:163
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -61,12 +61,12 @@ msgstr ""
 "No s'ha pogut realitzar l'autenticació amb el servidor SMTP perquè no s'ha "
 "trobat cap mètode d'autenticació coincident"
 
-#: loginjob.cpp:222
+#: loginjob.cpp:224
 #, kde-format
 msgid "Token expired"
 msgstr "El testimoni ha vençut"
 
-#: loginjob.cpp:266
+#: loginjob.cpp:268
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr ""

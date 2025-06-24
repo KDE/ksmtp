@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-18 00:42+0000\n"
+"POT-Creation-Date: 2025-06-24 00:43+0000\n"
 "PO-Revision-Date: 2018-10-27 17:55+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -17,37 +17,37 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: job.cpp:58
+#: job.cpp:60
 #, kde-format
 msgid "Service not available"
 msgstr "Service not available"
 
-#: job.cpp:60
+#: job.cpp:62
 #, kde-format
 msgid "Mailbox unavailable. The server said: %1"
 msgstr "Mailbox unavailable. The server said: %1"
 
-#: job.cpp:62
+#: job.cpp:64
 #, kde-format
 msgid "Insufficient storage space on server. The server said: %1"
 msgstr "Insufficient storage space on server. The server said: %1"
 
-#: job.cpp:64
+#: job.cpp:66
 #, kde-format
 msgid "Server error: %1"
 msgstr "Server error: %1"
 
-#: job.cpp:73
+#: job.cpp:75
 #, kde-format
 msgid "Connection to server lost."
 msgstr "Connection to server lost."
 
-#: loginjob.cpp:75
+#: loginjob.cpp:77
 #, kde-format
 msgid "Login"
 msgstr "Login"
 
-#: loginjob.cpp:161
+#: loginjob.cpp:163
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -56,12 +56,12 @@ msgstr ""
 "Could not authenticate to the SMTP server because no matching authentication "
 "method has been found"
 
-#: loginjob.cpp:222
+#: loginjob.cpp:224
 #, kde-format
 msgid "Token expired"
 msgstr "Token expired"
 
-#: loginjob.cpp:266
+#: loginjob.cpp:268
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Login failed, cannot initialise the SASL library"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-18 00:42+0000\n"
+"POT-Creation-Date: 2025-06-24 00:43+0000\n"
 "PO-Revision-Date: 2024-01-19 13:26+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -18,37 +18,37 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 24.01.90\n"
 
-#: job.cpp:58
+#: job.cpp:60
 #, kde-format
 msgid "Service not available"
 msgstr "A szolgáltatás nem érhető el"
 
-#: job.cpp:60
+#: job.cpp:62
 #, kde-format
 msgid "Mailbox unavailable. The server said: %1"
 msgstr "A postafiók nem érhető el. A kiszolgáló válasza: %1"
 
-#: job.cpp:62
+#: job.cpp:64
 #, kde-format
 msgid "Insufficient storage space on server. The server said: %1"
 msgstr "Nincs elegendő tárhely a kiszolgálón. A kiszolgáló válasza: %1"
 
-#: job.cpp:64
+#: job.cpp:66
 #, kde-format
 msgid "Server error: %1"
 msgstr "Kiszolgálóhiba: %1"
 
-#: job.cpp:73
+#: job.cpp:75
 #, kde-format
 msgid "Connection to server lost."
 msgstr "A kapcsolat a kiszolgálóval megszakadt."
 
-#: loginjob.cpp:75
+#: loginjob.cpp:77
 #, kde-format
 msgid "Login"
 msgstr "Bejelentkezés"
 
-#: loginjob.cpp:161
+#: loginjob.cpp:163
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -57,12 +57,12 @@ msgstr ""
 "Nem sikerült bejelentkezni az SMTP kiszolgálóra, mert nem található egyező "
 "hitelesítési módszer"
 
-#: loginjob.cpp:222
+#: loginjob.cpp:224
 #, kde-format
 msgid "Token expired"
 msgstr "A token lejárt"
 
-#: loginjob.cpp:266
+#: loginjob.cpp:268
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr ""
