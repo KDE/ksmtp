@@ -1,17 +1,17 @@
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
+# Spanish translations for libksmtp6.po package.
+# Copyright (C) 2011-2025 This file is copyright:
+# This file is distributed under the same license as the ksmtp package.
 #
-# Kira J. Fernandez <kirajfdez@gmail.com>, 2011.
-# Eloy <ecuadra@eloihr.net>, 2017.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2017.
-# Javier Vinal <fjvibal@gmail.com>, 2017, 2018.
+# SPDX-FileCopyrightText: 2011 Kira J. Fernandez <kirajfdez@gmail.com>
+# SPDX-FileCopyrightText: 2017, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2017, 2018 Javier Vinal <fjvibal@gmail.com>
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: libksmtp6\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-24 00:43+0000\n"
-"PO-Revision-Date: 2018-10-08 22:35+0100\n"
-"Last-Translator: Javier Vinal <fjvinal@gmail.com>\n"
+"PO-Revision-Date: 2025-08-16 02:22+0100\n"
+"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -94,11 +94,3 @@ msgid ""
 msgstr ""
 "No se ha podido enviar el mensaje porque se ha excedido el tamaño máximo "
 "permitido de %1 bytes. (Tamaño del mensaje: %2 bytes.)"
-
-#~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
-#~ msgstr ""
-#~ "STARTTLS no está implementado en el servidor, intente usar SSL/TLS en su "
-#~ "lugar."
-
-#~ msgid "Server time out"
-#~ msgstr "Tiempo límite del servidor"
