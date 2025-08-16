@@ -37,12 +37,6 @@ public:
     void addRecipients(const QStringList &rcpts);
     bool prepare();
 
-    using MessagePart = struct {
-        QString contentType;
-        QString name;
-        QByteArray content;
-    };
-
     QString m_returnPath;
     QStringList m_recipients;
     QByteArray m_data;

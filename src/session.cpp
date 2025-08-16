@@ -460,12 +460,12 @@ QByteArray ServerResponse::text() const
 
 bool ServerResponse::isCode(int other) const
 {
-    int otherCpy = other;
     int codeLength = 0;
 
     if (other == 0) {
         codeLength = 1;
     } else {
+        int otherCpy = other;
         while (otherCpy > 0) {
             otherCpy /= 10;
             codeLength++;
