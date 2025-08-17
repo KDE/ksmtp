@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-24 00:43+0000\n"
+"POT-Creation-Date: 2025-08-17 00:43+0000\n"
 "PO-Revision-Date: 2019-08-04 10:11+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -65,12 +65,12 @@ msgstr "Platnosť tokenu vypršala"
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Prihlásenie zlyhalo, nemôžem inicializovať knižnicu SASL"
 
-#: sendjob.cpp:59
+#: sendjob.cpp:53
 #, kde-format
 msgid "SendJob"
 msgstr "Poslať úlohu"
 
-#: sendjob.cpp:108
+#: sendjob.cpp:102
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -79,7 +79,7 @@ msgstr ""
 "Nemôžem poslať správu pretože pole odosielateľa alebo prijímateľa chýba "
 "alebo je neplatné"
 
-#: sendjob.cpp:116
+#: sendjob.cpp:110
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "

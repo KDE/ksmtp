@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-24 00:43+0000\n"
+"POT-Creation-Date: 2025-08-17 00:43+0000\n"
 "PO-Revision-Date: 2024-02-19 16:56+0200\n"
 "Last-Translator: Toms Trasūns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -67,12 +67,12 @@ msgstr "Iztecējis pilnvaras termiņš"
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Ierakstīšanās neizdevās, jo nevar inicializēt SASL bibliotēku"
 
-#: sendjob.cpp:59
+#: sendjob.cpp:53
 #, kde-format
 msgid "SendJob"
 msgstr "Nosūtīt uzdevumu"
 
-#: sendjob.cpp:108
+#: sendjob.cpp:102
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -81,7 +81,7 @@ msgstr ""
 "Sistēma nevarēja nosūtīt ziņojumu, jo sūtītāja vai saņēmēja lauks ir tukšs "
 "vai nederīgs"
 
-#: sendjob.cpp:116
+#: sendjob.cpp:110
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "

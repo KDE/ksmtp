@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-24 00:43+0000\n"
+"POT-Creation-Date: 2025-08-17 00:43+0000\n"
 "PO-Revision-Date: 2020-04-05 13:06+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -64,12 +64,12 @@ msgstr "토큰 만료됨"
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "로그인 실패, SASL 라이브러리를 초기화할 수 없음"
 
-#: sendjob.cpp:59
+#: sendjob.cpp:53
 #, kde-format
 msgid "SendJob"
 msgstr "SendJob"
 
-#: sendjob.cpp:108
+#: sendjob.cpp:102
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -78,7 +78,7 @@ msgstr ""
 "보낸 사람이나 받는 사람 필드가 비어 있거나 잘못되었기 때문에 메시지를 보낼 "
 "수 없음"
 
-#: sendjob.cpp:116
+#: sendjob.cpp:110
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "

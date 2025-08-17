@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-24 00:43+0000\n"
+"POT-Creation-Date: 2025-08-17 00:43+0000\n"
 "PO-Revision-Date: 2021-08-22 12:56+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -70,12 +70,12 @@ msgstr "Tokena iraungi da"
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Saio-hastea huts egin du, ezin du SASL liburutegia hasieratu"
 
-#: sendjob.cpp:59
+#: sendjob.cpp:53
 #, kde-format
 msgid "SendJob"
 msgstr "Bidaltzeko ataza"
 
-#: sendjob.cpp:108
+#: sendjob.cpp:102
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -84,7 +84,7 @@ msgstr ""
 "Ezin izan du mezua bidali, igorlea edo hartzailea eremuak falta direlako edo "
 "baliogabeak direlako"
 
-#: sendjob.cpp:116
+#: sendjob.cpp:110
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "

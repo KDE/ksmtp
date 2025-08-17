@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-24 00:43+0000\n"
+"POT-Creation-Date: 2025-08-17 00:43+0000\n"
 "PO-Revision-Date: 2021-06-27 15:18+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -66,12 +66,12 @@ msgstr "टोकन की समय सीमा समाप्त हो च
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "लॉगइन असफल, एसएएसएल लाइब्ररी को आयोजित नहीं कर सके"
 
-#: sendjob.cpp:59
+#: sendjob.cpp:53
 #, kde-format
 msgid "SendJob"
 msgstr "सेंडजॉब"
 
-#: sendjob.cpp:108
+#: sendjob.cpp:102
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -80,7 +80,7 @@ msgstr ""
 "सन्देश भेजा नहीं जा सका क्योंकि प्रेषक या प्रापक क्षेत्र में से कोई एक या तो खाली है या फिर "
 "अवैध है।"
 
-#: sendjob.cpp:116
+#: sendjob.cpp:110
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libksmtp6\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-24 00:43+0000\n"
+"POT-Creation-Date: 2025-08-17 00:43+0000\n"
 "PO-Revision-Date: 2025-08-16 02:17+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -72,12 +72,12 @@ msgid "Login failed, cannot initialize the SASL library"
 msgstr ""
 "El inicio de sesión ha fallado: no se puede inicializar la biblioteca SASL."
 
-#: sendjob.cpp:59
+#: sendjob.cpp:53
 #, kde-format
 msgid "SendJob"
 msgstr "Enviar trabajo"
 
-#: sendjob.cpp:108
+#: sendjob.cpp:102
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -86,7 +86,7 @@ msgstr ""
 "No se ha podido enviar el mensaje porque los campos del remitente o del "
 "destinatario faltan o no son válidos."
 
-#: sendjob.cpp:116
+#: sendjob.cpp:110
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "
