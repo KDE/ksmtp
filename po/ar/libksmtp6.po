@@ -41,7 +41,7 @@ msgstr "خطأ خادم : %1"
 #: job.cpp:75
 #, kde-format
 msgid "Connection to server lost."
-msgstr "فُقد الاتّصال بالخادوم."
+msgstr "فُقد الاتّصال بالخادم."
 
 #: loginjob.cpp:77
 #, kde-format
@@ -53,7 +53,7 @@ msgstr "لِج"
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
 "method has been found"
-msgstr "تعذّر الاستثياق مع خادوم SMTP بسبب عدم العثور على طريقة استيثاق مطابقة."
+msgstr "تعذّر الاستثياق مع خادم SMTP بسبب عدم العثور على طريقة استيثاق مطابقة."
 
 #: loginjob.cpp:224
 #, kde-format
