@@ -1,5 +1,5 @@
-# Torbjörn Klatt <torbjoern.k@googlemail.com>, 2011.
-# Burkhard Lück <lueck@hube-lueck.de>, 2017, 2018.
+# SPDX-FileCopyrightText: 2011 Torbjörn Klatt <torbjoern.k@googlemail.com>
+# SPDX-FileCopyrightText: 2017, 2018 Burkhard Lück <lueck@hube-lueck.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: libksmtp6\n"
