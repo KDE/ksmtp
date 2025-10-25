@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: libksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-17 00:43+0000\n"
-"PO-Revision-Date: 2011-10-04 23:13+0300\n"
+"PO-Revision-Date: 2025-10-24 21:25+0300\n"
 "Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-doc@kde.org>\n"
 "Language: lt\n"
@@ -18,33 +18,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Poedit 3.7\n"
 
 #: job.cpp:60
 #, kde-format
 msgid "Service not available"
-msgstr ""
+msgstr "Paslauga neprieinama"
 
 #: job.cpp:62
 #, kde-format
 msgid "Mailbox unavailable. The server said: %1"
-msgstr ""
+msgstr "Pašto dėžutė neprieinama. Serveris atsakė: %1"
 
 #: job.cpp:64
 #, kde-format
 msgid "Insufficient storage space on server. The server said: %1"
-msgstr ""
+msgstr "Nepakanka vietos serverio saugykloje. Serveris atsakė: %1"
 
 #: job.cpp:66
-#, fuzzy, kde-format
-#| msgid "Server error"
+#, kde-format
 msgid "Server error: %1"
-msgstr "Serverio klaida"
+msgstr "Serverio klaida: %1"
 
 #: job.cpp:75
 #, kde-format
 msgid "Connection to server lost."
-msgstr ""
+msgstr "Nutrūko ryšys su serveriu."
 
 #: loginjob.cpp:77
 #, kde-format
@@ -63,12 +62,12 @@ msgstr ""
 #: loginjob.cpp:224
 #, kde-format
 msgid "Token expired"
-msgstr ""
+msgstr "Prieigos raktas nebegalioja"
 
 #: loginjob.cpp:268
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
-msgstr ""
+msgstr "Nepavyko prisijungti, nepavyksta inicijuoti SASL bibliotekos"
 
 #: sendjob.cpp:53
 #, kde-format
@@ -90,7 +89,7 @@ msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "
 "bytes. (Message size: %2 bytes.)"
 msgstr ""
-"Nepavyko išsiųsti laiško, nes jis viršija didžiausią leistiną dydį - %1 "
+"Nepavyko išsiųsti laiško, nes jis viršija didžiausią leistiną dydį – %1 "
 "baitų (Laiško dydis: %2 baitų.)"
 
 #~ msgid "Server time out"
