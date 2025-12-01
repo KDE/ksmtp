@@ -95,6 +95,3 @@ msgid ""
 msgstr ""
 "No s'ha pogut enviar el missatge perquè s'ha excedit la mida màxima permesa "
 "de %1 bytes. (Mida del missatge: %2 bytes)."
-
-#~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
-#~ msgstr "STARTTLS no està acceptat pel servidor, proveu amb SSL/TLS."
