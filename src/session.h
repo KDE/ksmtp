@@ -17,8 +17,8 @@ namespace KSmtp
 {
 class SessionPrivate;
 class SessionThread;
-/**
- * @brief The Session class
+/*!
+ * \brief The Session class
  */
 class KSMTP_EXPORT Session : public QObject
 {
@@ -26,16 +26,16 @@ class KSMTP_EXPORT Session : public QObject
 
 public:
     enum State {
-        Disconnected = 0, /**< The Session is not connected to the server. */
-        Ready, /**< (internal) */
-        Handshake, /**< (internal) */
-        NotAuthenticated, /**< The Session is ready for login. @sa KSmtp::LoginJob */
-        Authenticated, /**< The Session is ready to send email. @sa KSmtp::SendJob */
-        Quitting /**< (internal) */
+        Disconnected = 0, /*!< The Session is not connected to the server. */
+        Ready, /*!< (internal) */
+        Handshake, /*!< (internal) */
+        NotAuthenticated, /*!< The Session is ready for login. @sa KSmtp::LoginJob */
+        Authenticated, /*!< The Session is ready to send email. @sa KSmtp::SendJob */
+        Quitting /*!< (internal) */
     };
     Q_ENUM(State)
 
-    /** Transport encryption for a session. */
+    /*! Transport encryption for a session. */
     enum EncryptionMode {
         Unencrypted, ///< Use no encryption.
         TLS, ///< Use TLS encryption on the socket.
@@ -43,7 +43,7 @@ public:
     };
     Q_ENUM(EncryptionMode)
 
-    /**
+    /*!
       Creates a new SMTP session to the specified host and port.
       After creating the session, call setUseNetworkProxy() if necessary
       and then either open() to open the connection.
@@ -55,20 +55,20 @@ public:
     void setUiProxy(const SessionUiProxy::Ptr &uiProxy);
     [[nodiscard]] SessionUiProxy::Ptr uiProxy() const;
 
-    /**
+    /*!
       Sets whether the SMTP network connection should use the system proxy settings
 
       The default is to not use the proxy.
     */
     void setUseNetworkProxy(bool useProxy);
 
-    /**
+    /*!
       Returns the host name that has been provided in the Session's constructor
       @sa port()
     */
     [[nodiscard]] QString hostName() const;
 
-    /**
+    /*!
       Returns the port number that has been provided in the Session's constructor
       @sa hostName()
     */
@@ -76,15 +76,15 @@ public:
 
     [[nodiscard]] State state() const;
 
-    /** Returns the requested encryption mode for this session. */
+    /*! Returns the requested encryption mode for this session. */
     [[nodiscard]] EncryptionMode encryptionMode() const;
 
-    /** Sets the encryption mode for this session.
-     *  Has to be called before @c open().
+    /*! Sets the encryption mode for this session.
+     *  Has to be called before \\ open().
      */
     void setEncryptionMode(EncryptionMode mode);
 
-    /**
+    /*!
       Returns true if the SMTP server has indicated that it allows TLS connections, false otherwise.
       The session must be at least in the NotAuthenticated state. Before that, allowsTls() always
       returns false.
@@ -93,17 +93,17 @@ public:
     */
     [[nodiscard]] bool allowsTls() const;
 
-    /**
+    /*!
       Returns true if the SMTP server has indicated that it allows Delivery Status Notification (DSN) support, false otherwise.
     */
     [[nodiscard]] bool allowsDsn() const;
 
-    /**
+    /*!
       @todo: return parsed auth modes, instead of strings.
     */
     [[nodiscard]] QStringList availableAuthModes() const;
 
-    /**
+    /*!
       Returns the maximum message size in bytes that the server accepts.
       You can use SendJob::size() to get the size of the message that you are trying to send
       @sa KSmtp::SendJob::size()
@@ -113,26 +113,26 @@ public:
     [[nodiscard]] int socketTimeout() const;
     void setSocketTimeout(int ms);
 
-    /**
+    /*!
      * Custom hostname to send in EHLO/HELO command
      */
     void setCustomHostname(const QString &hostname);
     [[nodiscard]] QString customHostname() const;
 
-    /**
+    /*!
       Opens the connection to the server.
 
       You should connect to stateChanged() before calling this method, and wait until the session's
       state is NotAuthenticated (Session is ready for a LoginJob) or Disconnected (connecting to the
       server failed)
 
-      Make sure to call @c setEncryptionMode() before.
+      Make sure to call \\ setEncryptionMode() before.
 
-      @see setEncryptionMode
+      \sa setEncryptionMode
     */
     void open();
 
-    /**
+    /*!
       Requests the server to quit the connection.
 
       This sends a "QUIT" command to the server and will not close the connection until
@@ -144,7 +144,11 @@ public:
     void quit();
 
 Q_SIGNALS:
+    /*!
+     */
     void stateChanged(KSmtp::Session::State state);
+    /*!
+     */
     void connectionError(const QString &error);
 
 private:

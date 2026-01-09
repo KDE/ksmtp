@@ -15,8 +15,8 @@
 namespace KSmtp
 {
 class LoginJobPrivate;
-/**
- * @brief The LoginJob class
+/*!
+ * \brief The LoginJob class
  */
 class KSMTP_EXPORT LoginJob : public Job
 {
@@ -40,17 +40,33 @@ public:
         TokenExpired = KJob::UserDefinedError + 1
     };
 
+    /*!
+     */
     explicit LoginJob(Session *session);
+    /*!
+     */
     ~LoginJob() override;
 
+    /*!
+     */
     void setUserName(const QString &userName);
+    /*!
+     */
     void setPassword(const QString &password);
 
+    /*!
+     */
     void setPreferedAuthMode(AuthMode mode);
+    /*!
+     */
     [[nodiscard]] AuthMode usedAuthMode() const;
 
 protected:
+    /*!
+     */
     void doStart() override;
+    /*!
+     */
     void handleResponse(const ServerResponse &r) override;
 };
 }

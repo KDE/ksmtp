@@ -15,8 +15,8 @@
 namespace KSmtp
 {
 class SendJobPrivate;
-/**
- * @brief The SendJob class
+/*!
+ * \brief The SendJob class
  */
 class KSMTP_EXPORT SendJob : public Job
 {
@@ -24,46 +24,52 @@ class KSMTP_EXPORT SendJob : public Job
     Q_DECLARE_PRIVATE(SendJob)
 
 public:
+    /*!
+     */
     explicit SendJob(Session *session);
 
-    /**
+    /*!
      * Set the sender email address
      */
     void setFrom(const QString &from);
 
-    /**
+    /*!
      * Add recipients.
      *
      */
     void setTo(const QStringList &to);
 
-    /**
+    /*!
      * Add recipients.
      */
     void setCc(const QStringList &cc);
 
-    /**
+    /*!
      * Add recipients.
      */
     void setBcc(const QStringList &bcc);
 
-    /**
+    /*!
      * Set the actual message data.
      */
     void setData(const QByteArray &data);
 
-    /**
+    /*!
      * Returns size of the encoded message data.
      */
     [[nodiscard]] int size() const;
 
-    /**
+    /*!
      * Set Delivery Status Notification.
      */
     void setDeliveryStatusNotification(bool b);
 
 protected:
+    /*!
+     */
     void doStart() override;
+    /*!
+     */
     void handleResponse(const ServerResponse &r) override;
 };
 }
