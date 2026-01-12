@@ -1,0 +1,12 @@
+version = 1
+SPDX-FileCopyrightText = "none"
+SPDX-License-Identifier = "CC0-1.0"
+SPDX-PackageName = "ksmtp"
+SPDX-PackageSupplier = "Montel Laurent <montel@kde.org>"
+SPDX-PackageDownloadLocation = "https://invent.kde.org/pim/ksmtp"
+
+[[annotations]]
+path = ["src/ksmtp-index.qdoc", "src/ksmtp.qdoc", "src/ksmtp.qdocconf"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "none"
+SPDX-License-Identifier = "CC0-1.0"
