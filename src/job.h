@@ -19,6 +19,10 @@ class SessionPrivate;
 class JobPrivate;
 class ServerResponse;
 /*!
+ * \class KSmtp::Job
+ * \inmodule KSMTP
+ * \inheaderfile KSMTP/Job
+ *
  * \brief The Job class
  */
 class KSMTP_EXPORT Job : public KJob

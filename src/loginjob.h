@@ -16,6 +16,10 @@ namespace KSmtp
 {
 class LoginJobPrivate;
 /*!
+ * \class KSmtp::LoginJob
+ * \inmodule KSMTP
+ * \inheaderfile KSMTP/LoginJob
+ *
  * \brief The LoginJob class
  */
 class KSMTP_EXPORT LoginJob : public Job
