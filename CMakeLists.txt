@@ -78,6 +78,8 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
 include(ECMFeatureSummary)
 include(ECMCheckOutboundLicense)
+include(ECMGenerateQDoc)
+
 file(
     GLOB_RECURSE ALL_SOURCE_FILES
     src/*.cpp

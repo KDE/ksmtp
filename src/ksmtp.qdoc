@@ -1,0 +1,9 @@
+/*!
+    \module KSMTP
+    \title KSMTP C++ Classes
+    \ingroup modules
+    \cmakepackage KPim6
+    \cmakecomponent SMTP
+
+    \brief KSMTP provides API to SMTP library.
+*/

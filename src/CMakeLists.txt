@@ -89,3 +89,4 @@ install(
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP/KSMTP
 )
 ecm_qt_install_logging_categories(EXPORT KSMTP FILE ksmtp.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
+ecm_generate_qdoc(KPim6SMTP ksmtp.qdocconf)

@@ -1,0 +1,33 @@
+include($KDE_DOCS/global/qt-module-defaults.qdocconf)
+
+project = KSMTP
+description = KSMTP provides API to SMTP library.
+
+
+documentationinheaders = true
+
+headerdirs += .
+sourcedirs += .
+
+outputformats = HTML
+
+depends += \
+    qtcore
+
+navigation.landingpage = "KSMTP"
+
+qhp.projects            = ksmtp
+
+qhp.ksmtp.file                = ksmtp.qhp
+qhp.ksmtp.namespace           = org.kde.ksmtp.$QT_VERSION_TAG
+qhp.ksmtp.virtualFolder       = ksmtp
+qhp.ksmtp.indexTitle          = ksmtp
+qhp.ksmtp.indexRoot           =
+
+qhp.ksmtp.subprojects         = classes
+qhp.ksmtp.subprojects.classes.title = C++ Classes
+qhp.ksmtp.subprojects.classes.indexTitle = KSMTP C++ Classes
+qhp.ksmtp.subprojects.classes.selectors = class fake:headerfile
+qhp.ksmtp.subprojects.classes.sortPages = true
+
+tagfile = ksmtp.tags
