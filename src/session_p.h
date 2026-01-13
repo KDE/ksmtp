@@ -8,7 +8,6 @@
 #pragma once
 
 #include "session.h"
-using namespace Qt::Literals::StringLiterals;
 
 #include <QObject>
 #include <QQueue>
