@@ -39,11 +39,16 @@ public:
     };
     Q_ENUM(State)
 
-    /*! Transport encryption for a session. */
+    /*!
+      Various possible values for the "EncryptionMode". Transport encryption for a session.
+      \value Unencrypted Use no encryption.
+      \value TLS Use TLS encryption on the socket.
+      \value STARTTLS Use STARTTLS to upgrade an unencrypted connection to encrypted after the initial handshake.
+    */
     enum EncryptionMode {
-        Unencrypted, ///< Use no encryption.
-        TLS, ///< Use TLS encryption on the socket.
-        STARTTLS ///< Use STARTTLS to upgrade an unencrypted connection to encrypted after the initial handshake.
+        Unencrypted,
+        TLS,
+        STARTTLS
     };
     Q_ENUM(EncryptionMode)
 
@@ -84,7 +89,7 @@ public:
     [[nodiscard]] EncryptionMode encryptionMode() const;
 
     /*! Sets the encryption mode for this session.
-     *  Has to be called before \\ open().
+     *  Has to be called before open().
      */
     void setEncryptionMode(EncryptionMode mode);
 
@@ -114,7 +119,15 @@ public:
     */
     [[nodiscard]] int sizeLimit() const;
 
+    /*!
+     * \brief socketTimeout
+     * \return
+     */
     [[nodiscard]] int socketTimeout() const;
+    /*!
+     * \brief setSocketTimeout
+     * \param ms
+     */
     void setSocketTimeout(int ms);
 
     /*!
@@ -130,7 +143,7 @@ public:
       state is NotAuthenticated (Session is ready for a LoginJob) or Disconnected (connecting to the
       server failed)
 
-      Make sure to call \\ setEncryptionMode() before.
+      Make sure to call \\sa setEncryptionMode() before.
 
       \sa setEncryptionMode
     */
