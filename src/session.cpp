@@ -379,9 +379,8 @@ void SessionPrivate::doStartNext()
     }
 }
 
-void SessionPrivate::jobDone(KJob *job)
+void SessionPrivate::jobDone([[maybe_unused]] KJob *job)
 {
-    Q_UNUSED(job)
     Q_ASSERT(job == m_currentJob);
 
     // If we're in disconnected state it's because we ended up
