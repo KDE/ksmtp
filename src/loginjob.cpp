@@ -46,7 +46,7 @@ public:
     {
     }
 
-    ~LoginJobPrivate() override = default;
+    ~LoginJobPrivate() override;
 
     [[nodiscard]] bool sasl_interact();
     [[nodiscard]] bool sasl_init();
@@ -58,8 +58,8 @@ public:
     [[nodiscard]] LoginJob::AuthMode authModeFromCommand(const QByteArray &mech) const;
     [[nodiscard]] QByteArray authCommand(LoginJob::AuthMode mode) const;
 
-    QString m_userName;
-    QString m_password;
+    QByteArray m_userName;
+    QByteArray m_password;
     LoginJob::AuthMode m_preferedAuthMode{LoginJob::Login};
     LoginJob::AuthMode m_actualAuthMode{LoginJob::UnknownAuth};
 
@@ -83,13 +83,13 @@ LoginJob::~LoginJob() = default;
 void LoginJob::setUserName(const QString &userName)
 {
     Q_D(LoginJob);
-    d->m_userName = userName;
+    d->m_userName = userName.toUtf8();
 }
 
 void LoginJob::setPassword(const QString &password)
 {
     Q_D(LoginJob);
-    d->m_password = password;
+    d->m_password = password.toUtf8();
 }
 
 void LoginJob::setPreferedAuthMode(AuthMode mode)
@@ -130,7 +130,7 @@ void LoginJob::handleResponse(const ServerResponse &r)
     // Send account data
     if (r.isCode(334)) {
         if (d->m_actualAuthMode == Plain) {
-            const QByteArray challengeResponse = '\0' + d->m_userName.toUtf8() + '\0' + d->m_password.toUtf8();
+            const QByteArray challengeResponse = '\0' + d->m_userName + '\0' + d->m_password;
             sendCommand(challengeResponse.toBase64());
         } else {
             if (!d->sasl_challenge(QByteArray::fromBase64(r.text()))) {
@@ -145,6 +145,11 @@ void LoginJob::handleResponse(const ServerResponse &r)
         d->sessionInternal()->setState(Session::Authenticated);
         emitResult();
     }
+}
+
+LoginJobPrivate::~LoginJobPrivate()
+{
+    sasl_dispose(&m_saslConn);
 }
 
 bool LoginJobPrivate::selectAuthentication()
@@ -186,16 +191,14 @@ bool LoginJobPrivate::sasl_interact()
         case SASL_CB_AUTHNAME: {
             // case SASL_CB_USER:
             qCDebug(KSMTP_LOG) << "SASL_CB_[USER|AUTHNAME]: '" << m_userName << "'";
-            const auto username = m_userName.toUtf8();
-            interact->result = strdup(username.constData());
-            interact->len = username.size();
+            interact->result = m_userName.constData();
+            interact->len = m_userName.size();
             break;
         }
         case SASL_CB_PASS: {
             qCDebug(KSMTP_LOG) << "SASL_CB_PASS: [hidden]";
-            const auto pass = m_password.toUtf8();
-            interact->result = strdup(pass.constData());
-            interact->len = pass.size();
+            interact->result = m_password.constData();
+            interact->len = m_password.size();
             break;
         }
         default:
