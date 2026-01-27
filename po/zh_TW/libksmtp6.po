@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:53+0000\n"
+"POT-Creation-Date: 2026-01-27 00:45+0000\n"
 "PO-Revision-Date: 2023-12-20 17:20+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -47,19 +47,19 @@ msgstr "已喪失對伺服器的連線。"
 msgid "Login"
 msgstr "登入"
 
-#: loginjob.cpp:163
+#: loginjob.cpp:168
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
 "method has been found"
 msgstr "無法與 SMTP 伺服器進行驗證，因為沒有找到任何相符的認證方法"
 
-#: loginjob.cpp:224
+#: loginjob.cpp:227
 #, kde-format
 msgid "Token expired"
 msgstr "權杖已過期"
 
-#: loginjob.cpp:268
+#: loginjob.cpp:271
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "登入失敗，無法初始化 SASL 函式庫"

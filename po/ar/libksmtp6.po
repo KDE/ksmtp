@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:53+0000\n"
+"POT-Creation-Date: 2026-01-27 00:45+0000\n"
 "PO-Revision-Date: 2021-12-19 18:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -48,19 +48,19 @@ msgstr "فُقد الاتّصال بالخادم."
 msgid "Login"
 msgstr "لِج"
 
-#: loginjob.cpp:163
+#: loginjob.cpp:168
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
 "method has been found"
 msgstr "تعذّر الاستثياق مع خادم SMTP بسبب عدم العثور على طريقة استيثاق مطابقة."
 
-#: loginjob.cpp:224
+#: loginjob.cpp:227
 #, kde-format
 msgid "Token expired"
 msgstr "انتهت صلاحية الرمز"
 
-#: loginjob.cpp:268
+#: loginjob.cpp:271
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "فشل الولوج، تعذّر تمهيد مكتبة SASL"
