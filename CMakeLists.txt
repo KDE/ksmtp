@@ -42,12 +42,10 @@ endif()
 if(NOT ${PRE_COMMIT_INSTALLED})
     find_program(PRE_COMMIT_EXECUTABLE pre-commit)
     if(PRE_COMMIT_EXECUTABLE)
-        message(
-            STATUS
-            "This module has pre-commit support. pre-commit binary was found. Installing pre-commit hook"
-        )
+        message(STATUS "This module has pre-commit support. pre-commit binary was found. Installing pre-commit hook")
         execute_process(
-            COMMAND "${PRE_COMMIT_EXECUTABLE}" install -f
+            COMMAND
+                "${PRE_COMMIT_EXECUTABLE}" install -f
             ERROR_QUIET
             RESULT_VARIABLE _precommitresult
             WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
@@ -64,10 +62,7 @@ if(NOT ${PRE_COMMIT_INSTALLED})
             kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
         endif()
     else()
-        message(
-            WARNING
-            "This module has pre-commit support. pre-commit binary was not found."
-        )
+        message(WARNING "This module has pre-commit support. pre-commit binary was not found.")
         include(KDEGitCommitHooks)
         include(KDEClangFormat)
         kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
@@ -108,7 +103,12 @@ find_package(KF6I18n ${KF_MIN_VERSION} CONFIG REQUIRED)
 find_package(KF6KIO ${KF_MIN_VERSION} CONFIG REQUIRED)
 
 find_package(Sasl2)
-set_package_properties(Sasl2 PROPERTIES TYPE REQUIRED)
+set_package_properties(
+    Sasl2
+    PROPERTIES
+        TYPE
+            REQUIRED
+)
 
 ########### CMake Config Files ############
 
@@ -121,11 +121,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 ecm_set_disabled_deprecation_versions(QT 6.11.0 KF 6.23.0)
 
-option(
-    USE_UNITY_CMAKE_SUPPORT
-    "Use UNITY cmake support (speedup compile time)"
-    OFF
-)
+option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
 
 set(COMPILE_WITH_UNITY_CMAKE_SUPPORT OFF)
 if(USE_UNITY_CMAKE_SUPPORT)
@@ -168,18 +164,9 @@ install(
     COMPONENT Devel
 )
 
-install(
-    EXPORT KPim6SMTPTargets
-    DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-    FILE KPim6SMTPTargets.cmake
-    NAMESPACE KPim6::
-)
+install(EXPORT KPim6SMTPTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KPim6SMTPTargets.cmake NAMESPACE KPim6::)
 
-install(
-    FILES ${KSMTP_BINARY_DIR}/src/ksmtp_version.h
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP
-    COMPONENT Devel
-)
+install(FILES ${KSMTP_BINARY_DIR}/src/ksmtp_version.h DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP COMPONENT Devel)
 
 if(DEFINED kde_configure_git_pre_commit_hook)
     kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)

@@ -28,7 +28,12 @@ ecm_qt_declare_logging_category(KPim6SMTP HEADER ksmtp_debug.h
 )
 
 if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
-    set_target_properties(KPim6SMTP PROPERTIES UNITY_BUILD ON)
+    set_target_properties(
+        KPim6SMTP
+        PROPERTIES
+            UNITY_BUILD
+                ON
+    )
 endif()
 
 ecm_generate_export_header(KPim6SMTP
@@ -49,16 +54,25 @@ endif()
 
 target_link_libraries(
     KPim6SMTP
-    PUBLIC KF6::CoreAddons
-    PRIVATE KF6::I18n KF6::KIOCore Qt::Network Sasl2::Sasl2 ${extra_LIBS}
+    PUBLIC
+        KF6::CoreAddons
+    PRIVATE
+        KF6::I18n
+        KF6::KIOCore
+        Qt::Network
+        Sasl2::Sasl2
+        ${extra_LIBS}
 )
 
 set_target_properties(
     KPim6SMTP
     PROPERTIES
-        VERSION ${KSMTP_VERSION}
-        SOVERSION ${KSMTP_SOVERSION}
-        EXPORT_NAME SMTP
+        VERSION
+            ${KSMTP_VERSION}
+        SOVERSION
+            ${KSMTP_SOVERSION}
+        EXPORT_NAME
+            SMTP
 )
 
 ecm_generate_headers(KSMTP_CamelCase_HEADERS
@@ -73,20 +87,15 @@ ecm_generate_headers(KSMTP_CamelCase_HEADERS
     REQUIRED_HEADERS KSMTP_HEADERS
 )
 
-install(
-    TARGETS KPim6SMTP
-    EXPORT KPim6SMTPTargets
-    ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
-)
+install(TARGETS KPim6SMTP EXPORT KPim6SMTPTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/ksmtp_export.h ${KSMTP_HEADERS}
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/ksmtp_export.h
+        ${KSMTP_HEADERS}
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP/ksmtp
 )
 
-install(
-    FILES ${KSMTP_CamelCase_HEADERS}
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP/KSMTP
-)
+install(FILES ${KSMTP_CamelCase_HEADERS} DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP/KSMTP)
 ecm_qt_install_logging_categories(EXPORT KSMTP FILE ksmtp.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 ecm_generate_qdoc(KPim6SMTP ksmtp.qdocconf)
