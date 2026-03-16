@@ -48,6 +48,7 @@ target_include_directories(
         "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP;${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP/ksmtp>"
 )
 
+set(extra_LIBS)
 if(WIN32)
     set(extra_LIBS ws2_32)
 endif()
