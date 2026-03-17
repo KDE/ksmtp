@@ -109,8 +109,6 @@ ecm_check_outbound_license(LICENSES GPL-2.0-only  FILES ${ALL_SOURCE_FILES})
 
 include(ECMAddQch)
 
-set(KSMTP_LIB_VERSION ${PIM_VERSION})
-
 ecm_setup_version(PROJECT VARIABLE_PREFIX KSMTP
     VERSION_HEADER ${KSMTP_BINARY_DIR}/src/ksmtp_version.h
     PACKAGE_VERSION_FILE ${KSMTP_BINARY_DIR}/KPim6SMTPConfigVersion.cmake
