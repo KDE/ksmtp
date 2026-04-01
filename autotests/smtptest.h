@@ -30,5 +30,8 @@ private Q_SLOTS:
     void testSendJob();
     void testSendJob_data();
 
+    void testSendJobEai();
+    void testSendJobEai_data();
+
     // TODO: (CL) Check if SendJob parses properly the data it gets before sending
 };

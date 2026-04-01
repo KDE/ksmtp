@@ -153,6 +153,11 @@ bool Session::allowsDsn() const
     return d->m_allowsDsn;
 }
 
+bool Session::allowsSmtpUtf8() const
+{
+    return d->m_allowsSmtpUtf8;
+}
+
 QStringList Session::availableAuthModes() const
 {
     return d->m_authModes;
@@ -259,6 +264,8 @@ void SessionPrivate::responseReceived(const ServerResponse &r)
                 setAuthenticationMethods(r.text().remove(0, QByteArray("AUTH ").size()).split(' '));
             } else if (r.text() == "DSN") {
                 m_allowsDsn = true;
+            } else if (r.text() == "SMTPUTF8") {
+                m_allowsSmtpUtf8 = true;
             }
 
             if (!r.isMultiline()) {

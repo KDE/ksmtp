@@ -85,6 +85,7 @@ private:
     bool m_allowsTls = false;
     bool m_starttlsSent = false;
     bool m_allowsDsn = false;
+    bool m_allowsSmtpUtf8 = false;
     QStringList m_authModes;
     QString m_customHostname;
 };

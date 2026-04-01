@@ -262,6 +262,105 @@ void SmtpTest::testSendJob()
     fakeServer.quit();
 }
 
+void SmtpTest::testSendJobEai_data()
+{
+    QTest::addColumn<QList<QByteArray>>("scenario");
+    QTest::addColumn<QString>("from");
+    QTest::addColumn<QStringList>("to");
+    QTest::addColumn<int>("errorCode");
+
+    QList<QByteArray> scenario;
+
+    // Server advertises SMTPUTF8; from-address has UTF-8 localpart.
+    // The MAIL FROM command must carry the SMTPUTF8 parameter.
+    scenario << FakeServer::greetingAndEhlo(true) << "S: 250 SMTPUTF8"
+             << "C: MAIL FROM:<jøran@example.com> SMTPUTF8"
+             << "S: 250 ok"
+             << "C: RCPT TO:<arnt@example.com>"
+             << "S: 250 ok"
+             << "C: DATA"
+             << "S: 354 Ok go ahead"
+             << "C: Hello"
+             << "C: "
+             << "C: ."
+             << "S: 250 Ok transfer done" << FakeServer::bye();
+    QTest::newRow("smtputf8 utf8 from") << scenario << QStringLiteral("jøran@example.com") << QStringList{QStringLiteral("arnt@example.com")} << 0;
+
+    // Server does not advertise SMTPUTF8; client detects this after EHLO and
+    // fails immediately without attempting MAIL FROM.
+    scenario.clear();
+    scenario << FakeServer::greetingAndEhlo(false) << FakeServer::bye();
+    QTest::newRow("smtputf8 rejected") << scenario << QStringLiteral("jøran@example.com") << QStringList{QStringLiteral("arnt@example.com")} << 100;
+
+    // Recipient has a UTF-8 localpart; SMTPUTF8 is needed too.
+    scenario.clear();
+    scenario << FakeServer::greetingAndEhlo(true) << "S: 250 SMTPUTF8"
+             << "C: MAIL FROM:<arnt@example.com> SMTPUTF8"
+             << "S: 250 ok"
+             << "C: RCPT TO:<jøran@example.com>"
+             << "S: 250 ok"
+             << "C: DATA"
+             << "S: 354 Ok go ahead"
+             << "C: Hello"
+             << "C: "
+             << "C: ."
+             << "S: 250 Ok transfer done" << FakeServer::bye();
+    QTest::newRow("smtputf8 utf8 recipient") << scenario << QStringLiteral("arnt@example.com") << QStringList{QStringLiteral("jøran@example.com")} << 0;
+
+    // From-address has a Unicode domain; no UTF-8 localpart anywhere.
+    // Domain must be punycode-encoded; no SMTPUTF8 parameter.
+    scenario.clear();
+    scenario << FakeServer::greetingAndEhlo(false) << "C: MAIL FROM:<info@xn--dmi-0na.fo>"
+             << "S: 250 ok"
+             << "C: RCPT TO:<arnt@example.com>"
+             << "S: 250 ok"
+             << "C: DATA"
+             << "S: 354 Ok go ahead"
+             << "C: Hello"
+             << "C: "
+             << "C: ."
+             << "S: 250 Ok transfer done" << FakeServer::bye();
+    QTest::newRow("punycode domain") << scenario << QStringLiteral("info@dømi.fo") << QStringList{QStringLiteral("arnt@example.com")} << 0;
+}
+
+void SmtpTest::testSendJobEai()
+{
+    QFETCH(QList<QByteArray>, scenario);
+    QFETCH(QString, from);
+    QFETCH(QStringList, to);
+    QFETCH(int, errorCode);
+
+    FakeServer fakeServer;
+    fakeServer.setScenario(scenario);
+    fakeServer.startAndWait();
+    KSmtp::Session session(QStringLiteral("127.0.0.1"), 5989);
+    session.setCustomHostname(QStringLiteral("127.0.0.1"));
+    QEventLoop loop;
+    connect(&session, &KSmtp::Session::stateChanged, this, [&loop](auto state) {
+        if (state == KSmtp::Session::NotAuthenticated || state == KSmtp::Session::Disconnected) {
+            loop.quit();
+        }
+    });
+    session.open();
+    loop.exec();
+
+    auto send = new KSmtp::SendJob(&session);
+    send->setData("Hello");
+    send->setFrom(from);
+    send->setTo(to);
+    send->exec();
+
+    QVERIFY2(send->error() == errorCode, qPrintable(QStringLiteral("Unexpected SendJob error: ") + send->errorString()));
+
+    session.quit();
+    if (session.state() != KSmtp::Session::Disconnected) {
+        loop.exec();
+    }
+
+    QVERIFY(fakeServer.isAllScenarioDone());
+    fakeServer.quit();
+}
+
 SmtpTest::SmtpTest() = default;
 
 void SmtpTest::initTestCase()

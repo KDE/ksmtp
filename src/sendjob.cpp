@@ -12,6 +12,7 @@
 #include "serverresponse_p.h"
 
 #include <KLocalizedString>
+#include <QUrl>
 
 namespace KSmtp
 {
@@ -36,6 +37,8 @@ public:
     void sendNextRecipient();
     void addRecipients(const QStringList &rcpts);
     bool prepare();
+    void analyzeAddresses();
+    [[nodiscard]] QByteArray addressForSmtp(const QString &addr) const;
 
     QString m_returnPath;
     QStringList m_recipients;
@@ -44,6 +47,8 @@ public:
     QStringList m_recipientsCopy;
     Status m_status = Idle;
     bool m_dsn = false;
+    bool m_smtputf8 = false;
+    bool m_punycode = false;
 };
 }
 
@@ -112,8 +117,21 @@ void SendJob::doStart()
         return;
     }
 
+    d->analyzeAddresses();
+
+    if (d->m_smtputf8 && !session()->allowsSmtpUtf8()) {
+        setError(KJob::UserDefinedError);
+        setErrorText(i18n("The message needs and server does not support UTF-8 email addresses"));
+        emitResult();
+        return;
+    }
+
     d->m_status = SendJobPrivate::SendingReturnPath;
-    sendCommand("MAIL FROM:" + d->m_returnPath.toUtf8());
+    const QString bareFrom = d->m_returnPath.mid(1, d->m_returnPath.length() - 2);
+    QByteArray mailFrom = "MAIL FROM:<" + d->addressForSmtp(bareFrom) + '>';
+    if (d->m_smtputf8)
+        mailFrom += " SMTPUTF8";
+    sendCommand(mailFrom);
 }
 
 void SendJob::handleResponse(const ServerResponse &r)
@@ -171,7 +189,54 @@ void SendJobPrivate::sendNextRecipient()
 {
     const bool dsnSupport = m_session->allowsDsn() ? m_dsn : false;
     // qDebug() << " void SendJobPrivate::sendNextRecipient()" << m_session->allowsDsn() << " dsnSupport " << dsnSupport;
-    q->sendCommand("RCPT TO:<" + m_recipientsCopy.takeFirst().toUtf8() + '>' + (dsnSupport ? " NOTIFY=success,failure" : ""));
+    q->sendCommand("RCPT TO:<" + addressForSmtp(m_recipientsCopy.takeFirst()) + '>' + (dsnSupport ? " NOTIFY=success,failure" : ""));
+}
+
+void SendJobPrivate::analyzeAddresses()
+{
+    m_smtputf8 = false;
+    m_punycode = false;
+
+    // Collect all bare addresses: strip <> from return path, then all recipients
+    QStringList addresses = m_recipients;
+    if (!m_returnPath.isEmpty()) {
+        addresses.prepend(m_returnPath.mid(1, m_returnPath.length() - 2));
+    }
+
+    for (const QString &addr : std::as_const(addresses)) {
+        const int at = addr.indexOf(u'@');
+        if (at < 0) {
+            continue;
+        }
+        const bool localNonAscii = std::any_of(addr.cbegin(), addr.cbegin() + at, [](QChar c) {
+            return c.unicode() > 127;
+        });
+        if (localNonAscii) {
+            m_smtputf8 = true;
+            return; // highest priority: non-ASCII localpart requires SMTPUTF8
+        }
+        const bool domainNonAscii = std::any_of(addr.cbegin() + at + 1, addr.cend(), [](QChar c) {
+            return c.unicode() > 127;
+        });
+        if (domainNonAscii) {
+            m_punycode = true; // non-ASCII domain: needs punycode encoding
+        }
+    }
+}
+
+QByteArray SendJobPrivate::addressForSmtp(const QString &addr) const
+{
+    if (m_smtputf8) {
+        return addr.toUtf8();
+    }
+    if (m_punycode) {
+        const int at = addr.indexOf(u'@');
+        if (at < 0) {
+            return addr.toUtf8();
+        }
+        return addr.left(at).toUtf8() + '@' + QUrl::toAce(addr.mid(at + 1));
+    }
+    return addr.toUtf8();
 }
 
 void SendJobPrivate::addRecipients(const QStringList &rcpts)

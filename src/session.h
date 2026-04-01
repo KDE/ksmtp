@@ -108,6 +108,12 @@ public:
     [[nodiscard]] bool allowsDsn() const;
 
     /*!
+      Returns true if the SMTP server has indicated that it supports the SMTPUTF8 extension (RFC 6531),
+      allowing UTF-8 in addresses and message headers.
+    */
+    [[nodiscard]] bool allowsSmtpUtf8() const;
+
+    /*!
       @todo: return parsed auth modes, instead of strings.
     */
     [[nodiscard]] QStringList availableAuthModes() const;
