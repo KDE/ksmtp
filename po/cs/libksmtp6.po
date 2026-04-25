@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 00:45+0000\n"
+"POT-Creation-Date: 2026-04-25 00:46+0000\n"
 "PO-Revision-Date: 2019-09-10 11:34+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -64,21 +64,26 @@ msgstr "Token vypršel"
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Přihlášení selhalo, nelze inicializovat knihovnu SASL."
 
-#: sendjob.cpp:53
+#: sendjob.cpp:58
 #, kde-format
 msgid "SendJob"
 msgstr "Poslat úlohu"
 
-#: sendjob.cpp:102
+#: sendjob.cpp:107
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
 "missing or invalid"
 msgstr ""
 
-#: sendjob.cpp:110
+#: sendjob.cpp:115
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "
 "bytes. (Message size: %2 bytes.)"
+msgstr ""
+
+#: sendjob.cpp:124
+#, kde-format
+msgid "The message needs and server does not support UTF-8 email addresses"
 msgstr ""

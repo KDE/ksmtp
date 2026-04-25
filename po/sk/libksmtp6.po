@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 00:45+0000\n"
+"POT-Creation-Date: 2026-04-25 00:46+0000\n"
 "PO-Revision-Date: 2019-08-04 10:11+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -65,12 +65,12 @@ msgstr "Platnosť tokenu vypršala"
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Prihlásenie zlyhalo, nemôžem inicializovať knižnicu SASL"
 
-#: sendjob.cpp:53
+#: sendjob.cpp:58
 #, kde-format
 msgid "SendJob"
 msgstr "Poslať úlohu"
 
-#: sendjob.cpp:102
+#: sendjob.cpp:107
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -79,7 +79,7 @@ msgstr ""
 "Nemôžem poslať správu pretože pole odosielateľa alebo prijímateľa chýba "
 "alebo je neplatné"
 
-#: sendjob.cpp:110
+#: sendjob.cpp:115
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "
@@ -87,6 +87,11 @@ msgid ""
 msgstr ""
 "Nemôžem poslať správu pretože presahuje maximálnu povolenú veľkosť %1 "
 "bajtov. (Veľkosť správy: %2 bajtov.)"
+
+#: sendjob.cpp:124
+#, kde-format
+msgid "The message needs and server does not support UTF-8 email addresses"
+msgstr ""
 
 #~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
 #~ msgstr ""

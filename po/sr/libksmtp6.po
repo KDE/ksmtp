@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libksmtp5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 00:45+0000\n"
+"POT-Creation-Date: 2026-04-25 00:46+0000\n"
 "PO-Revision-Date: 2017-08-05 19:10+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -69,12 +69,12 @@ msgid "Login failed, cannot initialize the SASL library"
 msgstr "Пријављивање пропало, не могу да припремим САСЛ библиотеку"
 
 # rewrite-msgid: /Job//
-#: sendjob.cpp:53
+#: sendjob.cpp:58
 #, kde-format
 msgid "SendJob"
 msgstr "Слање"
 
-#: sendjob.cpp:102
+#: sendjob.cpp:107
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -83,7 +83,7 @@ msgstr ""
 "Не могу да пошаљем поруку зато што је или поље пошиљаоца или примаоца празно "
 "или лоше."
 
-#: sendjob.cpp:110
+#: sendjob.cpp:115
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "
@@ -91,3 +91,8 @@ msgid ""
 msgstr ""
 "Не могу да пошаљем поруку зато што премашује највећу дозвољену величину од "
 "%1 B. (Величина поруке: %2 B.)"
+
+#: sendjob.cpp:124
+#, kde-format
+msgid "The message needs and server does not support UTF-8 email addresses"
+msgstr ""

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 00:45+0000\n"
+"POT-Creation-Date: 2026-04-25 00:46+0000\n"
 "PO-Revision-Date: 2025-10-19 10:22+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -67,12 +67,12 @@ msgstr "Jeton expirat"
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Autentificare eșuată, biblioteca SASL nu poate fi inițializată"
 
-#: sendjob.cpp:53
+#: sendjob.cpp:58
 #, kde-format
 msgid "SendJob"
 msgstr "SendJob"
 
-#: sendjob.cpp:102
+#: sendjob.cpp:107
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -81,7 +81,7 @@ msgstr ""
 "Nu s-a putut trimite mesajul deoarece câmpul cu expeditor sau destinatar "
 "lipsește sau e eronat"
 
-#: sendjob.cpp:110
+#: sendjob.cpp:115
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "
@@ -89,3 +89,8 @@ msgid ""
 msgstr ""
 "Nu s-a putut trimite mesajul deoarece depășește dimensiunea maximă permisă "
 "de %1 octeți. Dimensiune mesaj: %2 octeți."
+
+#: sendjob.cpp:124
+#, kde-format
+msgid "The message needs and server does not support UTF-8 email addresses"
+msgstr ""

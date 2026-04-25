@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 00:45+0000\n"
+"POT-Creation-Date: 2026-04-25 00:46+0000\n"
 "PO-Revision-Date: 2023-08-07 22:13+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -72,12 +72,12 @@ msgid "Login failed, cannot initialize the SASL library"
 msgstr ""
 "Ha fallat l'inici de la sessió, no s'ha pogut inicialitzar la biblioteca SASL"
 
-#: sendjob.cpp:53
+#: sendjob.cpp:58
 #, kde-format
 msgid "SendJob"
 msgstr "Envia la tasca"
 
-#: sendjob.cpp:102
+#: sendjob.cpp:107
 #, kde-format
 msgid ""
 "Could not send the message because either the sender or recipient field is "
@@ -87,7 +87,7 @@ msgstr ""
 "destinatari falten o no són vàlids"
 
 # skip-rule: punctuation-period-no
-#: sendjob.cpp:110
+#: sendjob.cpp:115
 #, kde-format
 msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "
@@ -95,6 +95,11 @@ msgid ""
 msgstr ""
 "No s'ha pogut enviar el missatge perquè s'ha excedit la mida màxima permesa "
 "de %1 bytes. (Mida del missatge: %2 bytes)."
+
+#: sendjob.cpp:124
+#, kde-format
+msgid "The message needs and server does not support UTF-8 email addresses"
+msgstr ""
 
 #~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
 #~ msgstr "STARTTLS no està acceptat pel servidor, proveu amb SSL/TLS."
