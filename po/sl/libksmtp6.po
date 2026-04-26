@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-25 00:46+0000\n"
-"PO-Revision-Date: 2026-04-14 12:07+0200\n"
+"PO-Revision-Date: 2026-04-25 06:53+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -97,7 +97,7 @@ msgstr ""
 #: sendjob.cpp:124
 #, kde-format
 msgid "The message needs and server does not support UTF-8 email addresses"
-msgstr ""
+msgstr "Sporočilo potrebuje in strežnik ne podpira e-poštnih naslovov UTF-8"
 
 #~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
 #~ msgstr ""

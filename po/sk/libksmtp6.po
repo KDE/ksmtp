@@ -91,7 +91,7 @@ msgstr ""
 #: sendjob.cpp:124
 #, kde-format
 msgid "The message needs and server does not support UTF-8 email addresses"
-msgstr ""
+msgstr "Správa vyžaduje a server nepodporuje e-mailové adresy UTF-8"
 
 #~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
 #~ msgstr ""
