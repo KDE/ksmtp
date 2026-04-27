@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023, 2026 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: libksmtp5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-25 00:46+0000\n"
-"PO-Revision-Date: 2023-02-08 20:10+0300\n"
+"PO-Revision-Date: 2026-04-26 13:30+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #: job.cpp:60
 #, kde-format
@@ -91,7 +91,7 @@ msgstr ""
 #: sendjob.cpp:124
 #, kde-format
 msgid "The message needs and server does not support UTF-8 email addresses"
-msgstr ""
+msgstr "İleti gereksinimleri ve sunucu UTF-8 e-posta adreslerini desteklemiyor"
 
 #~ msgid "Server time out"
 #~ msgstr "Sunucu zaman aşımı"

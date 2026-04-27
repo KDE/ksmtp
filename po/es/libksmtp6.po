@@ -1,23 +1,23 @@
 # Spanish translations for libksmtp6.po package.
-# Copyright (C) 2011-2025 This file is copyright:
+# Copyright (C) 2011-2026 This file is copyright:
 # This file is distributed under the same license as the ksmtp package.
 #
 # SPDX-FileCopyrightText: 2011 Kira J. Fernandez <kirajfdez@gmail.com>
-# SPDX-FileCopyrightText: 2017, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2017, 2025-2026 Eloy Cuadra <ecuadra@eloihr.net>
 # SPDX-FileCopyrightText: 2017, 2018 Javier Vinal <fjvibal@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: libksmtp6\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-25 00:46+0000\n"
-"PO-Revision-Date: 2025-08-16 02:17+0100\n"
+"PO-Revision-Date: 2026-04-25 20:42+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 26.04.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: job.cpp:60
@@ -99,3 +99,5 @@ msgstr ""
 #, kde-format
 msgid "The message needs and server does not support UTF-8 email addresses"
 msgstr ""
+"El mensaje requiere que el servidor admita direcciones de correo electrónico "
+"UTF-8."

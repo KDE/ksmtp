@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# Shinjo Park <kde@peremen.name>, 2017, 2018, 2019, 2020.
+# SPDX-FileCopyrightText: 2017, 2018, 2019, 2020, 2026 Shinjo Park <kde@peremen.name>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-25 00:46+0000\n"
-"PO-Revision-Date: 2020-04-05 13:06+0200\n"
+"PO-Revision-Date: 2026-04-26 21:32+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 19.04.3\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #: job.cpp:60
 #, kde-format
@@ -91,6 +91,8 @@ msgstr ""
 #, kde-format
 msgid "The message needs and server does not support UTF-8 email addresses"
 msgstr ""
+"메시지를 전송하려면 UTF-8 이메일 주소 지원이 필요하지만 서버에서 지원하지 않"
+"음"
 
 #~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
 #~ msgstr "서버에서 STARTTLS를 사용할 수 없습니다. SSL/TLS를 사용하십시오."
