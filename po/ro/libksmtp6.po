@@ -1,13 +1,13 @@
 # Copyright (C) 2025 This file is copyright:
 # This file is distributed under the same license as the ksmtp package.
-# SPDX-FileCopyrightText: 2021, 2025 Sergiu Bivol <sergiu@cip.md>
+# SPDX-FileCopyrightText: 2021, 2025, 2026 Sergiu Bivol <sergiu@cip.md>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-25 00:46+0000\n"
-"PO-Revision-Date: 2025-10-19 10:22+0100\n"
+"PO-Revision-Date: 2026-05-16 20:10+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #: job.cpp:60
 #, kde-format
@@ -94,3 +94,5 @@ msgstr ""
 #, kde-format
 msgid "The message needs and server does not support UTF-8 email addresses"
 msgstr ""
+"Mesajul necesită adrese de poștă electronică UTF-8, dar serverul nu le "
+"susține"
