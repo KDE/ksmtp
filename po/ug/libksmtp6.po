@@ -8,19 +8,20 @@ msgstr ""
 "Project-Id-Version: libksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-25 00:46+0000\n"
-"PO-Revision-Date: 2013-09-08 07:05+0900\n"
-"Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
+"PO-Revision-Date: 2026-05-31 19:43-0400\n"
+"Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.9\n"
 
 #: job.cpp:60
 #, kde-format
 msgid "Service not available"
-msgstr ""
+msgstr "مۇلازىمەتنى ئىشلەتكىلى بولمايدۇ"
 
 #: job.cpp:62
 #, kde-format
@@ -33,10 +34,9 @@ msgid "Insufficient storage space on server. The server said: %1"
 msgstr ""
 
 #: job.cpp:66
-#, fuzzy, kde-format
-#| msgid "Server error"
+#, kde-format
 msgid "Server error: %1"
-msgstr "مۇلازىمېتىر خاتالىقى"
+msgstr ""
 
 #: job.cpp:75
 #, kde-format
@@ -46,7 +46,7 @@ msgstr ""
 #: loginjob.cpp:77
 #, kde-format
 msgid "Login"
-msgstr "كىرىش"
+msgstr "تىزىمغا كىر"
 
 #: loginjob.cpp:168
 #, kde-format
