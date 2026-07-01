@@ -100,3 +100,21 @@ install(
 install(FILES ${KSMTP_CamelCase_HEADERS} DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KSMTP/KSMTP)
 ecm_qt_install_logging_categories(EXPORT KSMTP FILE ksmtp.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 ecm_generate_qdoc(KPim6SMTP ksmtp.qdocconf)
+
+ecm_add_installed_library_check(KPim6SMTP
+    PACKAGE_NAME "KPim6SMTP"
+    PACKAGE_VERSION ${MAILCOMMON_VERSION}
+    PACKAGE_TARGET_NAMESPACE "KPim6::"
+)
+
+ecm_installed_library_check_include_strings(KPim6SMTP
+    HEADERS
+    ${KSMTP_HEADERS}
+    PREFIX ksmtp
+)
+
+ecm_installed_library_check_include_strings(KPim6SMTP
+   HEADERS
+   ${KSMTP_CamelCase_HEADERS}
+    PREFIX KSMTP
+)
