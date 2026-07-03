@@ -103,7 +103,7 @@ ecm_generate_qdoc(KPim6SMTP ksmtp.qdocconf)
 
 ecm_add_installed_library_check(KPim6SMTP
     PACKAGE_NAME "KPim6SMTP"
-    PACKAGE_VERSION ${MAILCOMMON_VERSION}
+    PACKAGE_VERSION ${KSMTP_VERSION}
     PACKAGE_TARGET_NAMESPACE "KPim6::"
 )
 
@@ -117,4 +117,16 @@ ecm_installed_library_check_include_strings(KPim6SMTP
    HEADERS
    ${KSMTP_CamelCase_HEADERS}
     PREFIX KSMTP
+)
+
+ecm_installed_library_check_version_preprocessor_macros(KPim6SMTP
+    PREFIX KSMTP
+    VERSION ${KSMTP_VERSION}
+    SILENT
+)
+
+ecm_installed_library_check_preprocessor_macro(KPim6SMTP
+    NAME KSMTP_VERSION_MAJOR
+    VALUE ${KSMTP_VERSION_MAJOR}
+    SILENT
 )
