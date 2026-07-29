@@ -1,20 +1,21 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # Vít Pelčák <vit@pelcak.org>, 2011, 2017, 2018, 2019.
+# SPDX-FileCopyrightText: 2026 Libor Filípek <libor.filipek@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-25 00:46+0000\n"
-"PO-Revision-Date: 2019-09-10 11:34+0200\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2026-07-29 00:32+0200\n"
+"Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.08.0\n"
+"X-Generator: Lokalize 26.04.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: job.cpp:60
@@ -53,6 +54,8 @@ msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
 "method has been found"
 msgstr ""
+"Nepodařilo se ověřit u SMTP serveru, protože nebyla nalezena žádná "
+"odpovídající metoda ověření"
 
 #: loginjob.cpp:227
 #, kde-format
@@ -75,6 +78,8 @@ msgid ""
 "Could not send the message because either the sender or recipient field is "
 "missing or invalid"
 msgstr ""
+"Zprávu nebylo možné odeslat, protože pole odesílatele nebo příjemce chybí "
+"nebo je neplatné"
 
 #: sendjob.cpp:115
 #, kde-format
@@ -82,8 +87,12 @@ msgid ""
 "Could not send the message because it exceeds the maximum allowed size of %1 "
 "bytes. (Message size: %2 bytes.)"
 msgstr ""
+"Zprávu se nepodařilo odeslat, protože překračuje maximální povolenou "
+"velikost %1 bajtů. (Velikost zprávy: %2 bajtů.)"
 
 #: sendjob.cpp:124
 #, kde-format
 msgid "The message needs and server does not support UTF-8 email addresses"
 msgstr ""
+"Zpráva vyžaduje e-mailové adresy v kódování UTF-8, ale server toto kódování "
+"nepodporuje"
