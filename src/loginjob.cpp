@@ -55,7 +55,7 @@ public:
     [[nodiscard]] bool authenticate();
     [[nodiscard]] bool selectAuthentication();
 
-    [[nodiscard]] LoginJob::AuthMode authModeFromCommand(const QByteArray &mech) const;
+    [[nodiscard]] LoginJob::AuthMode authModeFromCommand(const char *mech) const;
     [[nodiscard]] QByteArray authCommand(LoginJob::AuthMode mode) const;
 
     QByteArray m_userName;
@@ -319,23 +319,23 @@ bool LoginJobPrivate::authenticate()
     return true;
 }
 
-LoginJob::AuthMode LoginJobPrivate::authModeFromCommand(const QByteArray &mech) const
+LoginJob::AuthMode LoginJobPrivate::authModeFromCommand(const char *mech) const
 {
-    if (qstrnicmp(mech.constData(), "PLAIN", 5) == 0) {
+    if (qstrnicmp(mech, "PLAIN", 5) == 0) {
         return LoginJob::Plain;
-    } else if (qstrnicmp(mech.constData(), "LOGIN", 5) == 0) {
+    } else if (qstrnicmp(mech, "LOGIN", 5) == 0) {
         return LoginJob::Login;
-    } else if (qstrnicmp(mech.constData(), "CRAM-MD5", 8) == 0) {
+    } else if (qstrnicmp(mech, "CRAM-MD5", 8) == 0) {
         return LoginJob::CramMD5;
-    } else if (qstrnicmp(mech.constData(), "DIGEST-MD5", 10) == 0) {
+    } else if (qstrnicmp(mech, "DIGEST-MD5", 10) == 0) {
         return LoginJob::DigestMD5;
-    } else if (qstrnicmp(mech.constData(), "GSSAPI", 6) == 0) {
+    } else if (qstrnicmp(mech, "GSSAPI", 6) == 0) {
         return LoginJob::GSSAPI;
-    } else if (qstrnicmp(mech.constData(), "NTLM", 4) == 0) {
+    } else if (qstrnicmp(mech, "NTLM", 4) == 0) {
         return LoginJob::NTLM;
-    } else if (qstrnicmp(mech.constData(), "ANONYMOUS", 9) == 0) {
+    } else if (qstrnicmp(mech, "ANONYMOUS", 9) == 0) {
         return LoginJob::Anonymous;
-    } else if (qstrnicmp(mech.constData(), "XOAUTH2", 7) == 0) {
+    } else if (qstrnicmp(mech, "XOAUTH2", 7) == 0) {
         return LoginJob::XOAuth2;
     } else {
         return LoginJob::UnknownAuth;
