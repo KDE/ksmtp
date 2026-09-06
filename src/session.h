@@ -97,8 +97,6 @@ public:
       Returns true if the SMTP server has indicated that it allows TLS connections, false otherwise.
       The session must be at least in the NotAuthenticated state. Before that, allowsTls() always
       returns false.
-
-      @sa KSmtp::LoginJob::setUseTls()
     */
     [[nodiscard]] bool allowsTls() const;
 
