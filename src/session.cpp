@@ -54,7 +54,7 @@ void SessionPrivate::setAuthenticationMethods(const QList<QByteArray> &authMetho
     for (const QByteArray &method : authMethods) {
         QString m = QString::fromLatin1(method);
         if (!m_authModes.contains(m)) {
-            m_authModes.append(m);
+            m_authModes.append(std::move(m));
         }
     }
 }
