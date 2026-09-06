@@ -230,7 +230,7 @@ void SessionPrivate::sendData(const QByteArray &data)
 {
     QMetaObject::invokeMethod(
         m_thread,
-        [this, data] {
+        [this, &data] {
             m_thread->sendData(data);
         },
         Qt::QueuedConnection);
