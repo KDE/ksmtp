@@ -156,11 +156,11 @@ bool LoginJobPrivate::selectAuthentication()
 {
     const QStringList availableModes = m_session->availableAuthModes();
 
-    if (availableModes.contains(QString::fromLatin1(authCommand(m_preferedAuthMode)))) {
+    if (availableModes.contains(QLatin1StringView(authCommand(m_preferedAuthMode)))) {
         m_actualAuthMode = m_preferedAuthMode;
-    } else if (availableModes.contains(QString::fromLatin1(authCommand(LoginJob::Login)))) {
+    } else if (availableModes.contains(QLatin1StringView(authCommand(LoginJob::Login)))) {
         m_actualAuthMode = LoginJob::Login;
-    } else if (availableModes.contains(QString::fromLatin1(authCommand(LoginJob::Plain)))) {
+    } else if (availableModes.contains(QLatin1StringView(authCommand(LoginJob::Plain)))) {
         m_actualAuthMode = LoginJob::Plain;
     } else {
         qCWarning(KSMTP_LOG) << "LoginJob: Couldn't choose an authentication method. Please retry with : " << availableModes;
