@@ -32,7 +32,7 @@ msgstr "Service non disponible"
 #: job.cpp:62
 #, kde-format
 msgid "Mailbox unavailable. The server said: %1"
-msgstr "Boîte aux lettres non disponible. Le serveur a indiqué : « %1 »"
+msgstr "Boite aux lettres non disponible. Le serveur a indiqué : « %1 »"
 
 #: job.cpp:64
 #, kde-format
