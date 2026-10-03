@@ -121,7 +121,7 @@ void SendJob::doStart()
 
     if (d->m_smtputf8 && !session()->allowsSmtpUtf8()) {
         setError(KJob::UserDefinedError);
-        setErrorText(i18n("The message needs and server does not support UTF-8 email addresses"));
+        setErrorText(i18n("The message requires UTF-8 email addresses, which the server does not support."));
         emitResult();
         return;
     }
