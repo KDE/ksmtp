@@ -22,7 +22,7 @@ msgstr ""
 #: job.cpp:60
 #, kde-format
 msgid "Service not available"
-msgstr "Сервис недоступен"
+msgstr "Служба недоступна"
 
 #: job.cpp:62
 #, kde-format
