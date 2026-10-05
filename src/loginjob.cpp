@@ -7,7 +7,6 @@
 */
 
 #include "loginjob.h"
-using namespace Qt::Literals::StringLiterals;
 
 #include "job_p.h"
 #include "ksmtp_debug.h"
@@ -18,6 +17,8 @@ using namespace Qt::Literals::StringLiterals;
 
 #include <QJsonDocument>
 #include <QJsonObject>
+
+using namespace Qt::Literals::StringLiterals;
 
 extern "C" {
 #include <sasl/sasl.h>

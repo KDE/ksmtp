@@ -7,7 +7,6 @@
 */
 
 #include "job.h"
-using namespace Qt::Literals::StringLiterals;
 
 #include "job_p.h"
 #include "serverresponse_p.h"
@@ -15,6 +14,7 @@ using namespace Qt::Literals::StringLiterals;
 
 #include <KLocalizedString>
 
+using namespace Qt::Literals::StringLiterals;
 using namespace KSmtp;
 
 Job::Job(Session *session)

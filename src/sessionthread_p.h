@@ -9,13 +9,14 @@
 #pragma once
 
 #include <QMutex>
-using namespace Qt::Literals::StringLiterals;
 
 #include <QQueue>
 #include <QSslSocket>
 #include <QThread>
 
 #include <ksslerroruidata.h>
+
+using namespace Qt::Literals::StringLiterals;
 
 class QFile;
 namespace KSmtp
