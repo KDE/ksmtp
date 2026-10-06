@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-25 00:46+0000\n"
+"POT-Creation-Date: 2026-10-06 00:48+0000\n"
 "PO-Revision-Date: 2026-08-29 20:27+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
@@ -50,12 +50,12 @@ msgstr "Erreur du serveur : « %1 »"
 msgid "Connection to server lost."
 msgstr "Interruption de la connexion au serveur."
 
-#: loginjob.cpp:77
+#: loginjob.cpp:78
 #, kde-format
 msgid "Login"
 msgstr "Identifiant de connexion"
 
-#: loginjob.cpp:168
+#: loginjob.cpp:169
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -64,12 +64,12 @@ msgstr ""
 "Impossible de s'authentifier au serveur « SMTP » car aucune méthode "
 "d'authentification correspondante n'a été trouvée"
 
-#: loginjob.cpp:227
+#: loginjob.cpp:228
 #, kde-format
 msgid "Token expired"
 msgstr "Le token a expiré"
 
-#: loginjob.cpp:271
+#: loginjob.cpp:272
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr ""
@@ -100,10 +100,15 @@ msgstr ""
 
 #: sendjob.cpp:124
 #, kde-format
-msgid "The message needs and server does not support UTF-8 email addresses"
+msgid ""
+"The message requires UTF-8 email addresses, which the server does not "
+"support."
 msgstr ""
-"Le message nécessite des adresses de courriel au format « UTF-8 » et le "
-"serveur ne prend pas en charge ce format"
+
+#~ msgid "The message needs and server does not support UTF-8 email addresses"
+#~ msgstr ""
+#~ "Le message nécessite des adresses de courriel au format « UTF-8 » et le "
+#~ "serveur ne prend pas en charge ce format"
 
 #~ msgid "STARTTLS is not supported by the server, try using SSL/TLS instead."
 #~ msgstr ""

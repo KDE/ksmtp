@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-25 00:46+0000\n"
+"POT-Creation-Date: 2026-10-06 00:48+0000\n"
 "PO-Revision-Date: 2026-04-25 08:48+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -47,12 +47,12 @@ msgstr "S'ha produït un error del servidor: %1"
 msgid "Connection to server lost."
 msgstr "S'ha perdut la connexió amb el servidor."
 
-#: loginjob.cpp:77
+#: loginjob.cpp:78
 #, kde-format
 msgid "Login"
 msgstr "Inici de sessió"
 
-#: loginjob.cpp:168
+#: loginjob.cpp:169
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -61,12 +61,12 @@ msgstr ""
 "No s'ha pogut realitzar l'autenticació amb el servidor SMTP perquè no s'ha "
 "trobat cap mètode d'autenticació coincident"
 
-#: loginjob.cpp:227
+#: loginjob.cpp:228
 #, kde-format
 msgid "Token expired"
 msgstr "El testimoni ha vençut"
 
-#: loginjob.cpp:271
+#: loginjob.cpp:272
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr ""
@@ -99,7 +99,12 @@ msgstr ""
 
 #: sendjob.cpp:124
 #, kde-format
-msgid "The message needs and server does not support UTF-8 email addresses"
+msgid ""
+"The message requires UTF-8 email addresses, which the server does not "
+"support."
 msgstr ""
-"El missatge necessita adreces de correu electrònic amb UTF-8 i el servidor "
-"no ho admet"
+
+#~ msgid "The message needs and server does not support UTF-8 email addresses"
+#~ msgstr ""
+#~ "El missatge necessita adreces de correu electrònic amb UTF-8 i el "
+#~ "servidor no ho admet"

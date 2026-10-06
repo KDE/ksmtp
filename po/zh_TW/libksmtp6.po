@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksmtp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-25 00:46+0000\n"
+"POT-Creation-Date: 2026-10-06 00:48+0000\n"
 "PO-Revision-Date: 2026-05-12 03:18+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -42,24 +42,24 @@ msgstr "伺服器錯誤：%1"
 msgid "Connection to server lost."
 msgstr "已喪失對伺服器的連線。"
 
-#: loginjob.cpp:77
+#: loginjob.cpp:78
 #, kde-format
 msgid "Login"
 msgstr "登入"
 
-#: loginjob.cpp:168
+#: loginjob.cpp:169
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
 "method has been found"
 msgstr "無法與 SMTP 伺服器進行驗證，因為沒有找到任何相符的認證方法"
 
-#: loginjob.cpp:227
+#: loginjob.cpp:228
 #, kde-format
 msgid "Token expired"
 msgstr "權杖已過期"
 
-#: loginjob.cpp:271
+#: loginjob.cpp:272
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "登入失敗，無法初始化 SASL 函式庫"
@@ -87,5 +87,10 @@ msgstr ""
 
 #: sendjob.cpp:124
 #, kde-format
-msgid "The message needs and server does not support UTF-8 email addresses"
-msgstr "訊息需要 UTF-8 郵件地址但伺服器不支援"
+msgid ""
+"The message requires UTF-8 email addresses, which the server does not "
+"support."
+msgstr ""
+
+#~ msgid "The message needs and server does not support UTF-8 email addresses"
+#~ msgstr "訊息需要 UTF-8 郵件地址但伺服器不支援"

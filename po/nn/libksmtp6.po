@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-25 00:46+0000\n"
+"POT-Creation-Date: 2026-10-06 00:48+0000\n"
 "PO-Revision-Date: 2026-04-27 21:53+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@nuug.no>\n"
@@ -44,12 +44,12 @@ msgstr "Tenarfeil: %1"
 msgid "Connection to server lost."
 msgstr "Tilkoplinga til tenaren vart avbroten."
 
-#: loginjob.cpp:77
+#: loginjob.cpp:78
 #, kde-format
 msgid "Login"
 msgstr "Innlogging"
 
-#: loginjob.cpp:168
+#: loginjob.cpp:169
 #, kde-format
 msgid ""
 "Could not authenticate to the SMTP server because no matching authentication "
@@ -58,12 +58,12 @@ msgstr ""
 "Klarte ikkje autentisera med SMTP-tenaren på grunn av ingen støtta "
 "autentiseringsmetodar vart funnen."
 
-#: loginjob.cpp:227
+#: loginjob.cpp:228
 #, kde-format
 msgid "Token expired"
 msgstr "Tilgangspollett utgått på tid"
 
-#: loginjob.cpp:271
+#: loginjob.cpp:272
 #, kde-format
 msgid "Login failed, cannot initialize the SASL library"
 msgstr "Innlogginga var mislukka. Klarte ikkje starta SASL-biblioteket."
@@ -93,5 +93,11 @@ msgstr ""
 
 #: sendjob.cpp:124
 #, kde-format
-msgid "The message needs and server does not support UTF-8 email addresses"
-msgstr "Meldinga treng UTF-8-e-postadresser, men tenaren støttar ikkje dette"
+msgid ""
+"The message requires UTF-8 email addresses, which the server does not "
+"support."
+msgstr ""
+
+#~ msgid "The message needs and server does not support UTF-8 email addresses"
+#~ msgstr ""
+#~ "Meldinga treng UTF-8-e-postadresser, men tenaren støttar ikkje dette"
