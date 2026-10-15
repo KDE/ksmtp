@@ -26,14 +26,14 @@ extern "C" {
 
 namespace
 {
-static const sasl_callback_t callbacks[] = {{SASL_CB_ECHOPROMPT, nullptr, nullptr},
-                                            {SASL_CB_NOECHOPROMPT, nullptr, nullptr},
-                                            {SASL_CB_GETREALM, nullptr, nullptr},
-                                            {SASL_CB_USER, nullptr, nullptr},
-                                            {SASL_CB_AUTHNAME, nullptr, nullptr},
-                                            {SASL_CB_PASS, nullptr, nullptr},
-                                            {SASL_CB_CANON_USER, nullptr, nullptr},
-                                            {SASL_CB_LIST_END, nullptr, nullptr}};
+const sasl_callback_t callbacks[] = {{SASL_CB_ECHOPROMPT, nullptr, nullptr},
+                                     {SASL_CB_NOECHOPROMPT, nullptr, nullptr},
+                                     {SASL_CB_GETREALM, nullptr, nullptr},
+                                     {SASL_CB_USER, nullptr, nullptr},
+                                     {SASL_CB_AUTHNAME, nullptr, nullptr},
+                                     {SASL_CB_PASS, nullptr, nullptr},
+                                     {SASL_CB_CANON_USER, nullptr, nullptr},
+                                     {SASL_CB_LIST_END, nullptr, nullptr}};
 }
 
 namespace KSmtp
