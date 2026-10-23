@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.07.90\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Lokalize 19.07.90\n"
 
 #: job.cpp:60
 #, kde-format
@@ -93,7 +93,7 @@ msgstr ""
 msgid ""
 "The message requires UTF-8 email addresses, which the server does not "
 "support."
-msgstr ""
+msgstr "Správa vyžaduje e-mailové adresy v UTF-8, ktoré server nepodporuje."
 
 #~ msgid "The message needs and server does not support UTF-8 email addresses"
 #~ msgstr "Správa vyžaduje a server nepodporuje e-mailové adresy UTF-8"
