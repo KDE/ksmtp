@@ -21,7 +21,7 @@ qhp.projects            = ksmtp
 qhp.ksmtp.file                = ksmtp.qhp
 qhp.ksmtp.namespace           = org.kde.ksmtp.$QT_VERSION_TAG
 qhp.ksmtp.virtualFolder       = ksmtp
-qhp.ksmtp.indexTitle          = ksmtp
+qhp.ksmtp.indexTitle          = KSMTP
 qhp.ksmtp.indexRoot           =
 
 qhp.ksmtp.subprojects         = classes
