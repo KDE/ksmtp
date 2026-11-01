@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013.
-# SPDX-FileCopyrightText: 2024 Kristof Kiszel <ulysses@fsf.hu>
+# SPDX-FileCopyrightText: 2024, 2026 Kristof Kiszel <ulysses@fsf.hu>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-25 00:46+0000\n"
-"PO-Revision-Date: 2024-01-19 13:26+0100\n"
+"PO-Revision-Date: 2026-10-31 23:10+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.01.90\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #: job.cpp:60
 #, kde-format
@@ -95,6 +95,8 @@ msgstr ""
 #, kde-format
 msgid "The message needs and server does not support UTF-8 email addresses"
 msgstr ""
+"Az üzenetben szereplő e-mail-címek UTF-8 kódolásúak, de a kiszolgáló nem "
+"támogatja ezt a kódolást"
 
 #~ msgid "Server time out"
 #~ msgstr "A kiszolgáló túllépte az időkorlátot"
