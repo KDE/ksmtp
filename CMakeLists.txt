@@ -136,6 +136,7 @@ set_package_properties(
 ########### CMake Config Files ############
 
 add_definitions(-DQT_NO_CONTEXTLESS_CONNECT)
+add_definitions(-DQT_LEAN_HEADERS=2)
 add_definitions(-DQT_NO_JAVA_STYLE_ITERATORS)
 add_definitions(-DTRANSLATION_DOMAIN=\"libksmtp6\")
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
