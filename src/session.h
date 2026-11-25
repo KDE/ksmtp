@@ -29,6 +29,8 @@ class KSMTP_EXPORT Session : public QObject
     Q_OBJECT
 
 public:
+    /*!
+     */
     enum State {
         Disconnected = 0, /*!< The Session is not connected to the server. */
         Ready, /*!< (internal) */
@@ -59,9 +61,15 @@ public:
       @sa open()
     */
     explicit Session(const QString &hostName, quint16 port, QObject *parent = nullptr);
+    /*!
+     */
     ~Session() override;
 
+    /*!
+     */
     void setUiProxy(const SessionUiProxy::Ptr &uiProxy);
+    /*!
+     */
     [[nodiscard]] SessionUiProxy::Ptr uiProxy() const;
 
     /*!
@@ -83,6 +91,8 @@ public:
     */
     [[nodiscard]] quint16 port() const;
 
+    /*!
+     */
     [[nodiscard]] State state() const;
 
     /*! Returns the requested encryption mode for this session. */
@@ -138,6 +148,8 @@ public:
      * Custom hostname to send in EHLO/HELO command
      */
     void setCustomHostname(const QString &hostname);
+    /*!
+     */
     [[nodiscard]] QString customHostname() const;
 
     /*!

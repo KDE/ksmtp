@@ -7,3 +7,9 @@
 
     \brief KSMTP provides API to SMTP library.
 */
+
+/*!
+    \namespace KSmtp
+    \inmodule KSMTP
+    \brief The KSmtp namespace contains the classes of the KSMTP module.
+*/

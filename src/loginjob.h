@@ -28,6 +28,8 @@ class KSMTP_EXPORT LoginJob : public Job
     Q_DECLARE_PRIVATE(LoginJob)
 
 public:
+    /*!
+     */
     enum AuthMode {
         UnknownAuth,
         Plain,
@@ -40,6 +42,8 @@ public:
         XOAuth2
     };
 
+    /*!
+     */
     enum LoginError {
         TokenExpired = KJob::UserDefinedError + 1
     };

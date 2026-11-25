@@ -16,12 +16,19 @@ class KSslErrorUiData;
 
 namespace KSmtp
 {
-/*! \brief Interface to display communication errors and wait for user feedback. */
+/*!
+ * \class KSmtp::SessionUiProxy
+ * \inmodule KSMTP
+ * \inheaderfile KSMTP/SessionUiProxy
+ *
+ * \brief Interface to display communication errors and wait for user feedback. */
 class KSMTP_EXPORT SessionUiProxy
 {
 public:
     using Ptr = QSharedPointer<SessionUiProxy>;
 
+    /*!
+     */
     virtual ~SessionUiProxy();
     /*!
      * Show an SSL error and ask the user whether it should be ignored or not.

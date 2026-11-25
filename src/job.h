@@ -61,9 +61,15 @@ protected:
      */
     void connectionLost();
 
+    /*!
+     */
     explicit Job(Session *session);
+    /*!
+     */
     explicit Job(JobPrivate &dd);
 
+    /*!
+     */
     std::unique_ptr<JobPrivate> const d_ptr;
 };
 }
