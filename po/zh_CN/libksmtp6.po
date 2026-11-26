@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/ksmtp/libksmtp6.pot\n"
-"X-Crowdin-File-ID: 48998\n"
+"X-Crowdin-File: /kf6-stable/messages/ksmtp/libksmtp6.pot\n"
+"X-Crowdin-File-ID: 52220\n"
 
 #: job.cpp:60
 #, kde-format
@@ -88,7 +88,4 @@ msgstr "无法发送该信件，它超过了最大允许的 %1 字节大小。(�
 msgid ""
 "The message requires UTF-8 email addresses, which the server does not "
 "support."
-msgstr ""
-
-#~ msgid "The message needs and server does not support UTF-8 email addresses"
-#~ msgstr "此消息需要 UTF-8 邮件地址，而服务器不支持"
+msgstr "该消息需要使用 UTF-8 编码的电子邮件地址，但此服务器不支持此功能。"
